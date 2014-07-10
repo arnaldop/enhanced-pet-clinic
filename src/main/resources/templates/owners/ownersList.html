@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<!-- <html lang="en" xmlns:dt="http://github.com/dandelion/datatables"> -->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:tiles="http://www.thymeleaf.org"
+      xmlns:ddl="http://www.thymeleaf.org/dandelion" 
+      xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
+      ddl:bundle-includes="sample,bootstrap2">
 
 <head th:replace="fragments/headTag :: headTag">
 
@@ -29,7 +34,7 @@
 
 </head>
 
-<body>
+<body style="align: center">
 
 <div class="container">
 
@@ -71,7 +76,7 @@
 
     <h2>Owners</h2>
 
-    <table class="table table-striped">
+    <table id="myTableId" class="table table-striped" dt:table="true" dt:pagination="true">
         <thead>
             <tr>
                 <th style="width: 150px;">Name</th>

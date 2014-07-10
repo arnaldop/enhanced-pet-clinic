@@ -28,14 +28,13 @@ PetClinic :: a Spring Framework demonstration
 <body th:fragment="bodyHeader">
 
 <img th:src="@{/images/banner-graphic.png}"
-     src="../../images/banner-graphic.png" />
+     src="../../images/banner-graphic.png" width="99%" height="10"/>
 
-<div class="navbar" style="width: 601px;">
+<div class="navbar" style="width: 99%; style: center">
     <div class="navbar-inner">
         <ul class="nav">
-            <li style="width: 125px;">&nbsp;</li>
-            <li style="width: 200px;"><a href="/city" th:href="@{/city}"><i class="icon-plane"></i>Cities</a></li>
-            <li style="width: 200px;"><a href="/inbox" th:href="@{/inbox}"><i class="icon-envelope"></i>Inbox</a></li>
+            <li style="width: 40%; style: center;"><a href="/city" th:href="@{/city}"><i class="icon-plane"></i>Cities</a></li>
+            <li style="width: 40%; style: center;"><a href="/inbox" th:href="@{/inbox}"><i class="icon-envelope"></i>Inbox</a></li>
         </ul>
     </div>
     <div class="navbar-inner">
@@ -44,7 +43,8 @@ PetClinic :: a Spring Framework demonstration
             <li style="width: 130px;"><a href="../owners/findOwners.html" th:href="@{/owners/find.html}"><i class="icon-search"></i>Find owners</a></li>
             <li style="width: 140px;"><a href="../vets/vetList.html" th:href="@{/vets.html}"><i class="icon-th-list"></i>Veterinarians</a></li>
             <li style="width: 90px;"><a href="../exception.html" th:href="@{/oups.html}" title="trigger a RuntimeException to see how it is handled"><i class="icon-warning-sign"></i>Error</a></li>
-            <li style="width: 80px;"><a href="#" title="not available yet. Work in progress!!"><i class=" icon-question-sign"></i>Help</a></li>
+            <li style="width: 80px;"><a href="#" title="not available yet. Work in progress!!"><i class="icon-question-sign"></i>Help</a></li>
+            <li style="width: 100px;"><a href="/logout" th:href="@{/logout}" title="Logout"><i class="icon-remove"></i>Logout</a></li>
         </ul>
     </div>
 </div>

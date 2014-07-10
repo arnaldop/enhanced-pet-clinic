@@ -1,45 +1,48 @@
 package sample.ui.aop;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
-@Configuration
 public class LoggingAspectAnnotationDriven {
 
-	// @Around("execution(* *(..))")
-	@Before("execution(* find*(*))")
-	public void beforeAdvice(JoinPoint jp) {
-		System.out.println("Before executing " + jp.getSignature().getName()
-				+ "()");
+	private static Log logger = LogFactory
+			.getLog(LoggingAspectAnnotationDriven.class);
+
+	@Before("execution(* sample.ui.web..*.*(*))")
+	public void beforeAdviceWeb(JoinPoint jp) {
+		logger.info("Before executing '" + jp.getSignature().toLongString() + "'");
 	}
 
-	@Pointcut("execution(* find*(*))")
-	public void pointcutAdvice(ProceedingJoinPoint pjp) {
-		System.out.println("Pointcut executing " + pjp.getSignature().getName()
-				+ "()");
+	@After("execution(* sample.ui.web..*.*(*))")
+	public void afterAdviceWeb(JoinPoint jp) {
+		logger.info("After executing '" + jp.getSignature().toLongString() + "'");
 	}
 
-	@Pointcut("within(sample.ui..")
-	public void withinAdvice(JoinPoint jp) {
-		System.out.println("Within executing " + jp.getSignature().getName()
-				+ "()");
+	@Before("execution(* sample.ui.service..*.*(*))")
+	public void beforeAdviceService(JoinPoint jp) {
+		logger.info("Before executing '" + jp.getSignature().toLongString() + "'");
 	}
 
-	// @AfterReturning("execution(* *(..))")
-	// public void logServiceAccess(JoinPoint joinPoint) {
-	// System.out.println("Completed: " + joinPoint);
-	// }
+	@After("execution(* sample.ui.service..*.*(*))")
+	public void afterAdviceService(JoinPoint jp) {
+		logger.info("After executing '" + jp.getSignature().toLongString() + "'");
+	}
 
-	// @AfterReturning("execution(* *..*Service.*(..))")
-	// public void logServiceAccess(JoinPoint joinPoint) {
-	// System.out.println("Completed: " + joinPoint);
-	// }
+	@Before("execution(* sample.ui.config..*.*(*))")
+	public void beforeAdviceConfig(JoinPoint jp) {
+		logger.info("Before executing '" + jp.getSignature().toLongString() + "'");
+	}
+
+	@After("execution(* sample.ui.config..*.*(*))")
+	public void afterAdviceConfig(JoinPoint jp) {
+		logger.info("After executing '" + jp.getSignature().toLongString() + "'");
+	}
 
 }

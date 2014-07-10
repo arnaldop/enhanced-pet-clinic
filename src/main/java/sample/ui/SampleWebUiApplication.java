@@ -27,7 +27,6 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import sample.ui.message.InMemoryMessageRespository;
@@ -40,11 +39,6 @@ import sample.ui.message.MessageRepository;
 @ControllerAdvice
 @EnableAutoConfiguration
 public class SampleWebUiApplication {
-
-	@RequestMapping("/")
-	String index() {
-		return "welcome";
-	}
 
 	@Bean
 	public MessageRepository messageRepository() {
@@ -67,15 +61,6 @@ public class SampleWebUiApplication {
 		mav.setViewName("exception");
 		return mav;
 	}
-
-	// @Bean
-	// public SimpleMappingExceptionResolver simpleMappingExceptionResolver() {
-	// SimpleMappingExceptionResolver b = new SimpleMappingExceptionResolver();
-	// Properties mappings = new Properties();
-	// mappings.put("org.springframework.dao.DataAccessException", "exception");
-	// b.setExceptionMappings(mappings);
-	// return b;
-	// }
 
 	@Bean
 	public Converter<String, Message> messageConverter() {

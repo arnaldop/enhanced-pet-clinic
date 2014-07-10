@@ -1,3 +1,11 @@
+-- Security
+--insert into users(username, password, enabled) values ('arnaldo', 'Kimmy', true)
+--insert into users(username, password, enabled) values ('arnaldo2', 'Kimmy2', true)
+--insert into users(username, password, enabled) values ('arnaldo3', 'Kimmy3', false)
+
+--insert into authorities(username, authority) values ('arnaldo', 'Kimmy')
+
+
 --
 -- Sample dataset containing a number of Hotels in various Cities across the world.  The reviews are entirely fictional :)
 --
