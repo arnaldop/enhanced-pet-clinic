@@ -1,21 +1,26 @@
-.container {
-    padding-top: 10px;
-    margin-left: 50px;
-    width: 700px;
+body {
+    padding-top: 50px;
+    margin-left: 100px;
+    #width: 100%;
 }
 
-.form-horizontal {
-    width: 100%;
+.starter-template {
+    padding: 40px 15px;
+    text-align: center;
 }
 
-input[type="text"] {
-    height: 25px;
-}
+#.form-horizontal {
+#    width: 100%;
+#}
 
-.navbar .nav > li > a {
-    color: #000000;
-}
+#.form-horizontal .control-label {
+#    text-align: left;
+#}
 
-.form-horizontal .control-label {
-    text-align: left;
-}
+#input[type="text"] {
+#    height: 25px;
+#}
+
+.#navbar .nav>li>a {
+#    color: #000000;
+#}

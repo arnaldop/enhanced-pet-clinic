@@ -40,34 +40,34 @@ import sample.ui.domain.RatingCount;
 
 /**
  * Integration tests for {@link HotelRepository}.
- * 
+ *
  * @author Oliver Gierke
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = SampleWebUiApplication.class)
 public class HotelRepositoryIntegrationTests {
 
-	@Autowired
-	CityRepository cityRepository;
-	@Autowired
-	HotelRepository repository;
+    @Autowired
+    CityRepository cityRepository;
+    @Autowired
+    HotelRepository repository;
 
-	@Test
-	public void executesQueryMethodsCorrectly() {
-		City city = this.cityRepository
-				.findAll(new PageRequest(0, 1, Direction.ASC, "name")).getContent()
-				.get(0);
-		assertThat(city.getName(), is("Atlanta"));
+    @Test
+    public void executesQueryMethodsCorrectly() {
+        City city = this.cityRepository
+                .findAll(new PageRequest(0, 1, Direction.ASC, "name")).getContent()
+                .get(0);
+        assertThat(city.getName(), is("Atlanta"));
 
-		Page<HotelSummary> hotels = this.repository.findByCity(city, new PageRequest(0,
-				10, Direction.ASC, "name"));
-		Hotel hotel = this.repository.findByCityAndName(city, hotels.getContent().get(0)
-				.getName());
-		assertThat(hotel.getName(), is("Doubletree"));
+        Page<HotelSummary> hotels = this.repository.findByCity(city, new PageRequest(0,
+                10, Direction.ASC, "name"));
+        Hotel hotel = this.repository.findByCityAndName(city, hotels.getContent().get(0)
+                .getName());
+        assertThat(hotel.getName(), is("Doubletree"));
 
-		List<RatingCount> counts = this.repository.findRatingCounts(hotel);
-		assertThat(counts, hasSize(1));
-		assertThat(counts.get(0).getRating(), is(Rating.AVERAGE));
-		assertThat(counts.get(0).getCount(), is(greaterThan(1L)));
-	}
+        List<RatingCount> counts = this.repository.findRatingCounts(hotel);
+        assertThat(counts, hasSize(1));
+        assertThat(counts.get(0).getRating(), is(Rating.AVERAGE));
+        assertThat(counts.get(0).getCount(), is(greaterThan(1L)));
+    }
 }

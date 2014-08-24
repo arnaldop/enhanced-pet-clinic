@@ -1,46 +1,21 @@
-<!DOCTYPE html>
-
-<html lang="en">
-
-<!--
-PetClinic :: a Spring Framework demonstration
--->
-
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>PetClinic :: a Spring Framework demonstration</title>
-
-    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/3.2.0/css/bootstrap.min.css"
-          th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}" rel="stylesheet" />
-    <link href="../../../css/petclinic.css"
-          th:href="@{/css/petclinic.css}" rel="stylesheet" />
-
-    <script  src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"
-             th:src="@{/webjars/jquery/2.1.1/jquery.js}"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"
-            th:src="@{/webjars/jquery-ui/1.11.0/js/jquery-ui-1.11.0.custom.js}"></script>
-
-    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css"
-          th:href="@{/webjars/jquery-ui/1.11.0/css/smoothness/jquery-ui-1.11.0.custom.css}" rel="stylesheet" />
-
-</head>
-
-<body>
-
-<table th:fragment="footer" class="footer">
+<table th:fragment="footer" class="footer" style="width: 100%;">
     <tr>
         <td></td>
-        <td align="right">
+        <td style="align: right; aborder-style: solid; aborder-width: 5px;">
            <img src="../../images/springsource-logo.png"
                 th:src="@{/images/springsource-logo.png}"
-                alt="Sponsored by SpringSource" />
+                alt="Sponsored by SpringSource" align="right" style="aborder-style: solid; aborder-width: 5px;" />
         </td>
     </tr>
 </table>
-
-</body>
-
-</html>
-
-
-
+<img th:src="@{/images/banner-graphic.png}" src="../../images/banner-graphic.png" class="img-responsive" width="100%" />
+    <table th:replace="fragments/footer :: footer" class="footer">
+        <tr>
+            <td></td>
+            <td align="right">
+               <img src="../../images/springsource-logo.png"
+                    th:src="@{/images/springsource-logo.png}"
+                    alt="Sponsored by SpringSource" />
+            </td>
+        </tr>
+    </table>

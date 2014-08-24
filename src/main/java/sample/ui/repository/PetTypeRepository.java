@@ -38,9 +38,9 @@ public interface PetTypeRepository extends Repository<PetType, Integer> {
      *
      * @return a <code>Collection</code> of <code>PetType</code>s
      */
-	List<PetType> findAll() throws DataAccessException;
+    List<PetType> findAll() throws DataAccessException;
 
-	PetType findOne(Integer id) throws DataAccessException;
+    PetType findOne(Integer id) throws DataAccessException;
 
     void save(PetType pet) throws DataAccessException;
 }

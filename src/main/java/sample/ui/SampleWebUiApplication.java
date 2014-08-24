@@ -16,64 +16,159 @@
 
 package sample.ui;
 
-import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 
+import org.apache.catalina.connector.Connector;
+import org.apache.coyote.http11.Http11NioProtocol;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
+import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.core.io.ClassPathResource;
 
 import sample.ui.message.InMemoryMessageRespository;
 import sample.ui.message.Message;
 import sample.ui.message.MessageRepository;
 
-@Configuration
 @ComponentScan
-@Controller
-@ControllerAdvice
+@Configuration
 @EnableAutoConfiguration
 public class SampleWebUiApplication {
 
-	@Bean
-	public MessageRepository messageRepository() {
-		return new InMemoryMessageRespository();
-	}
+    @Bean
+    public MessageRepository messageRepository() {
+        return new InMemoryMessageRespository();
+    }
 
-	@ExceptionHandler(Exception.class)
-	public ModelAndView handleException(HttpServletRequest req, Exception e) {
-		System.out.println("-------------------");
-		// mappings.put("org.springframework.dao.DataAccessException",
-		// "exception");
-		// e.printStackTrace();
-		// return "exception";
+    @Bean
+    public Converter<String, Message> messageConverter() {
+        return new Converter<String, Message>() {
+            @Override
+            public Message convert(String id) {
+                return messageRepository().findMessage(Long.valueOf(id));
+            }
+        };
+    }
 
-		System.out.println("Request: " + req.getRequestURL() + " raised " + e);
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(SampleWebUiApplication.class, args);
+    }
 
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("exception", e);
-		mav.addObject("url", req.getRequestURL());
-		mav.setViewName("exception");
-		return mav;
-	}
+//    @Profile("production")
+//    @Bean
+//    public EmbeddedServletContainerCustomizer containerCustomizer(
+//            @Value("${ssl.keystore.file}") final String keystoreFile,
+//            @Value("${ssl.keystore.alias}") final String keystoreAlias,
+//            @Value("${ssl.keystore.type}") final String keystoreType,
+//            @Value("${ssl.keystore.pass}") final String keystorePass,
+//            @Value("${tls.port}") final int tlsPort
+//    ) {
+//        return new EmbeddedServletContainerCustomizer() {
+//            @Override
+//            public void customize(ConfigurableEmbeddedServletContainer factory) {
+//                if(factory instanceof TomcatEmbeddedServletContainerFactory) {
+//                    customizeTomcat((TomcatEmbeddedServletContainerFactory) factory);
+//                }
+//            }
+//
+//            public void customizeTomcat(TomcatEmbeddedServletContainerFactory factory) {
+//                factory.addConnectorCustomizers(new TomcatConnectorCustomizer() {
+//                    @Override
+//                    public void customize(Connector connector) {
+//                        connector.setPort(tlsPort);
+//                        connector.setSecure(true);
+//                        connector.setScheme("https");
+//                        connector.setAttribute("keyAlias", keystoreAlias);
+//                        connector.setAttribute("keystorePass", keystorePass);
+//                        try {
+//                            connector.setAttribute("keystoreFile",
+//                                ResourceUtils.getFile(keystoreFile).getAbsolutePath());
+//                        } catch (FileNotFoundException e) {
+//                            throw new IllegalStateException("Cannot load keystore", e);
+//                        }
+//                        connector.setAttribute("clientAuth", "false");
+//                        connector.setAttribute("sslProtocol", "TLS");
+//                        connector.setAttribute("SSLEnabled", true);
+//                    }
+//                });
+//            }
+//        };
+//    }
 
-	@Bean
-	public Converter<String, Message> messageConverter() {
-		return new Converter<String, Message>() {
-			@Override
-			public Message convert(String id) {
-				return messageRepository().findMessage(Long.valueOf(id));
-			}
-		};
-	}
+    @Bean
+    public EmbeddedServletContainerFactory servletContainer() {
+        TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory();
+        tomcat.addAdditionalTomcatConnectors(createSslConnector());
+        return tomcat;
+    }
 
-	public static void main(String[] args) throws Exception {
-		SpringApplication.run(SampleWebUiApplication.class, args);
-	}
+    private Connector createSslConnector() {
+        Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
+        Http11NioProtocol protocol = (Http11NioProtocol) connector.getProtocolHandler();
+        try {
+            File keystore = new ClassPathResource("ssl/keystore").getFile();
+//            File truststore = new ClassPathResource("keystore").getFile();
+            connector.setScheme("https");
+            connector.setSecure(true);
+            connector.setPort(8443);
 
+            protocol.setSSLEnabled(true);
+            protocol.setKeystoreFile(keystore.getAbsolutePath());
+            protocol.setKeystorePass("password");
+//            protocol.setTruststoreFile(truststore.getAbsolutePath());
+//            protocol.setTruststorePass("changeit");
+            protocol.setKeyAlias("camp5");
+            return connector;
+        }
+        catch (IOException ex) {
+            throw new IllegalStateException("can't access keystore: [" + "keystore"
+                    + "] or truststore: [" + "keystore" + "]", ex);
+        }
+    }
+
+//            @Override
+//            public void customize(ConfigurableEmbeddedServletContainer factory) {
+//                if (factory instanceof TomcatEmbeddedServletContainerFactory) {
+//                    TomcatEmbeddedServletContainerFactory containerFactory = (TomcatEmbeddedServletContainerFactory) factory;
+//                    containerFactory.addConnectorCustomizers(new TomcatConnectorCustomizer() {
+//
+//                        @Override
+//                        public void customize(Connector connector) {
+//                            connector.setPort(tlsPort);
+//                            connector.setSecure(true);
+//                            connector.setScheme("https");
+//                            connector.setAttribute("keyAlias", keystoreAlias);
+//                            connector.setAttribute("keystorePass", keystorePass);
+//                            String absoluteKeystoreFile;
+//                            try {
+//                                absoluteKeystoreFile = ResourceUtils.getFile(keystoreFile).getAbsolutePath();
+//                                connector.setAttribute("keystoreFile", absoluteKeystoreFile);
+//                            } catch (IOException e) {
+//                                throw new IllegalStateException("Cannot load keystore", e);
+//                            }
+//                            connector.setAttribute("clientAuth", "false");
+//                            connector.setAttribute("sslProtocol", "TLS");
+//                            connector.setAttribute("SSLEnabled", true);
+//
+//                            Http11NioProtocol proto = (Http11NioProtocol) connector.getProtocolHandler();
+//                            proto.setSSLEnabled(true);
+//                            // proto.setClientAuth();
+//                            // uncomment this to require the
+//                            // client to authenticate. Then, you can use X509 support in Spring Security
+//                            proto.setKeystoreFile(absoluteKeystoreFile);
+//                            proto.setKeystorePass(keystorePass);
+//                            proto.setKeystoreType(keystoreType);
+//                            proto.setKeyAlias(keystoreAlias);
+//                        }
+//                    });
+//
+//                }
+//            }
+//        };
+//    }
 }

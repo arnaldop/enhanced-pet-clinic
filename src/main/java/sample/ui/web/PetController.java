@@ -46,7 +46,6 @@ public class PetController {
 
     private final ClinicService clinicService;
 
-
     @Autowired
     public PetController(ClinicService clinicService) {
         this.clinicService = clinicService;
@@ -73,10 +72,14 @@ public class PetController {
 
     @RequestMapping(value = "/owners/{ownerId}/pets/new", method = RequestMethod.POST)
     public String processCreationForm(@ModelAttribute("pet") Pet pet, BindingResult result, SessionStatus status) {
+        System.out.println("PET Before validator");
         new PetValidator().validate(pet, result);
+        System.out.println("PET After validator");
         if (result.hasErrors()) {
+            System.out.println("PET in if");
             return "pets/createOrUpdatePetForm";
         } else {
+            System.out.println("PET in else");
             this.clinicService.savePet(pet);
             status.setComplete();
             return "redirect:/owners/{ownerId}";

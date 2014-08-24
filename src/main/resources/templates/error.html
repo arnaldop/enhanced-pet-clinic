@@ -1,70 +1,32 @@
 <!DOCTYPE html>
-
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:ddl="http://www.thymeleaf.org/dandelion"
+      xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
+      lang="en">
 
 <head th:replace="fragments/headTag :: headTag">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>PetClinic :: a Spring Framework demonstration</title>
-
-    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/3.2.0/css/bootstrap.min.css"
-          th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}" rel="stylesheet" />
-    <link href="../../css/petclinic.css"
-          th:href="@{/css/petclinic.css}" rel="stylesheet" />
-
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"
-           th:src="@{/webjars/jquery/2.1.1/jquery.js}"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"
-            th:src="@{/webjars/jquery-ui/1.11.0/js/jquery-ui-1.11.0.custom.js}"></script>
-
-    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css"
-          th:href="@{/webjars/jquery-ui/1.11.0/css/smoothness/jquery-ui-1.11.0.custom.css}" rel="stylesheet" />
 </head>
+
 <body>
-<div class="container">
+<div class="container-fluid">
 
-    <div th:include="fragments/bodyHeader" th:remove="tag">
-
-        <img th:src="@{/images/banner-graphic.png}" src="../../images/banner-graphic.png"/>
-
-        <div class="navbar" style="width: 601px;">
-            <div class="navbar-inner">
-                <ul class="nav">
-                    <li style="width: 100px;"><a href="./welcome.html" th:href="@{/}"><i class="icon-home"></i>Home</a></li>
-                    <li style="width: 130px;"><a href="./owners/findOwners.html" th:href="@{/owners/find.html}"><i class="icon-search"></i>Find owners</a></li>
-                    <li style="width: 140px;"><a href="./vets/vetList.html" th:href="@{/vets.html}"><i class="icon-th-list"></i>Veterinarians</a></li>
-                    <li style="width: 90px;"><a href="#" th:href="@{/oups.html}" title="trigger a RuntimeException to see how it is handled"><i class="icon-warning-sign"></i>Error</a></li>
-                    <li style="width: 80px;"><a href="#" title="not available yet. Work in progress!!"><i class=" icon-question-sign"></i>Help</a></li>
-                </ul>
-            </div>
-        </div>
-
-    </div>
+    <div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
 
     <img src="../../images/pets.png" th:src="@{/images/pets.png}"/>
 
     <h2>Something happened...</h2>
 
-		<h1 th:text="${title}">Title</h1>
-		<div id="created" th:text="${#dates.format(timestamp)}">July 11,
-			2012 2:17:16 PM CDT</div>
-		<div>
-			There was an unexpected error (type=<span th:text="${error}">Bad</span>, status=<span th:text="${status}">500</span>).
-		</div>
-		<div th:text="${message}">Fake content</div>
-		<div>
-			Please contact the operator with the above information.
-		</div>
+    <h2 th:text="${title}">Title</h2>
 
-    <table th:replace="fragments/footer :: footer" class="footer">
-        <tr>
-            <td></td>
-            <td align="right">
-               <img src="../../images/springsource-logo.png"
-                    th:src="@{/images/springsource-logo.png}"
-                    alt="Sponsored by SpringSource" />
-            </td>
-        </tr>
-    </table>
+    <div id="created" th:text="${#dates.format(timestamp)}">July 11, 2012 2:17:16 PM CDT</div>
+
+    <div>There was an unexpected error (type=<span th:text="${error}">Bad</span>, status=<span th:text="${status}">500</span>).</div>
+
+    <div th:text="${message}">Fake content</div>
+
+    <div>Please contact the operator with the above information.</div>
+
+    <table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING</table>
 
 </div>
 </body>

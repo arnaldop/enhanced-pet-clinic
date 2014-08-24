@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  *         /WEB-INF/mvc-core-config.xml
  */
 @Controller
-public class CrashController {
+public class CrashController {//extends GeneralController {
 
     @RequestMapping(value = "/oups", method = RequestMethod.GET)
     public String triggerException() {

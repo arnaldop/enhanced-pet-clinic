@@ -18,7 +18,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 /**
  * Integration test to run the application.
- * 
+ *
  * @author Oliver Gierke
  */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -28,20 +28,20 @@ import org.springframework.web.context.WebApplicationContext;
 // Separate profile for web tests to avoid clashing databases
 public class SampleDataJpaApplicationTests {
 
-	@Autowired
-	private WebApplicationContext context;
+    @Autowired
+    private WebApplicationContext context;
 
-	private MockMvc mvc;
+    private MockMvc mvc;
 
-	@Before
-	public void setUp() {
-		this.mvc = MockMvcBuilders.webAppContextSetup(this.context).build();
-	}
+    @Before
+    public void setUp() {
+        this.mvc = MockMvcBuilders.webAppContextSetup(this.context).build();
+    }
 
-	@Test
-	public void testHome() throws Exception {
+    @Test
+    public void testHome() throws Exception {
 
-		this.mvc.perform(get("/city")).andExpect(status().isOk())
-				.andExpect(content().string("Bath"));
-	}
+        this.mvc.perform(get("/city")).andExpect(status().isOk())
+                .andExpect(content().string("Bath"));
+    }
 }

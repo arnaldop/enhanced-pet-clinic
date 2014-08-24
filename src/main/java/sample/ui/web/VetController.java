@@ -15,11 +15,14 @@
  */
 package sample.ui.web;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import sample.ui.model.Vets;
 import sample.ui.service.ClinicService;
@@ -34,22 +37,32 @@ import sample.ui.service.ClinicService;
 @RequestMapping("/vets")
 public class VetController {
 
-	private final ClinicService clinicService;
+    private static Log logger = LogFactory.getLog(VetController.class);
 
-	@Autowired
-	public VetController(ClinicService clinicService) {
-		this.clinicService = clinicService;
-	}
+    private final ClinicService clinicService;
 
-	@RequestMapping(method = RequestMethod.GET)
-	public String showVetList(Model model) {
-		// Here we are returning an object of type 'Vets' rather than a
-		// collection of Vet objects
-		// so it is simpler for Object-Xml mapping
-		Vets vets = new Vets();
-		vets.getVetList().addAll(this.clinicService.findVets());
-		model.addAttribute("vets", vets);
-		return "vets/vetList";
-	}
+    @Autowired
+    public VetController(ClinicService clinicService) {
+        this.clinicService = clinicService;
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public ModelAndView showVets(Model model) {
+        return new ModelAndView("redirect:/vets/list.html", model.asMap());
+    }
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public String showVetList(Model model) {
+        // Here we are returning an object of type 'Vets' rather than a
+        // collection of Vet objects
+        // so it is simpler for Object-Xml mapping
+        Vets vets = new Vets();
+        vets.getVetList().addAll(this.clinicService.findVets());
+        model.addAttribute("vets", vets);
+
+        logger.info("In showVetList: " + model);
+
+        return "vets/vetList";
+    }
 
 }

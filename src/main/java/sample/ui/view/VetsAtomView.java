@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package sample.ui.web;
+package sample.ui.view;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +22,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.view.feed.AbstractAtomFeedView;
 
 import sample.ui.model.Vet;
@@ -37,7 +41,15 @@ import com.sun.syndication.feed.atom.Feed;
  * @author Alef Arendsen
  * @author Arjen Poutsma
  */
+@Configuration
 public class VetsAtomView extends AbstractAtomFeedView {
+
+    private static Log logger = LogFactory.getLog(VetsAtomView.class);
+
+    @Bean(name = "vets/vetList.atom")
+    public VetsAtomView getVetsAtomView() {
+        return this;
+    }
 
     @Override
     protected void buildFeedMetadata(Map<String, Object> model, Feed feed, HttpServletRequest request) {
@@ -49,6 +61,8 @@ public class VetsAtomView extends AbstractAtomFeedView {
     @Override
     protected List<Entry> buildFeedEntries(Map<String, Object> model,
                                            HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        logger.info("In buildFeedEntries: " + model);
 
         Vets vets = (Vets) model.get("vets");
         List<Vet> vetList = vets.getVetList();

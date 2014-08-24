@@ -27,13 +27,13 @@ import sample.ui.service.CityService;
 @Controller
 public class SampleController {
 
-	@Autowired
-	private CityService cityService;
+    @Autowired
+    private CityService cityService;
 
-	@RequestMapping("/city")
-	@ResponseBody
-	@Transactional(readOnly = true)
-	public String helloWorld() {
-		return this.cityService.getCity("Bath", "UK").getName();
-	}
+    @RequestMapping("/city")
+    @ResponseBody
+    @Transactional(readOnly = true)
+    public String helloWorld() {
+        return this.cityService.getCity("Bath", "UK").getName();
+    }
 }

@@ -1,119 +1,116 @@
 <!DOCTYPE html>
-
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:ddl="http://www.thymeleaf.org/dandelion"
+      xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
+      lang="en">
 
 <head th:replace="fragments/headTag :: headTag">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>PetClinic :: a Spring Framework demonstration</title>
-
-    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/3.2.0/css/bootstrap.min.css"
-          th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}" rel="stylesheet" />
-    <link href="../../../css/petclinic.css"
-          th:href="@{/css/petclinic.css}" rel="stylesheet" />
-
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"
-            th:src="@{/webjars/jquery/2.1.1/jquery.js}"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"
-            th:src="@{/webjars/jquery-ui/1.11.0/js/jquery-ui-1.11.0.custom.js}"></script>
-
-    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css"
-          th:href="@{/webjars/jquery-ui/1.11.0/css/smoothness/jquery-ui-1.11.0.custom.css}" rel="stylesheet" />
+    REPLACE BEFORE COMMITTING
 </head>
 
-<body>
-<script>
-    $(function () {
-        $("#date").datepicker({ dateFormat: 'yy/mm/dd'});
-    });
-</script>
-<div class="container">
-    <div th:include="fragments/bodyHeader" th:remove="tag">
+<body onload="$('input[name=description]').focus();$(function () { $('#date').datepicker({ dateFormat: 'mm/dd/yy' });});">
+    <script>
 
-        <img th:src="@{/images/banner-graphic.png}"
-             src="../../images/banner-graphic.png"/>
+    </script>
+    <div class="container-fluid">
+        <div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
 
-        <div class="navbar" style="width: 601px;">
-            <div class="navbar-inner">
-                <ul class="nav">
-                    <li style="width: 100px;"><a href="../welcome.html" th:href="@{/}"><i class="icon-home"></i>Home</a></li>
-                    <li style="width: 130px;"><a href="../owners/findOwners.html" th:href="@{/owners/find.html}"><i class="icon-search"></i>Find owners</a></li>
-                    <li style="width: 140px;"><a href="../vets/vetList.html" th:href="@{/vets.html}"><i class="icon-th-list"></i>Veterinarians</a></li>
-                    <li style="width: 90px;"><a href="../exception.html" th:href="@{/oups.html}" title="trigger a RuntimeException to see how it is handled"><i class="icon-warning-sign"></i>Error</a></li>
-                    <li style="width: 80px;"><a href="#" title="not available yet. Work in progress!!"><i class=" icon-question-sign"></i>Help</a></li>
-                </ul>
+        <div class="container">
+            <div class="starter-template">
+                <h2>
+                    <span th:if="${visit['new']}" th:remove="tag">New </span>Visit
+                </h2>
             </div>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Pet Name</th>
+                        <th>Birth Date</th>
+                        <th>Type</th>
+                        <th>Owner</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td th:text="${visit.pet.name}">[name]</td>
+                    <td th:text="${{visit.pet.birthDate}}">[birthdate]</td>
+                    <td th:text="${visit.pet.type.name}">[type]</td>
+                    <td th:text="|${visit.pet.owner.firstName} ${visit.pet.owner.lastName}|">[firstName lastName]</td>
+                </tr>
+            </table>
+
+            <table class="table">
+                <tr>
+                    <td>
+                        <b>Visit Info</b>
+                        <form th:object="${visit}" th:method="${visit['new']} ? post : put" action="/owners/ownerDetails.html"
+                            th:action="@{${#httpServletRequest.servletPath}}" class="form-horizontal" id="edit-visit-form">
+                            <table class="table table-striped">
+                                <tr>
+                                    <th>
+                                        <div class="control-group">
+                                            <label class="control-label">Date</label>
+                                        </div>
+                                    </th>
+                                    <td>
+                                        <div class="controls">
+                                            <input type="text" th:field="*{date}" id="date" />
+                                            <span class="help-inline" th:errors="*{date}">[date error]</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <div class="control-group">
+                                            <label class="control-label">Description</label>
+                                        </div>
+                                    </th>
+                                    <td>
+                                        <div class="controls">
+                                            <input type="text" th:field="*{description}" />
+                                            <span class="help-inline" th:errors="*{description}">[description error]</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-actions">
+                                            <a onclick="history.back(1)" class="btn btn-danger">Cancel</a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-actions">
+                                            <input type="hidden" name="petId" th:value="${visit.pet.id}" />
+                                            <a onclick="javascript:document.getElementById('edit-visit-form').submit()" class="btn btn-success">Add Visit</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </td>
+                    <td>
+                        <br/>
+                        <b>Previous Visits</b>
+                           <table class="table table-striped">
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                            </tr>
+                            <tr th:if="${!visit['new']}" th:each="visit : ${visit.pet.visits}">
+                                <td th:text="${#dates.format(visit.date,'MM/dd/yyyy')}">[date]</td>
+                                <td th:text="${visit.description}">[description]</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+
         </div>
+
+        <table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING
+        </table>
 
     </div>
-
-    <h2><span th:if="${visit['new']}" th:remove="tag">New </span>Visit</h2>
-
-    <b>Pet</b>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Birth Date</th>
-            <th>Type</th>
-            <th>Owner</th>
-        </tr>
-        </thead>
-        <tr>
-            <td th:text="${visit.pet.name}">[name]</td>
-            <td th:text="${{visit.pet.birthDate}}">[birthdate]</td>
-            <td th:text="${visit.pet.type.name}">[type]</td>
-            <td th:text="|${visit.pet.owner.firstName} ${visit.pet.owner.lastName}|">[firstName lastName]</td>
-        </tr>
-    </table>
-
-    <form th:object="${visit}" action="../owners/ownerDetails.html" th:action="@{${#httpServletRequest.servletPath}}" method="post">
-        <div class="control-group">
-            <label class="control-label">Date </label>
-
-            <div class="controls">
-                <input type="text" th:field="*{date}" id="date"/>
-                <span class="help-inline" th:errors="*{date}">[date error]</span>
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">Description </label>
-
-            <div class="controls">
-                <input type="text" th:field="*{description}"/>
-                <span class="help-inline" th:errors="*{description}">[description error]</span>
-            </div>
-        </div>
-        <div class="form-actions">
-            <input type="hidden" name="petId" th:value="${visit.pet.id}"/>
-            <button type="submit">Add Visit</button>
-        </div>
-    </form>
-
-    <br/>
-    <b>Previous Visits</b>
-    <table style="width: 333px;">
-        <tr>
-            <th>Date</th>
-            <th>Description</th>
-        </tr>
-        <tr th:if="${!visit['new']}" th:each="visit : ${visit.pet.visits}">
-            <td th:text="${#dates.format(visit.date,'yyyy/MM/dd')}">[date]</td>
-            <td th:text="${visit.description}">[description]</td>
-        </tr>
-    </table>
-
-</div>
-    <table th:replace="fragments/footer :: footer" class="footer">
-        <tr>
-            <td></td>
-            <td align="right">
-               <img src="../../images/springsource-logo.png"
-                    th:src="@{/images/springsource-logo.png}"
-                    alt="Sponsored by SpringSource" />
-            </td>
-        </tr>
-    </table>
-
 </body>
 
 </html>

@@ -1,109 +1,98 @@
 <!DOCTYPE html>
-
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:ddl="http://www.thymeleaf.org/dandelion"
+      xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
+      lang="en">
 
 <head th:replace="fragments/headTag :: headTag">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>PetClinic :: a Spring Framework demonstration</title>
-
-    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/3.2.0/css/bootstrap.min.css"
-          th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}" rel="stylesheet" />
-    <link href="../../../css/petclinic.css"
-          th:href="@{/css/petclinic.css}" rel="stylesheet" />
-
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"
-            th:src="@{/webjars/jquery/2.1.1/jquery.js}"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"
-            th:src="@{/webjars/jquery-ui/1.11.0/js/jquery-ui-1.11.0.custom.js}"></script>
-
-    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css"
-          th:href="@{/webjars/jquery-ui/1.11.0/css/smoothness/jquery-ui-1.11.0.custom.css}" rel="stylesheet" />
+    REPLACE BEFORE COMMITTING
 </head>
 
-<body>
+<body onload="$('input[name=name]').focus();$(function () { $('#birthDate').datepicker({ dateFormat: 'mm/dd/yy' }); });">
+    <script>
 
-<script>
-    $(function () {
-        $("#birthDate").datepicker({ dateFormat: 'yy/mm/dd'});
-    });
-</script>
-<div class="container">
-    <div th:include="fragments/bodyHeader" th:remove="tag">
+    </script>
+    <div class="container-fluid">
+        <div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
 
-        <img th:src="@{/images/banner-graphic.png}"
-             src="../../images/banner-graphic.png"/>
-
-        <div class="navbar" style="width: 601px;">
-            <div class="navbar-inner">
-                <ul class="nav">
-                    <li style="width: 100px;"><a href="../welcome.html" th:href="@{/}"><i class="icon-home"></i>Home</a></li>
-                    <li style="width: 130px;"><a href="../owners/findOwners.html" th:href="@{/owners/find.html}"><i class="icon-search"></i>Find owners</a></li>
-                    <li style="width: 140px;"><a href="../vets/vetList.html" th:href="@{/vets.html}"><i class="icon-th-list"></i>Veterinarians</a></li>
-                    <li style="width: 90px;"><a href="../exception.html" th:href="@{/oups.html}" title="trigger a RuntimeException to see how it is handled"><i class="icon-warning-sign"></i>Error</a></li>
-                    <li style="width: 80px;"><a href="#" title="not available yet. Work in progress!!"><i class=" icon-question-sign"></i>Help</a></li>
-                </ul>
+        <div class="container">
+            <div class="starter-template">
+                <h2>
+                    <span th:if="${pet['new']}" th:remove="tag">New </span> Pet
+                </h2>
             </div>
+
+            <form th:object="${pet}" th:method="${pet['new']} ? post : put" action="/owners/ownerDetails.html"
+                th:action="@{${#httpServletRequest.servletPath}}" class="form-horizontal" id="edit-pet-form">
+                <table class="table table-striped">
+                    <tr>
+                        <td>
+                            <div class="control-group" id="owner">
+                                <label class="control-label">Owner</label>
+                            </div>
+                        </td>
+                        <td style="vertical-align:bottom">
+                            <div class="controls" th:text="${pet.owner.firstName + ' ' + pet.owner.lastName}">[firstName lastName]</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="control-group" th:classappend="${#fields.hasErrors('name')} ? 'error'">
+                                <label class="control-label">Name</label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="controls">
+                                <input th:field="*{name}" type="text" /> <span class="help-inline" th:errors="*{name}">[error]</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="control-group" th:classappend="${#fields.hasErrors('birthDate')} ? 'error'">
+                                <label class="control-label">Birth Date</label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="controls">
+                                <input th:field="*{birthDate}" type="text" id="birthDate" /> <span class="help-inline" th:errors="*{birthDate}">[error]</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="control-group">
+                                <label class="control-label">Type</label>
+                            </div>
+                        </td>
+                        <td>
+                            <select th:field="*{type}" size="5">
+                                <option th:each="t : ${types}" th:text="${t.name}" th:value="${t.id}">[option]</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-actions">
+                                <a onclick="history.back(1)" class="btn btn-danger">Cancel</a>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-actions">
+                                <a onclick="javascript:document.getElementById('edit-pet-form').submit()" class="btn btn-success"><span
+                                    th:if="${pet['new']}">Add</span><span th:unless="${pet['new']}">Update</span> pet</a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
         </div>
+
+        <table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING
+        </table>
 
     </div>
 
-    <h2>
-        <span th:if="${pet['new']}" th:remove="tag">New </span>
-        Pet
-    </h2>
-
-    <form th:object="${pet}" th:action="'#'" action="../owners/ownerDetails.html"
-          th:method="${pet['new']} ? 'post' : 'put'" class="form-horizontal">
-        <div class="control-group" id="owner">
-            <label class="control-label">Owner </label>
-
-            <span th:remove="tag" th:text="${pet.owner.firstName + ' ' + pet.owner.lastName}">[firstName lastName]</span>
-        </div>
-
-    <div class="control-group" th:classappend="${#fields.hasErrors('name')} ? 'error'">
-        <label class="control-label">Name</label>
-
-        <div class="controls">
-            <input th:field="*{name}" type="text"/>
-            <span class="help-inline" th:errors="*{name}">[error]</span>
-        </div>
-    </div>
-
-    <div class="control-group" th:classappend="${#fields.hasErrors('birthDate')} ? 'error'">
-        <label class="control-label">Birth Date</label>
-
-        <div class="controls">
-            <input th:field="*{birthDate}" type="text" id="birthDate"/>
-            <span class="help-inline" th:errors="*{birthDate}">[error]</span>
-        </div>
-    </div>
-
-        <div class="control-group">
-            <label class="control-label">Type </label>
-            <select th:field="*{type}" size="5">
-                <option th:each="t : ${types}" th:text="${t.name}" th:value="${t.id}" >[option]</option>
-            </select>
-        </div>
-        <div class="form-actions">
-            <button th:if="${pet['new']}" type="submit">Add Pet</button>
-            <button th:unless="${pet['new']}" type="submit">Update Pet</button>
-        </div>
-    </form>
-    <!-- This tag was empty in jsp version -->
-<!--     <c:if test="${!pet['new']}"> -->
-<!--     </c:if> -->
-    <table th:replace="fragments/footer :: footer" class="footer">
-        <tr>
-            <td></td>
-            <td align="right">
-               <img src="../../images/springsource-logo.png"
-                    th:src="@{/images/springsource-logo.png}"
-                    alt="Sponsored by SpringSource" />
-            </td>
-        </tr>
-    </table>
-
-</div>
 </body>
 
 </html>

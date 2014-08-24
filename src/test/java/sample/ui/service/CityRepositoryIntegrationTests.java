@@ -32,20 +32,20 @@ import sample.ui.domain.City;
 
 /**
  * Integration tests for {@link CityRepository}.
- * 
+ *
  * @author Oliver Gierke
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = SampleWebUiApplication.class)
 public class CityRepositoryIntegrationTests {
 
-	@Autowired
-	CityRepository repository;
+    @Autowired
+    CityRepository repository;
 
-	@Test
-	public void findsFirstPageOfCities() {
+    @Test
+    public void findsFirstPageOfCities() {
 
-		Page<City> cities = this.repository.findAll(new PageRequest(0, 10));
-		assertThat(cities.getTotalElements(), is(greaterThan(20L)));
-	}
+        Page<City> cities = this.repository.findAll(new PageRequest(0, 10));
+        assertThat(cities.getTotalElements(), is(greaterThan(20L)));
+    }
 }
