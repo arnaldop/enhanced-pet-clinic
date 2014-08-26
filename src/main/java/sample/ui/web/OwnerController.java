@@ -123,7 +123,7 @@ public class OwnerController {
         }
         if (results.size() > 1) {
             // multiple owners found
-            model.addAttribute("selections", results);
+            model.addAttribute("owners", results);
             return "owners/ownersList";
         } else {
             // 1 owner found

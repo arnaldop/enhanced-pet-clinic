@@ -31,9 +31,9 @@ public class PetValidator {
     public void validate(Pet pet, Errors errors) {
         String name = pet.getName();
         if (!StringUtils.hasLength(name)) {
-            errors.rejectValue("name", "required", "required");
+            errors.rejectValue("name", "required", new Object[] {"Name"}, "required");
         } else if (pet.isNew() && pet.getOwner().getPet(name, true) != null) {
-            errors.rejectValue("name", "duplicate", "already exists");
+            errors.rejectValue("name", "duplicate", new Object[] {name}, "already exists");
         }
     }
 

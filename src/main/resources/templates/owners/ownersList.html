@@ -8,7 +8,7 @@
     REPLACE BEFORE COMMITTING
 </head>
 
-<body onload="$(function () { $('#date').datepicker({ dateFormat: 'mm-dd-yy' });});">
+<body>
     <div class="container-fluid">
 
         <div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
@@ -17,25 +17,24 @@
             <div class="starter-template">
                 <h2>Owners</h2>
             </div>
-Date <input type="text" id="date" />
-            <table id="owners" dt:table="true" dt:pagination="true" dt:export="pdf,csv,xls,xlsx,xml">
+
+			<div dt:conf="owners">
+               <div dt:confType="export" dt:type="pdf" dt:cssClass="btn btn-sm btn-info"></div>
+               <div dt:confType="export" dt:type="csv" dt:cssClass="btn btn-sm btn-info"></div>
+               <div dt:confType="export" dt:type="xls" dt:cssClass="btn btn-sm btn-info"></div>
+               <div dt:confType="export" dt:type="xlsx" dt:cssClass="btn btn-sm btn-info"></div>
+               <div dt:confType="export" dt:type="xml" dt:cssClass="btn btn-sm btn-info"></div>
+			</div>
+
+            <table id="owners" dt:table="true" dt:pagination="true" dt:export="pdf,csv,xls,xlsx,xml" dt:dom="lEfrtip">
                 <thead>
                     <tr>
-                        <th style="width: 150px;">Name</th>
-                        <th style="width: 200px;">Address</th>
-                        <th>City</th>
-                        <th>Telephone</th>
-                        <th style="width: 100px;">Pets</th>
+                        <th style="width: 10px;">ID</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="owner : ${selections}">
-                        <td><a href="ownerDetails.html" th:href="@{|/owners/${owner.id}|}"
-                            th:text="|${owner.firstName} ${owner.lastName}|">Mary Smith</a></td>
-                        <td th:text="${owner.address}">45, Oxford Street</td>
-                        <td th:text="${owner.city}">Cambridge</td>
-                        <td th:text="${owner.telephone}">555-555-555</td>
-                        <td><span th:each="pet : ${owner.pets}" th:text="${pet.name}" th:remove="tag"> Rob&nbsp; </span></td>
+                    <tr th:each="owner : ${owners}">
+                        <td th:text="${owner.id}">1</td>
                     </tr>
                 </tbody>
             </table>

@@ -40,9 +40,9 @@
         <webjars-datatables.version>1.10.1</webjars-datatables.version>
 
         <!-- Dandelion dependencies -->
-        <dandelion.version>0.10.0</dandelion.version>
-        <dandelion.datatables.version>0.10.0</dandelion.datatables.version>
-        <dandelion.ehcache.version>0.10.0</dandelion.ehcache.version>
+        <dandelion.version>0.10.1</dandelion.version>
+        <dandelion.datatables.version>0.10.1</dandelion.datatables.version>
+        <dandelion.ehcache.version>0.10.1</dandelion.ehcache.version>
     </properties>
 
     <dependencies>

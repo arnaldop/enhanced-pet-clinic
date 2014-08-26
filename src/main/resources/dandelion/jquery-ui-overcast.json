@@ -1,0 +1,21 @@
+{
+    "bundle" : "jquery-ui-overcast",
+    "assets": [
+        {
+            "name": "jquery-ui",
+            "version": "1.11.0",
+            "type": "js",
+            "locations": {
+                "cdn": "/webjars/jquery-ui/1.11.0/jquery-ui.min.js"
+            }
+        },
+        {
+            "name": "overcast",
+            "version": "1.10.3",
+            "type": "css",
+            "locations": {
+                "webapp": "/webjars/jquery-ui-themes/1.10.3/overcast/jquery-ui.min.css"
+            }
+        }
+    ]
+}

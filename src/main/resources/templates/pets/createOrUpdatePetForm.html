@@ -34,6 +34,8 @@
                         <td style="vertical-align:bottom">
                             <div class="controls" th:text="${pet.owner.firstName + ' ' + pet.owner.lastName}">[firstName lastName]</div>
                         </td>
+                        <td>
+                        </td>
                     </tr>
                     <tr>
                         <td>
@@ -43,7 +45,12 @@
                         </td>
                         <td>
                             <div class="controls">
-                                <input th:field="*{name}" type="text" /> <span class="help-inline" th:errors="*{name}">[error]</span>
+                                <input th:field="*{name}" type="text" />
+                            </div>
+                        </td>
+                        <td>
+                            <div class="controls">
+                                <span class="help-inline" th:errors="*{name}">[error]</span>
                             </div>
                         </td>
                     </tr>
@@ -54,8 +61,13 @@
                             </div>
                         </td>
                         <td>
+                            <div class="controls" ddl:bundle-includes="jquery-ui-overcast">
+                                <input th:field="*{birthDate}" type="text" id="birthDate" />
+                            </div>
+                        </td>
+                        <td>
                             <div class="controls">
-                                <input th:field="*{birthDate}" type="text" id="birthDate" /> <span class="help-inline" th:errors="*{birthDate}">[error]</span>
+                                <span class="help-inline" th:errors="*{birthDate}">[error]</span>
                             </div>
                         </td>
                     </tr>
@@ -70,6 +82,8 @@
                                 <option th:each="t : ${types}" th:text="${t.name}" th:value="${t.id}">[option]</option>
                             </select>
                         </td>
+                        <td>
+                        </td>
                     </tr>
                     <tr>
                         <td>
@@ -82,6 +96,8 @@
                                 <a onclick="javascript:document.getElementById('edit-pet-form').submit()" class="btn btn-success"><span
                                     th:if="${pet['new']}">Add</span><span th:unless="${pet['new']}">Update</span> pet</a>
                             </div>
+                        </td>
+                        <td>
                         </td>
                     </tr>
                 </table>
