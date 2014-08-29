@@ -2,48 +2,84 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:ddl="http://www.thymeleaf.org/dandelion"
       xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
+      ddl:bundle-includes="export-dropdown,jquery"
+      ddl:bundle-excludes="bootstrap3"
       lang="en">
 
-<head th:replace="fragments/headTag :: headTag">
-    REPLACE BEFORE COMMITTING
-</head>
-
-<body>
-    <div class="container-fluid">
-
+    <head th:replace="fragments/headTag :: headTag">
+        REPLACE BEFORE COMMITTING
+    </head>
+    
+    <body role="document">
         <div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
 
-        <div class="container">
+        <div class="container" role="main">
             <div class="starter-template">
                 <h2>Owners</h2>
             </div>
 
-			<div dt:conf="owners">
-               <div dt:confType="export" dt:type="pdf" dt:cssClass="btn btn-sm btn-info"></div>
-               <div dt:confType="export" dt:type="csv" dt:cssClass="btn btn-sm btn-info"></div>
-               <div dt:confType="export" dt:type="xls" dt:cssClass="btn btn-sm btn-info"></div>
-               <div dt:confType="export" dt:type="xlsx" dt:cssClass="btn btn-sm btn-info"></div>
-               <div dt:confType="export" dt:type="xml" dt:cssClass="btn btn-sm btn-info"></div>
-			</div>
+            <div class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </div>
 
-            <table id="owners" dt:table="true" dt:pagination="true" dt:export="pdf,csv,xls,xlsx,xml" dt:dom="lEfrtip">
-                <thead>
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                    Dropdown
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+                    <li role="presentation" class="divider"></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+                </ul>
+            </div>
+            
+            <br/>
+
+            <div dt:conf="owners">
+                <div dt:confType="export" dt:type="pdf" dt:cssClass="btn btn-sm btn-info"></div>
+                <div dt:confType="export" dt:type="csv" dt:cssClass="btn btn-sm btn-info"></div>
+                <div dt:confType="export" dt:type="xls" dt:cssClass="btn btn-sm btn-info"></div>
+                <div dt:confType="export" dt:type="xlsx" dt:cssClass="btn btn-sm btn-info"></div>
+                <div dt:confType="export" dt:type="xml" dt:cssClass="btn btn-sm btn-info"></div>
+            </div>
+
+            <table id="owners" dt:table="true" dt:pagination="true" dt:export="pdf,csv,xls,xlsx,xml" dt:dom="lEfrtip" dt:ext="colreorder">
+                <thead dt:scroller="true">
                     <tr>
                         <th style="width: 10px;">ID</th>
+                        <th style="width: 150px;">Name</th>
+                        <th style="width: 200px;">Address</th>
+                        <th>City</th>
+                        <th>Telephone</th>
+                        <th style="width: 100px;">Pets</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each="owner : ${owners}">
                         <td th:text="${owner.id}">1</td>
+                        <td dt:xml="|${owner.firstName} ${owner.lastName}|"><a href="ownerDetails.html" th:href="@{|/owners/${owner.id}|}" th:text="|${owner.firstName} ${owner.lastName}|">Mary Smith</a></td>
+                        <td th:text="${owner.address}">45, Oxford Street</td>
+                        <td th:text="${owner.city}">Cambridge</td>
+                        <td th:text="${owner.telephone}">555-555-555</td>
+                        <td><span th:each="pet : ${owner.pets}" th:text="${pet.name}" th:remove="tag"> Rob&nbsp; </span></td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING
-        </table>
-
-    </div>
-</body>
+        <table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING</table>
+    </body>
 
 </html>

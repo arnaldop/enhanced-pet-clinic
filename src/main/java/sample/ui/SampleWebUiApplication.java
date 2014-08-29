@@ -22,14 +22,17 @@ import java.io.IOException;
 import org.apache.catalina.connector.Connector;
 import org.apache.coyote.http11.Http11NioProtocol;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.actuate.system.ApplicationPidListener;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
+import org.springframework.boot.context.embedded.ServletListenerRegistrationBean;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import sample.ui.message.InMemoryMessageRespository;
 import sample.ui.message.Message;
@@ -56,7 +59,15 @@ public class SampleWebUiApplication {
     }
 
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(SampleWebUiApplication.class, args);
+		SpringApplication springApplication = new SpringApplication(
+				SampleWebUiApplication.class);
+		springApplication.addListeners(new ApplicationPidListener());
+		springApplication.run(args);
+    }
+
+    @Bean
+    public ServletListenerRegistrationBean<HttpSessionEventPublisher> getHttpSessionEventPublisher() {
+        return new ServletListenerRegistrationBean<HttpSessionEventPublisher>(new HttpSessionEventPublisher());
     }
 
 //    @Profile("production")

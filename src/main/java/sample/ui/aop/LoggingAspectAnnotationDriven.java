@@ -16,8 +16,19 @@ import org.springframework.stereotype.Component;
 @Configuration
 public class LoggingAspectAnnotationDriven {
 
-    private static Log logger = LogFactory
-            .getLog(LoggingAspectAnnotationDriven.class);
+    private static Log logger = LogFactory.getLog(LoggingAspectAnnotationDriven.class);
+
+    @Before("execution(* sample.ui.SampleWebUiApplication.*(..))")
+    public void beforeSampleWebUiApplication(JoinPoint jp) {
+        logger.info("(beforeSampleWebUiApplication) Before executing '" + jp.getSignature().toLongString() + "'");
+        System.out.println("(beforeSampleWebUiApplication) PET Before executing '" + jp.getSignature().toLongString() + "'");
+    }
+
+    @After("execution(* sample.ui.SampleWebUiApplication.*(..))")
+    public void afterSampleWebUiApplication(JoinPoint jp) {
+        logger.info("(afterSampleWebUiApplication) After executing '" + jp.getSignature().toLongString() + "'");
+        System.out.println("(afterSampleWebUiApplication) After executing '" + jp.getSignature().toLongString() + "'");
+    }
 
     @Before("execution(* sample.ui.web.Pet*.*(..))")
     public void beforePet(JoinPoint jp) {

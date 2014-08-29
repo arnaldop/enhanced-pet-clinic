@@ -8,63 +8,60 @@
     REPLACE BEFORE COMMITTING
 </head>
 
-<body onload="$('input[name=lastName]').focus();">
-    <div class="container-fluid">
-        <div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
+<body onload="$('input[name=lastName]').focus();" role="document">
+    <div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
 
-        <div class="container">
-            <div class="starter-template">
-                <h2>Find Owners</h2>
-            </div>
-            <form th:object="${owner}" action="owners/list.html" th:action="@{/owners/list.html}" method="get" class="form-horizontal"
-                id="search-owner-form">
-                <fieldset>
-                    <table class="table table-striped">
-                        <tr>
-                            <th>
-                                <div class="control-group" id="lastName">
-                                    <label class="control-label">Last name</label>
-                                </div>
-                            </th>
-                            <td>
-                                <div class="control-group" id="lastName">
-                                    <input type="text" th:field="*{lastName}" size="30" maxlength="80" />
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="vertical-align:middle">
-                                <div class="form-actions">
-                                    <button type="submit" class="btn btn-info">Find Owner</button>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="control-group" id="lastName">
-                                    <h4><span class="label label-danger" th:errors="*{lastName}">[Errors]</span></h4>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <div class="form-actions">
-                                    <a th:href="@{'/owners/new'}" href="createOrUpdateOwnerForm.html" class="btn btn-success">Add Owner</a>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                </fieldset>
-            </form>
-
-            <br />
+    <div class="container">
+        <div class="starter-template">
+            <h2>Find Owners</h2>
         </div>
+        <form th:object="${owner}" action="owners/list.html" th:action="@{/owners/list.html}" method="get" class="form-horizontal"
+            id="search-owner-form">
+            <fieldset>
+                <table class="table table-striped">
+                    <tr>
+                        <th>
+                            <div class="control-group" id="lastName">
+                                <label class="control-label">Last name</label>
+                            </div>
+                        </th>
+                        <td>
+                            <div class="control-group" id="lastName">
+                                <input type="text" th:field="*{lastName}" size="30" maxlength="80" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:middle">
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-info">Find Owner</button>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="control-group" id="lastName">
+                                <h4><span class="label label-danger" th:errors="*{lastName}">[Errors]</span></h4>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="form-actions">
+                                <a th:href="@{'/owners/new'}" href="createOrUpdateOwnerForm.html" class="btn btn-success">Add Owner</a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+        </form>
 
-        <table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING
-        </table>
-
+        <br />
     </div>
+
+    <table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING
+    </table>
 </body>
 
 </html>

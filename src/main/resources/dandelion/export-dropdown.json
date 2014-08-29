@@ -1,0 +1,14 @@
+{
+    "bundle" : "export-dropdown",
+    "dependencies" : [ "jquery" ],
+    "assets": [
+        {
+            "name": "export-dropdown",
+            "version": "1.0",
+            "type": "js",
+            "locations": {
+                "cdn": "/js/export-dropdown.js"
+            }
+        }
+    ]
+}
