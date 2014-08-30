@@ -18,34 +18,20 @@
                 <h2>Owners</h2>
             </div>
 
-            <div class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li class="divider"></li>
-                <li class="dropdown-header">Nav header</li>
-                <li><a href="#">Separated link</a></li>
-                <li><a href="#">One more separated link</a></li>
-              </ul>
-            </div>
-
-            <div class="dropdown">
+            <div class="dropdown pull-right">
                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
-                    Dropdown
-                    <span class="caret"></span>
+                    Export as... <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
-                    <li role="presentation" class="divider"></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+                    <li role="presentation"><a role="menuitem" id="exportAsCsv" tabindex="-1" href="#">CSV</a></li>
+                    <li role="presentation"><a role="menuitem" id="exportAsPdf" tabindex="-1" href="#">PDF</a></li>
+                    <li role="presentation"><a role="menuitem" id="exportAsXls" tabindex="-1" href="#">XLS</a></li>
+                    <li role="presentation"><a role="menuitem" id="exportAsXlsx" tabindex="-1" href="#">XLSX</a></li>
+                    <li role="presentation"><a role="menuitem" id="exportAsXml" tabindex="-1" href="#">XML</a></li>
                 </ul>
             </div>
             
-            <br/>
+            <br/><br/>
 
             <div dt:conf="owners">
                 <div dt:confType="export" dt:type="pdf" dt:cssClass="btn btn-sm btn-info"></div>
