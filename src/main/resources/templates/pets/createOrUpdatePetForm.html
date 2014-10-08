@@ -2,17 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:ddl="http://www.thymeleaf.org/dandelion"
       xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
+      ddl:bundle-includes="bootstrap-3.2.0"
       lang="en">
 
-<head th:replace="fragments/headTag :: headTag">
-    REPLACE BEFORE COMMITTING
-</head>
-
-<body onload="$('input[name=name]').focus();$(function () { $('#birthDate').datepicker({ dateFormat: 'mm/dd/yy' }); });">
-    <script>
-
-    </script>
-    <div class="container-fluid">
+    <head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING</head>
+    
+    <body role="document" onload="$('input[name=name]').focus();$(function () { $('#birthDate').datepicker({ dateFormat: 'mm/dd/yy' }); });">
         <div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
 
         <div class="container">
@@ -104,11 +99,7 @@
             </form>
         </div>
 
-        <table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING
-        </table>
-
-    </div>
-
-</body>
+        <table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING</table>
+    </body>
 
 </html>

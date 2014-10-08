@@ -24,7 +24,7 @@
         <!-- <start-class>sample.aop.SampleAopApplication</start-class> -->
 
         <!-- Tomcat -->
-        <tomcat.version>8.0.9</tomcat.version>
+        <tomcat.version>8.0.8</tomcat.version>
 
         <!-- RSS -->
         <rome.version>1.0</rome.version>
@@ -75,6 +75,12 @@
             <artifactId>spring-boot-starter-remote-shell</artifactId>
         </dependency>
 
+        <!-- Thymeleaf Spring Security Dialect -->
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity3</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
@@ -99,8 +105,10 @@
             <artifactId>hsqldb</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <!-- <dependency> <groupId>com.h2database</groupId> <artifactId>h2</artifactId>
-            </dependency> -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
 
         <!-- Webjars (static dependencies distributed as JAR files) -->
         <dependency>
@@ -180,6 +188,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>2.10.4</version>
         </dependency>
     </dependencies>
 

@@ -1,5 +1,6 @@
 {
     "bundle" : "bootstrap-3.2.0",
+    "dependencies" : [ "jquery" ],
     "assets": [
         {
             "name": "bootstrap",
@@ -22,7 +23,7 @@
             "version": "3.2.0",
             "type": "js",
             "locations": {
-                "cdn": "/js/ie10-viewport-bug-workaround.js"
+                "webapp": "/js/ie10-viewport-bug-workaround.js"
             }
         },
         {
@@ -30,7 +31,7 @@
             "version": "3.2.0",
             "type": "js",
             "locations": {
-                "webapp": "//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"
+                "cdn": "//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"
             }
         }
     ]

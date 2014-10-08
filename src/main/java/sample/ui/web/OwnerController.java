@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2013 the original author or authors.
+ * Copyright 2002-2014 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,25 +41,18 @@ import sample.ui.service.ClinicService;
  * @author Ken Krebs
  * @author Arjen Poutsma
  * @author Michael Isvy
+ * @author Arnaldo Piccinelli
  */
 @Controller
 @SessionAttributes(types = Owner.class)
 @RequestMapping(value = "/owners")
 public class OwnerController {
 
-    // @Autowired
-    // private Validator validator;
-
     private final ClinicService clinicService;
 
-    // public void setValidator(Validator validator) {
-    // this.validator = validator;
-    // }
-
     @Autowired
-    public OwnerController(ClinicService clinicService, Validator validator) {
+    public OwnerController(ClinicService clinicService) {
         this.clinicService = clinicService;
-        // this.validator = validator;
     }
 
     @InitBinder
@@ -101,19 +93,14 @@ public class OwnerController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String processFindForm(Owner owner, BindingResult result, Model model) {
 
-        // validator.validate(owner, result);
-        // if (result.hasErrors()) {
-        // return "owners/findOwners";
-        // }
-
         Collection<Owner> results = null;
+
         // find owners by last name
         if (StringUtils.isEmpty(owner.getLastName())) {
             // allow parameterless GET request for /owners to return all records
             results = this.clinicService.findOwners();
         } else {
-            results = this.clinicService.findOwnerByLastName(owner
-                    .getLastName());
+            results = this.clinicService.findOwnerByLastName(owner.getLastName());
         }
 
         if (results.size() < 1) {

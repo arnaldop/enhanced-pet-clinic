@@ -2,22 +2,20 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:ddl="http://www.thymeleaf.org/dandelion"
       xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
+      ddl:bundle-includes="bootstrap-3.2.0"
       lang="en">
 
-<head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING
-</head>
+    <head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING</head>
 
-<body>
-    <div class="container-fluid">
-
+    <body role="document">
         <div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
 
-        <div class="container">
+        <div class="container" role="main">
             <div class="starter-template">
                 <h2>Veterinarians</h2>
             </div>
 
-            <table id="myTableId" class="table table-striped" dt:table="true" dt:pagination="true" dt:export="pdf">
+            <table id="myTableId" class="table table-striped" dt:table="true" dt:pagination="true">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -34,20 +32,19 @@
                     </tr>
                 </tbody>
             </table>
-            <br/>
-            <br/>
+
+            <br/><br/>
+
             <table class="table-buttons">
                 <tr>
                     <td><a th:href="@{'/vets/list.xml'}" href="#" class="btn btn-info">View as XML</a></td>
+                    <td>&nbsp;</td>
                     <td><a th:href="@{'/vets/list.atom'}" href="#" class="btn btn-success">Subscribe to Atom feed</a></td>
                 </tr>
             </table>
         </div>
 
-        <table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING
-        </table>
-
-    </div>
-</body>
+        <table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING</table>
+    </body>
 
 </html>

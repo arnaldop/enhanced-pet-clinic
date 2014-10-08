@@ -2,15 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:ddl="http://www.thymeleaf.org/dandelion"
       xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
+      ddl:bundle-includes="bootstrap-3.2.0"
       lang="en">
 
-<head th:replace="fragments/headTag :: headTag">
-    REPLACE BEFORE COMMITTING
-</head>
-
-<body>
-    <div class="container-fluid">
-
+    <head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING</head>
+    
+    <body role="document">
         <div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
 
         <div class="container">
@@ -44,9 +41,7 @@
             </div>
         </div>
 
-        <table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING
-        </table>
-    </div>
-</body>
+        <table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING</table>
+    </body>
 
 </html>

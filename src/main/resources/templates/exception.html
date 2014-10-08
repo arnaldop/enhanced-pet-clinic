@@ -2,20 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:ddl="http://www.thymeleaf.org/dandelion"
       xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
+      ddl:bundle-includes="bootstrap-3.2.0"
       lang="en">
 
-<head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING
-</head>
+    <head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING</head>
 
-<body>
-    <div class="container-fluid">
-
+    <body role="document">
         <div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
 
-        <div class="container">
+        <div class="container" role="main">
             <div class="starter-template">
+                <h2>We're sorry!</h2>
                 <img src="../../images/pets.png" th:src="@{/images/pets.png}" />
-
                 <h2>Something happened...</h2>
             </div>
 
@@ -28,9 +26,7 @@
             <div>Please contact the operator with the above information.</div>
         </div>
 
-        <table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING
-        </table>
-    </div>
-</body>
+        <table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING</table>
+    </body>
 
 </html>

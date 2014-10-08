@@ -32,7 +32,7 @@ Using __Embedded Apache Tomcat__:
 
     mvn spring-boot:run
 
-You can then access the sample here: [http://localhost:8090/](http://localhost:8090/)
+You can then access the sample here: [http://localhost:8080/](http://localhost:8080/)
 
 ## Spring Boot Remote Shell
 
@@ -41,6 +41,19 @@ To access this application via SSH, use the username sshuser with password sshpa
 Example: ssh -p 2000 sshuser@localhost
 
 Type help for a list of commands. See [http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready-connecting-to-the-remote-shell](Spring Boot Reference Manual Section 38.1).
+
+### Use of Profiles
+
+There are currently 2 sets of profiles:
+  * Environment
+  ** test - allows for access via HTTP and HTTPS
+  ** live - only allows access via HTTPS and puts management pages behind under security
+  * Database
+  ** intdb - uses hsqldb as an internal database
+  ** extdb - uses MySQL as an external database
+Use different databases depending on profile.
+http://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/ Section 58.5
+
 
 ## TODO / To Fix
 
@@ -52,34 +65,13 @@ Add implementation for a lock-out policy based on authentication failures.
 
 http://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/ Section 53.1
 
-### Use of Profiles
-
-Use different databases depending on profile.
-http://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/ Section 58.5
-
-### SSL
-
-Make sure http redirects to https.
-
-Make sure static resources are available from http.
-
-http://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/ Section 59.6
-
-### SQL Initialization
-
-Set up SQL initialization for both in-memory and external databases.
-
 ### Logout (Spring Security)
 
-Currently logout does not invalidate the session, making the user unable to re-log in. 
+When session management is enabled with a lockout policy for maximum sessions reached, logging out prevents the user from re-logging in. So far I have been unable to figure out how to implement the removal of the session upon logout. 
 
 ### Actuator
 
 Make index page for Actuator services, available to an ADMIN or superuser.
-
-### Dandelion Bundles
-
-Currently forms submitted with invalid date get reloaded, but Dandelion is not reloading the bundles, loading the page with no style.
 
 ### "Whitelabel" Error Page
 

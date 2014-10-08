@@ -2,17 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:ddl="http://www.thymeleaf.org/dandelion"
       xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
+      ddl:bundle-includes="bootstrap-3.2.0"
       lang="en">
 
-<head th:replace="fragments/headTag :: headTag">
-    REPLACE BEFORE COMMITTING
-</head>
-
-<body onload="$('input[name=username]').focus();">
-    <div class="container-fluid">
-
+    <head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING</head>
+    
+    <body role="document" onload="$('input[name=username]').focus();">
         <div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
-
+    
         <div class="container">
             <div class="starter-template">
                 <p th:if="${param.logout}" class="alert">You have been logged out</p>
@@ -24,7 +21,6 @@
                             placeholder="Password" />
                         <br/><br/>
                         <label for="rememberMe">Remember Me?</label> <input type="checkbox" id="rememberMe" name="rememberMe" />
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                     </fieldset>
                     <br/>
                     <input type="submit" id="login" value="Login" class="btn btn-sm btn-default" />
@@ -33,7 +29,6 @@
         </div>
 
         <table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING</table>
-    </div>
-</body>
+    </body>
 
 </html>

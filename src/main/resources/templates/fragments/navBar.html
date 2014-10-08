@@ -27,7 +27,7 @@
                             class="glyphicon glyphicon-question-sign"></span> Help</a></li> -->
                     <!-- <li><a class="navbar-right" href="javascript:formSubmit()" title="Logout"><span
                             class="glyphicon glyphicon-remove"></span>Form Logout</a></li> -->
-                    <li><a href="/logout" th:href="@{/logout}" title="Logout"><span class="glyphicon glyphicon-remove"></span>Logout</a></li>
+                    <li sec:authorize="!isAnonymous()"><a href="/logout" th:href="@{/logout}" title="Logout"><span class="glyphicon glyphicon-remove"></span>Logout</a></li>
                 </ul>
             </div>
         </div><!--

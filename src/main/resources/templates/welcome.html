@@ -2,14 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:ddl="http://www.thymeleaf.org/dandelion"
       xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
+      ddl:bundle-includes="bootstrap-3.2.0"
       lang="en">
 
-<head th:replace="fragments/headTag :: headTag">
-    REPLACE BEFORE COMMITTING
-</head>
-
-<body>
-    <div class="container-fluid">
+    <head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING</head>
+    
+    <body role="document">
         <div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
 
         <div class="container">
@@ -17,13 +15,11 @@
             <div class="starter-template">
                 <h2 th:text="#{welcome}">Welcome!</h2>
 
-                <img src="../../images/pets.png" th:src="@{/images/pets.png}" />
+                <img src="/images/pets.png" th:src="@{/images/pets.png}" />
             </div>
         </div>
 
         <table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING</table>
-
-    </div>
-</body>
+    </body>
 
 </html>

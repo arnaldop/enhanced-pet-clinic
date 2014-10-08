@@ -7,7 +7,7 @@
             "version": "1.0",
             "type": "js",
             "locations": {
-                "cdn": "/js/export-dropdown.js"
+                "webapp": "/js/export-dropdown.js"
             }
         }
     ]

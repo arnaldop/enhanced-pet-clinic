@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2013 the original author or authors.
+ * Copyright 2002-2014 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 package sample.ui.view;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -40,6 +41,7 @@ import com.sun.syndication.feed.atom.Feed;
  *
  * @author Alef Arendsen
  * @author Arjen Poutsma
+ * @author Arnaldo Piccinelli
  */
 @Configuration
 public class VetsAtomView extends AbstractAtomFeedView {
@@ -55,7 +57,7 @@ public class VetsAtomView extends AbstractAtomFeedView {
     protected void buildFeedMetadata(Map<String, Object> model, Feed feed, HttpServletRequest request) {
         feed.setId("tag:springsource.org");
         feed.setTitle("Veterinarians");
-        //feed.setUpdated(date);
+        feed.setUpdated(new Date());
     }
 
     @Override
@@ -73,7 +75,7 @@ public class VetsAtomView extends AbstractAtomFeedView {
             // see http://diveintomark.org/archives/2004/05/28/howto-atom-id#other
             entry.setId(String.format("tag:springsource.org,%s", vet.getId()));
             entry.setTitle(String.format("Vet: %s %s", vet.getFirstName(), vet.getLastName()));
-            //entry.setUpdated(visit.getDate().toDate());
+            entry.setUpdated(new Date());
 
             Content summary = new Content();
             summary.setValue(vet.getSpecialties().toString());
@@ -83,7 +85,6 @@ public class VetsAtomView extends AbstractAtomFeedView {
         }
         response.setContentType("blabla");
         return entries;
-
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2013 the original author or authors.
+ * Copyright 2002-2014 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,6 +43,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @author Ken Krebs
  * @author Juergen Hoeller
  * @author Sam Brannen
+ * @author Arnaldo Piccinelli
  */
 @Entity
 @Table(name = "pets")
@@ -50,7 +51,6 @@ public class Pet extends NamedEntity {
 
     @Column(name = "birth_date")
     @Temporal(TemporalType.DATE)
-    // @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @DateTimeFormat(pattern = "MM/dd/yyyy")
     private Date birthDate;
 

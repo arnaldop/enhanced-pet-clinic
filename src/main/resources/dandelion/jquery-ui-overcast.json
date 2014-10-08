@@ -1,5 +1,6 @@
 {
     "bundle" : "jquery-ui-overcast",
+    "dependencies" : [ "jquery" ],
     "assets": [
         {
             "name": "jquery-ui",
