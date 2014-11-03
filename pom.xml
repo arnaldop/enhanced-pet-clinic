@@ -11,7 +11,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.1.5.RELEASE</version>
+        <version>1.1.8.RELEASE</version>
     </parent>
 
     <organization>
@@ -21,7 +21,9 @@
 
     <properties>
         <start-class>sample.ui.SampleWebUiApplication</start-class>
-        <!-- <start-class>sample.aop.SampleAopApplication</start-class> -->
+
+        <!-- Web Flow -->
+        <webflow-version>2.4.0.RELEASE</webflow-version>
 
         <!-- Tomcat -->
         <tomcat.version>8.0.8</tomcat.version>
@@ -43,9 +45,16 @@
         <dandelion.version>0.10.1</dandelion.version>
         <dandelion.datatables.version>0.10.1</dandelion.datatables.version>
         <dandelion.ehcache.version>0.10.1</dandelion.ehcache.version>
+
+        <!-- Thymeleaf Extras -->
+        <thymeleaf-extras-conditionalcomments-version>2.1.1.RELEASE</thymeleaf-extras-conditionalcomments-version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -53,10 +62,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -74,11 +79,29 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-remote-shell</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.webflow</groupId>
+            <artifactId>spring-webflow</artifactId>
+            <version>${webflow-version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
         <!-- Thymeleaf Spring Security Dialect -->
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity3</artifactId>
+        </dependency>
+
+        <!-- Thymeleaf - Internet Explorer conditional comments -->
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-conditionalcomments</artifactId>
+            <version>${thymeleaf-extras-conditionalcomments-version}</version>
         </dependency>
 
         <dependency>
@@ -193,6 +216,11 @@
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
             <version>2.10.4</version>
+        </dependency>
+        <dependency>
+        	<groupId>javax.inject</groupId>
+        	<artifactId>javax.inject</artifactId>
+        	<version>1</version>
         </dependency>
     </dependencies>
 

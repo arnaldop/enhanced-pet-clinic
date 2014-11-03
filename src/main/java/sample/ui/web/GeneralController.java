@@ -41,6 +41,11 @@ public class GeneralController {
         return "welcome";
     }
 
+//    @RequestMapping("/error")
+//    public String errorRouter() {
+//        return "error";
+//    }
+
     @RequestMapping(value = "/router")
     public String accessDeniedRouter(@RequestParam("q") String resource) {
         return "redirect:/" + resource;

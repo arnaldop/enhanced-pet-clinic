@@ -67,7 +67,7 @@ http://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/ Se
 
 ### Logout (Spring Security)
 
-When session management is enabled with a lockout policy for maximum sessions reached, logging out prevents the user from re-logging in. So far I have been unable to figure out how to implement the removal of the session upon logout. 
+When session management is enabled with a lockout policy for maximum sessions reached, logging out prevents the user from re-logging in. So far I have been unable to figure out how to implement the removal of the session upon logout.
 
 ### Actuator
 

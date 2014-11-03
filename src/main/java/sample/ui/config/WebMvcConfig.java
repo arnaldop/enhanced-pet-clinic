@@ -15,15 +15,24 @@
  */
 package sample.ui.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.webflow.mvc.servlet.FlowHandlerAdapter;
+import org.springframework.webflow.mvc.servlet.FlowHandlerMapping;
+import org.thymeleaf.spring4.SpringTemplateEngine;
+import org.thymeleaf.spring4.view.AjaxThymeleafViewResolver;
+import org.thymeleaf.spring4.view.FlowAjaxThymeleafView;
 
+import sample.ui.booking.BookingFlowHandler;
 import sample.ui.model.Vets;
 import sample.ui.view.XmlViewResolver;
 
@@ -34,6 +43,12 @@ import sample.ui.view.XmlViewResolver;
  */
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
+
+    @Autowired
+    private WebFlowConfig webFlowConfig;
+
+    @Autowired
+    private SpringTemplateEngine springTemplateEngine;
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -53,4 +68,66 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         marshaller.setClassesToBeBound(new Class[] { Vets.class });
         return new XmlViewResolver(marshaller);
     }
+
+    @Bean
+    public FilterRegistrationBean hiddenFilterRegistrationBean() {
+        return new FilterRegistrationBean(new HiddenHttpMethodFilter());
+    }
+
+    @Bean
+    public FlowHandlerMapping flowHandlerMapping() {
+        FlowHandlerMapping handlerMapping = new FlowHandlerMapping();
+        handlerMapping.setOrder(-1);
+        handlerMapping.setFlowRegistry(this.webFlowConfig.flowRegistry());
+        return handlerMapping;
+    }
+
+    @Bean
+    public FlowHandlerAdapter flowHandlerAdapter() {
+        FlowHandlerAdapter handlerAdapter = new FlowHandlerAdapter();
+        handlerAdapter.setFlowExecutor(this.webFlowConfig.flowExecutor());
+        handlerAdapter.setSaveOutputToFlashScopeOnRedirect(true);
+        return handlerAdapter;
+    }
+
+    @Bean(name="hotels/booking")
+    public BookingFlowHandler bookingFlowHandler() {
+        return new BookingFlowHandler();
+    }
+
+    @Bean
+    public AjaxThymeleafViewResolver viewResolver() {
+        AjaxThymeleafViewResolver viewResolver = new AjaxThymeleafViewResolver();
+        viewResolver.setViewClass(FlowAjaxThymeleafView.class);
+        viewResolver.setTemplateEngine(springTemplateEngine);
+        return viewResolver;
+    }
+
+//    @Bean
+//    public SpringTemplateEngine templateEngine(){
+//        Set<IDialect> dialects = new LinkedHashSet<IDialect>();
+//        dialects.add(new SpringSecurityDialect());
+//        dialects.add(new ConditionalCommentsDialect());
+//
+//        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+//        templateEngine.setTemplateResolver(templateResolver);
+//        templateEngine.setAdditionalDialects(dialects);
+//        return templateEngine;
+//    }
+
+//    @Bean
+//    public ServletContextTemplateResolver templateResolver() {
+//        ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver();
+//        templateResolver.setPrefix("/WEB-INF/");
+//        templateResolver.setTemplateMode("HTML5");
+//        return templateResolver;
+//    }
+
+//    @Bean
+//    public ThymeleafTilesConfigurer tilesConfigurer() {
+//        ThymeleafTilesConfigurer configurer = new ThymeleafTilesConfigurer();
+//        configurer.setDefinitions("/WEB-INF/**/views.xml");
+//        return configurer;
+//    }
+
 }

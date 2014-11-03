@@ -15,12 +15,14 @@
  */
 package sample.ui.message;
 
+import java.util.Collection;
+
 /**
  * @author Rob Winch
  */
 public interface MessageRepository {
 
-    Iterable<Message> findAll();
+    Collection<Message> findAll();
 
     Message save(Message message);
 

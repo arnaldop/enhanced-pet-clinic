@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:ddl="http://www.thymeleaf.org/dandelion"
+      xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
+      ddl:bundle-includes="bootstrap-3.2.0"
+      lang="en">
+
+    <head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING</head>
+
+    <body role="document">
+        <div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
+
+        <div class="container">
+            <div class="starter-template">
+                <h2>Hotel Results</h2>
+            </div>
+
+            <div id="hotelResults">
+                <div th:if="${hotelList}">
+                    <table class="summary">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>City, State</th>
+                                <th>Zip</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="hotel : ${hotelList}">
+                                <td th:text="${hotel.name}">The Herb Plaza</td>
+                                <td th:text="${hotel.address}">Thyme Square, 13</td>
+                                <td th:text="${hotel.city} + ', ' + ${hotel.state} + ', ' + ${hotel.country}">Icetown, North Pole, Earth</td>
+                                <td th:text="${hotel.zip}">0W</td>
+                                <td><a href="#" th:href="@{'hotels/' + ${hotel.id}}">View Hotel</a></td>
+                            </tr>
+                            <tr th:unless="${hotelList}">
+                                <td colspan="5">No hotels found</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <br />
+        </div>
+
+        <table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING</table>
+    </body>
+</html>

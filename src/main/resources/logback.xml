@@ -3,8 +3,15 @@
 
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
 
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%-5p: %c - %m%n</pattern>
+        </encoder>
+    </appender>
+
     <!-- logger name="org.springframework" level="DEBUG"/-->
 
-    <logger name="org.springframework.security" level="FINE"/>
+    <logger name="org.springframework.webflow" level="FINE"/>
+    <!-- <logger name="org.springframework.security" level="FINE"/> -->
 
 </configuration>

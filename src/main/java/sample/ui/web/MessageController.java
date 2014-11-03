@@ -15,6 +15,8 @@
  */
 package sample.ui.web;
 
+import java.util.Collection;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +48,7 @@ public class MessageController {
 
     @RequestMapping
     public ModelAndView list() {
-        Iterable<Message> messages = this.messageRepository.findAll();
+        Collection<Message> messages = this.messageRepository.findAll();
         return new ModelAndView("messages/list", "messages", messages);
     }
 

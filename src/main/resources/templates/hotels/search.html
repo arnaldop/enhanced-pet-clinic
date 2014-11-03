@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:ddl="http://www.thymeleaf.org/dandelion"
+      xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
+      ddl:bundle-includes="bootstrap-3.2.0"
+      lang="en">
+
+    <head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING</head>
+
+    <body role="document">
+        <div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
+
+        <div class="container">
+            <div class="starter-template">
+                <h2>Search Hotels</h2>
+            </div>
+
+            <form action="#" th:object="${searchCriteria}" th:action="@{/hotels}" method="get" class="inline">
+
+                <ul th:if="${#fields.hasErrors('*')}" class="errors span-18">
+                    <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+                </ul>
+
+                <fieldset>
+                    <div class="span-8">
+                        <label for="searchString">Search String:</label> <input type="text" id="searchString"
+                            th:field="*{searchString}" />
+                        <script type="text/javascript">
+						// <![CDATA[
+						Spring
+								.addDecoration(new Spring.ElementDecoration(
+										{
+											elementId : "searchString",
+											widgetType : "dijit.form.ValidationTextBox",
+											widgetAttrs : {
+												promptMessage : "Search hotels by name, address, city, or zip."
+											}
+										}));
+						// ]]>
+					</script>
+                    </div>
+                    <div class="span-6">
+                        <div>
+                            <label for="pageSize">Maximum results:</label> <select id="pageSize" th:field="*{pageSize}">
+                                <option label="5" value="5" />
+                                <option label="10" value="10" />
+                                <option label="20" value="20" />
+                            </select>
+                        </div>
+                    </div>
+                    <div class="span-3 last">
+                        <button type="submit">Find Hotels</button>
+                    </div>
+                </fieldset>
+
+            </form>
+
+            <div id="bookings" sec:authorize="hasRole('ROLE_USER')">
+
+                <h2>Current Hotel Bookings</h2>
+
+                <p th:unless="${bookingList}">No bookings found</p>
+
+                <table class="summary" th:if="${bookingList}">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Address</th>
+                            <th>City, State</th>
+                            <th>Check in Date</th>
+                            <th>Check out Date</th>
+                            <th>Confirmation Number</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="booking : ${bookingList}" th:object="${booking}">
+                            <td th:text="*{hotel.name}">The Herb Plaza</td>
+                            <td th:text="*{hotel.address}">Thyme Square, 13</td>
+                            <td th:text="*{hotel.city} + ', ' + *{hotel.state}">Icetown, North Pole</td>
+                            <td th:text="*{checkinDate}">2012-12-21</td>
+                            <td th:text="*{checkoutDate}">2012-12-21</td>
+                            <td th:text="*{id}">1</td>
+                            <td>
+                                <form action="#" th:action="@{'/' + *{id}}" th:method="'delete'">
+                                    <button type="submit">Cancel</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <br />
+        </div>
+
+        <table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING</table>
+    </body>
+</html>

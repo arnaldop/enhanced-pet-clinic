@@ -36,8 +36,7 @@ public class XmlViewResolver implements ViewResolver {
     }
 
     @Override
-    public View resolveViewName(String viewName, Locale locale)
-            throws Exception {
+    public View resolveViewName(String viewName, Locale locale) throws Exception {
         MarshallingView marshallingView = new MarshallingView();
         marshallingView.setMarshaller(marshaller);
         return marshallingView;

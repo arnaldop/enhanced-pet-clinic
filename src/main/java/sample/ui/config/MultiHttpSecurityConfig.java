@@ -26,6 +26,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -58,7 +59,7 @@ public class MultiHttpSecurityConfig {
 
     private static final String[] UNSECURED_RESOURCE_LIST = new String[] { "/test.html", "/",
             "/resources/**", "/assets/**", "/css/**", "/webjars/**", "/images/**",
-            "/dandelion-assets/**", "/unauthorized", "/error*" };
+            "/dandelion-assets/**", "/unauthorized", "/error*", "/users/*" };
 
     @Configuration
     @Profile({ "intdb" })
@@ -123,11 +124,24 @@ public class MultiHttpSecurityConfig {
             //@formatter:off
             auth
                 .inMemoryAuthentication()
-                    .withUser("user").password("password")
+                    .passwordEncoder(new Md5PasswordEncoder())
+                .withUser("user").password("5f4dcc3b5aa765d61d8327deb882cf99")
                         .roles("USER")
                 .and()
-                    .withUser("admin").password("password")
+                    .withUser("admin").password("5f4dcc3b5aa765d61d8327deb882cf99")
                         .roles("USER", "ADMIN")
+                .and()
+                    .withUser("keith").password("417c7382b16c395bc25b5da1398cf076")
+                        .roles("USER", "SUPERVISOR")
+                .and()
+                    .withUser("erwin").password("12430911a8af075c6f41c6976af22b09")
+                        .roles("USER", "SUPERVISOR")
+                .and()
+                    .withUser("jeremy").password("57c6cbff0d421449be820763f03139eb")
+                        .roles("USER")
+                .and()
+                    .withUser("scott").password("942f2339bf50796de535a384f0d1af3e")
+                        .roles("USER")
             ;
             //@formatter:on
         }
@@ -229,7 +243,9 @@ public class MultiHttpSecurityConfig {
                 .and()
                     .formLogin()
                         .loginPage("/login")
+//                        .defaultSuccessUrl("/hotels/search", true)
                         .failureUrl("/login?error")
+//                        .failureUrl("/login?error=1")
                         .permitAll()
                 .and()
                     .rememberMe()

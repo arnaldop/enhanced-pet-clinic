@@ -15,6 +15,7 @@
  */
 package sample.ui.message;
 
+import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -29,7 +30,7 @@ public class InMemoryMessageRespository implements MessageRepository {
     private final ConcurrentMap<Long, Message> messages = new ConcurrentHashMap<Long, Message>();
 
     @Override
-    public Iterable<Message> findAll() {
+    public Collection<Message> findAll() {
         return this.messages.values();
     }
 

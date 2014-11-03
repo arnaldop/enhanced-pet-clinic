@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:ddl="http://www.thymeleaf.org/dandelion"
+      xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
+      ddl:bundle-includes="bootstrap-3.2.0"
+      lang="en">
+
+    <head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING</head>
+
+    <body role="document" onload="$('input[name=searchString]').focus();">
+        <div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
+
+        <div class="container">
+            <div class="starter-template">
+                <h2>Search Hotels</h2>
+            </div>
+
+            <form th:object="${searchCriteria}" action="/hotels" th:action="@{/hotels}" method="get" class="form-horizontal"
+                id="search-owner-form">
+                <fieldset>
+                    <table class="table table-striped">
+                        <tr>
+                            <th>
+                                <div class="control-group" id="searchString">
+                                    <label class="control-label">Search string:</label>
+                                </div>
+                            </th>
+                            <td>
+                                <div class="control-group" id="searchString">
+                                    <input type="text" th:field="*{searchString}" size="30" maxlength="80" />
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align:middle">
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-info">Find Hotels</button>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="control-group" id="searchString">
+                                    <h4><span class="label label-danger" th:errors="*{searchString}">[Errors]</span></h4>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div class="form-actions">
+                                    <a th:href="@{'/owners/new'}" href="createOrUpdateOwnerForm.html" class="btn btn-success">Add Owner</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </form>
+
+            <br />
+        </div>
+
+        <table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING</table>
+    </body>
+
+</html>

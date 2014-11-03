@@ -1,0 +1,210 @@
+package sample.ui.config;
+
+import java.util.Arrays;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.webflow.config.AbstractFlowConfiguration;
+import org.springframework.webflow.definition.registry.FlowDefinitionRegistry;
+import org.springframework.webflow.engine.builder.support.FlowBuilderServices;
+import org.springframework.webflow.executor.FlowExecutor;
+import org.springframework.webflow.mvc.builder.MvcViewFactoryCreator;
+import org.thymeleaf.spring4.SpringTemplateEngine;
+import org.thymeleaf.spring4.view.AjaxThymeleafViewResolver;
+
+import sample.ui.booking.BookingFlowHandler;
+
+@Configuration
+public class WebFlowConfig extends AbstractFlowConfiguration {
+
+//    private static Log logger = LogFactory.getLog(WebFlowConfig.class);
+
+    @Autowired SpringTemplateEngine templateEngine;
+
+    @Autowired
+    MvcViewFactoryCreator mvcViewFactoryCreator;
+
+    @Bean
+    public FlowDefinitionRegistry flowRegistry() {
+        return getFlowDefinitionRegistryBuilder()
+//            .addFlowLocation("/WEB-INF/flows/booking/booking.xml")
+              .setBasePath("classpath*:/templates")
+              .addFlowLocationPattern("/**/*-flow.xml")
+            .build();
+    }
+
+    @Bean
+    public AjaxThymeleafViewResolver getAjaxThymeleafViewResolver() {
+        AjaxThymeleafViewResolver ajaxThymeleafViewResolver = new AjaxThymeleafViewResolver();
+        ajaxThymeleafViewResolver.setViewNames(new String[] {"org.thymeleaf.spring4.view.FlowAjaxThymeleafView"});
+        ajaxThymeleafViewResolver.setTemplateEngine(templateEngine);
+        return ajaxThymeleafViewResolver;
+    }
+
+    @Bean
+    public MvcViewFactoryCreator mvcViewFactoryCreator() {
+        MvcViewFactoryCreator factoryCreator = new MvcViewFactoryCreator();
+        factoryCreator.setViewResolvers(Arrays.<ViewResolver>asList(getAjaxThymeleafViewResolver()));
+        factoryCreator.setUseSpringBeanBinding(true);
+        return factoryCreator;
+    }
+
+    @Bean
+    public LocalValidatorFactoryBean validator() {
+        return new LocalValidatorFactoryBean();
+    }
+
+    @Bean
+    public FlowBuilderServices getFlowBuilderServices() {
+        return getFlowBuilderServicesBuilder()
+                .setViewFactoryCreator(mvcViewFactoryCreator)
+                .setValidator(validator())
+                .setDevelopmentMode(true)
+                .build();
+    }
+
+    @Bean
+    public FlowExecutor flowExecutor() {
+        return getFlowExecutorBuilder(flowRegistry()).build();
+    }
+
+    @Bean(name="hotels/booking")
+    public BookingFlowHandler getBookingFlowHandler() {
+        return new BookingFlowHandler();
+    }
+
+
+//    @Autowired
+//    private ViewResolver viewResolver;
+//
+//    public WebFlowConfig() {
+//        super();
+//        // TODO Auto-generated constructor stub
+//    }
+//
+//    @Configuration
+//    public class A1 {
+//    @Bean
+//    public LocalValidatorFactoryBean validator() {
+//        return new LocalValidatorFactoryBean();
+//    }
+//    }
+//
+//    @Configuration
+//    public class B1 {
+//        @Autowired
+//        private MvcViewFactoryCreator mvcViewFactoryCreator;
+//        @Autowired
+//        private LocalValidatorFactoryBean localValidatorFactoryBean;
+//    @Bean
+//    public FlowBuilderServices getFlowBuilderServices() {
+//        return getFlowBuilderServicesBuilder()
+//                .setViewFactoryCreator(mvcViewFactoryCreator)
+//                .setValidator(localValidatorFactoryBean)
+//                .setDevelopmentMode(true)
+//                .build();
+//    }
+//    }
+//
+//    @Configuration
+//    public class C1 {
+//        @Autowired FlowBuilderServices flowBuilderServices;
+//    @Bean
+//	public FlowDefinitionRegistry getFlowRegistry() {
+//	    return getFlowDefinitionRegistryBuilder(flowBuilderServices)
+//				.setBasePath("classpath*:/templates")
+//		        .addFlowLocationPattern("/**/*-flow.xml")
+//		        .build();
+//	}
+//    }
+//
+//    @Configuration
+//    public class D1 {
+//        @Autowired FlowDefinitionRegistry flowDefinitionRegistry;
+//    @Bean
+//    public FlowHandlerMapping flowHandlerMapping() {
+//        FlowHandlerMapping handlerMapping = new FlowHandlerMapping();
+//        handlerMapping.setOrder(-1);
+//        handlerMapping.setFlowRegistry(flowDefinitionRegistry);
+//        return handlerMapping;
+//    }
+//    }
+//
+//    @Configuration
+//    public class E1 {
+//        @Autowired FlowDefinitionRegistry flowRegistry;
+//    @Bean
+//    public FlowExecutor flowExecutor() {
+//        return getFlowExecutorBuilder(flowRegistry)
+//                .addFlowExecutionListener(new SecurityFlowExecutionListener(), "*")
+//                .build();
+//    }
+//    }
+//
+//    @Configuration
+//    public class F1 {
+//        @Autowired FlowExecutor flowExecutor;
+//    @Bean
+//    public FlowHandlerAdapter flowHandlerAdapter() {
+//        FlowHandlerAdapter handlerAdapter = new FlowHandlerAdapter();
+//        handlerAdapter.setFlowExecutor(flowExecutor);
+//        handlerAdapter.setSaveOutputToFlashScopeOnRedirect(true);
+//        return handlerAdapter;
+//    }
+//    }
+//
+//    @Configuration
+//    public class G1 {
+//        @Autowired ViewResolver viewResolver;
+//
+//        @Bean
+//        public MvcViewFactoryCreator getMvcViewFactoryCreator() {
+//            MvcViewFactoryCreator factoryCreator = new MvcViewFactoryCreator();
+//            factoryCreator.setViewResolvers(Arrays.<ViewResolver> asList(viewResolver));
+//            factoryCreator.setUseSpringBeanBinding(true);
+//            return factoryCreator;
+//        }
+//    }
+
+////    @Bean
+////    public AjaxThymeleafViewResolver getAjaxThymeleafViewResolver() {
+////        AjaxThymeleafViewResolver viewResolver = new AjaxThymeleafViewResolver();
+////        viewResolver.setViewClass(FlowAjaxThymeleafTilesView.class);
+////        viewResolver.setTemplateEngine(springTemplateEngine);
+////        return viewResolver;
+////    }
+//
+////    @Bean
+////    public TilesDialect getTilesDialect() {
+////        return new TilesDialect();
+////    }
+//
+//    @Bean
+//    public ConditionalCommentsDialect getConditionalCommentsDialect() {
+//        return new ConditionalCommentsDialect();
+//    }
+//
+////    @Bean
+////    public SpringSecurityDialect getSpringSecurityDialect(){
+////        return new SpringSecurityDialect();
+////    }
+//
+////    @Bean
+////    public ServletContextTemplateResolver templateResolver() {
+////        ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver();
+////        templateResolver.setPrefix("/WEB-INF/");
+////        templateResolver.setTemplateMode("HTML5");
+////        return templateResolver;
+////    }
+//
+////    @Bean
+////    public ThymeleafTilesConfigurer tilesConfigurer() {
+////        ThymeleafTilesConfigurer configurer = new ThymeleafTilesConfigurer();
+//////        configurer.setDefinitions("/WEB-INF/**/views.xml");
+////        configurer.setDefinitions("classpath:/templates/**/views.xml");
+////        return configurer;
+////    }
+}

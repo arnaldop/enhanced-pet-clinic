@@ -16,9 +16,14 @@
 package sample.ui.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.dao.DataAccessException;
 
+import sample.ui.booking.Booking;
+import sample.ui.booking.Hotel;
+import sample.ui.booking.SearchCriteria;
+import sample.ui.message.Message;
 import sample.ui.model.Owner;
 import sample.ui.model.Pet;
 import sample.ui.model.PetType;
@@ -50,4 +55,24 @@ public interface ClinicService {
     public Collection<Owner> findOwnerByLastName(String lastName) throws DataAccessException;
 
     public Collection<Owner> findOwners() throws DataAccessException;
+
+    public Collection<Message> findMessages() throws DataAccessException;
+
+    public Message saveMessage(Message message) throws DataAccessException;
+
+    public Message findMessage(Long id) throws DataAccessException;
+
+    public Collection<Booking> findBookings(String username) throws DataAccessException;
+
+    public List<Hotel> findHotels(SearchCriteria criteria) throws DataAccessException;
+
+    public List<Hotel> findAllHotels() throws DataAccessException;
+
+    public Hotel findHotelById(Long id) throws DataAccessException;
+
+    public Booking createBooking(Long hotelId, String userName) throws DataAccessException;
+
+    public void persistBooking(Booking booking) throws DataAccessException;
+
+    public void cancelBooking(Long id) throws DataAccessException;
 }
