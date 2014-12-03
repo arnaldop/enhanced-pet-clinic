@@ -21,10 +21,10 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.repository.Repository;
 
 import sample.ui.model.BaseEntity;
-import sample.ui.model.Owner;
+import sample.ui.model.User;
 
 /**
- * Repository class for <code>Owner</code> domain objects All method names are
+ * Repository class for <code>User</code> domain objects All method names are
  * compliant with Spring Data naming conventions so this interface can easily be
  * extended for Spring Data See here:
  * http://static.springsource.org/spring-data/
@@ -37,46 +37,48 @@ import sample.ui.model.Owner;
  * @author Michael Isvy
  * @author Arnaldo Piccinelli
  */
-public interface OwnerRepository extends Repository<Owner, Long> {
+public interface UserRepository extends Repository<User, Long> {
 
     /**
-     * Retrieve <code>Owner</code>s from the data store by last name, returning
-     * all owners whose last name <i>starts</i> with the given name.
+     * Retrieve <code>User</code>s from the data store by last name, returning
+     * all users whose last name <i>starts</i> with the given name.
      *
      * @param lastName
      *            Value to search for
-     * @return a <code>Collection</code> of matching <code>Owner</code>s (or an
+     * @return a <code>Collection</code> of matching <code>User</code>s (or an
      *         empty <code>Collection</code> if none found)
      */
-    Collection<Owner> findByLastNameStartingWithIgnoreCase(String lastName) throws DataAccessException;
+//    Collection<User> findByLastName(String lastName) throws DataAccessException;
+
+    User findByUserName(String userName) throws DataAccessException;
 
     /**
-     * Retrieve all <code>Owner</code>s from the data store.
+     * Retrieve all <code>User</code>s from the data store.
      *
-     * @return a <code>Collection</code> of matching <code>Owner</code>s (or an
+     * @return a <code>Collection</code> of matching <code>User</code>s (or an
      *         empty <code>Collection</code> if none found)
      */
-    Collection<Owner> findAll() throws DataAccessException;
+    Collection<User> findAll() throws DataAccessException;
 
     /**
-     * Retrieve an <code>Owner</code> from the data store by id.
+     * Retrieve an <code>User</code> from the data store by id.
      *
      * @param id
      *            the id to search for
-     * @return the <code>Owner</code> if found
+     * @return the <code>User</code> if found
      * @throws org.springframework.dao.DataRetrievalFailureException
      *             if not found
      */
-    Owner findById(Long id) throws DataAccessException;
+//    User findById(Long id) throws DataAccessException;
 
     /**
-     * Save an <code>Owner</code> to the data store, either inserting or
+     * Save an <code>User</code> to the data store, either inserting or
      * updating it.
      *
-     * @param owner
-     *            the <code>Owner</code> to save
+     * @param user
+     *            the <code>User</code> to save
      * @see BaseEntity#isNew
      */
-    void save(Owner owner) throws DataAccessException;
+    User save(User user) throws DataAccessException;
 
 }

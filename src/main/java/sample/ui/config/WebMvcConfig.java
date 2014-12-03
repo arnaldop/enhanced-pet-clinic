@@ -32,7 +32,6 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.AjaxThymeleafViewResolver;
 import org.thymeleaf.spring4.view.FlowAjaxThymeleafView;
 
-import sample.ui.booking.BookingFlowHandler;
 import sample.ui.model.Vets;
 import sample.ui.view.XmlViewResolver;
 
@@ -90,44 +89,11 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         return handlerAdapter;
     }
 
-    @Bean(name="hotels/booking")
-    public BookingFlowHandler bookingFlowHandler() {
-        return new BookingFlowHandler();
-    }
-
     @Bean
-    public AjaxThymeleafViewResolver viewResolver() {
+    public AjaxThymeleafViewResolver ajaxThymeleafViewResolver() {
         AjaxThymeleafViewResolver viewResolver = new AjaxThymeleafViewResolver();
         viewResolver.setViewClass(FlowAjaxThymeleafView.class);
         viewResolver.setTemplateEngine(springTemplateEngine);
         return viewResolver;
     }
-
-//    @Bean
-//    public SpringTemplateEngine templateEngine(){
-//        Set<IDialect> dialects = new LinkedHashSet<IDialect>();
-//        dialects.add(new SpringSecurityDialect());
-//        dialects.add(new ConditionalCommentsDialect());
-//
-//        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-//        templateEngine.setTemplateResolver(templateResolver);
-//        templateEngine.setAdditionalDialects(dialects);
-//        return templateEngine;
-//    }
-
-//    @Bean
-//    public ServletContextTemplateResolver templateResolver() {
-//        ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver();
-//        templateResolver.setPrefix("/WEB-INF/");
-//        templateResolver.setTemplateMode("HTML5");
-//        return templateResolver;
-//    }
-
-//    @Bean
-//    public ThymeleafTilesConfigurer tilesConfigurer() {
-//        ThymeleafTilesConfigurer configurer = new ThymeleafTilesConfigurer();
-//        configurer.setDefinitions("/WEB-INF/**/views.xml");
-//        return configurer;
-//    }
-
 }

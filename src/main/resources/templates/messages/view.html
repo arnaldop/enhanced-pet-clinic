@@ -14,7 +14,9 @@
             <div class="starter-template">
                 <h1 layout:fragment="header">Messages : View</h1>
             </div>
-            <div class="alert alert-success" th:if="${globalMessage}" th:text="${globalMessage}">Some Success message</div>
+
+            <div role="alert" th:if="${statusMessage}" th:class="'alert ' + ${statusMessageClass}?: 'alert-info'" th:text="${statusMessage}" />
+
             <div class="pull-right">
                 <a th:href="@{/inbox/}" href="list.html"> Messages </a>
             </div>

@@ -11,7 +11,16 @@
 
     <!-- logger name="org.springframework" level="DEBUG"/-->
 
+    <logger name="sample.ui.aop" level="FINE"/>
+    <logger name="sample.ui.web.GeneralController" level="FINE"/>
+
     <logger name="org.springframework.webflow" level="FINE"/>
+    <logger name="sample.ui.config.WebFlowConfig" level="FINE"/>
+    <logger name="sample.ui.service" level="FINE"/>
     <!-- <logger name="org.springframework.security" level="FINE"/> -->
+    <!-- <logger name="org.springframework.security" level="FINE"/> -->
+    <!-- <logger name="org.hibernate.tool.hbm2ddl.SchemaExport" level="FINE"/> -->
+    <!-- <logger name="org.hibernate.jpa.internal.util.LogHelper" level="FINE"/> -->
+    <!-- <logger name="org.hsqldb.jdbc" level="FINE"/> -->
 
 </configuration>

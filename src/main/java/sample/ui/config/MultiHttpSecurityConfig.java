@@ -59,7 +59,7 @@ public class MultiHttpSecurityConfig {
 
     private static final String[] UNSECURED_RESOURCE_LIST = new String[] { "/test.html", "/",
             "/resources/**", "/assets/**", "/css/**", "/webjars/**", "/images/**",
-            "/dandelion-assets/**", "/unauthorized", "/error*", "/users/*" };
+            "/dandelion-assets/**", "/unauthorized", "/error*", "/users*" };
 
     @Configuration
     @Profile({ "intdb" })
@@ -81,8 +81,8 @@ public class MultiHttpSecurityConfig {
 
         public class BasicRememberMeUserDetailsService implements UserDetailsService {
             @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                return new User(username, "", Collections.<GrantedAuthority> emptyList());
+            public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+                return new User(userName, "", Collections.<GrantedAuthority> emptyList());
             }
         }
     }
@@ -125,7 +125,9 @@ public class MultiHttpSecurityConfig {
             auth
                 .inMemoryAuthentication()
                     .passwordEncoder(new Md5PasswordEncoder())
-                .withUser("user").password("5f4dcc3b5aa765d61d8327deb882cf99")
+                .withUser("user")
+                    .password("5f4dcc3b5aa765d61d8327deb882cf99")
+//                    .password("password")
                         .roles("USER")
                 .and()
                     .withUser("admin").password("5f4dcc3b5aa765d61d8327deb882cf99")
@@ -243,9 +245,7 @@ public class MultiHttpSecurityConfig {
                 .and()
                     .formLogin()
                         .loginPage("/login")
-//                        .defaultSuccessUrl("/hotels/search", true)
                         .failureUrl("/login?error")
-//                        .failureUrl("/login?error=1")
                         .permitAll()
                 .and()
                     .rememberMe()
@@ -256,7 +256,7 @@ public class MultiHttpSecurityConfig {
                 .and()
                     .logout()
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                        .logoutSuccessUrl("/")
+                        .logoutSuccessUrl("/?logout")
                 .and()
                     .sessionManagement()
                     .maximumSessions(1)

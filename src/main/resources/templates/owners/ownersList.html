@@ -16,18 +16,7 @@
                 <h2>Owners</h2>
             </div>
 
-            <div class="dropdown pull-right">
-                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
-                    Export as... <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
-                    <li role="presentation"><a role="menuitem" id="exportAsCsv" tabindex="-1" href="#">CSV</a></li>
-                    <li role="presentation"><a role="menuitem" id="exportAsPdf" tabindex="-1" href="#">PDF</a></li>
-                    <li role="presentation"><a role="menuitem" id="exportAsXls" tabindex="-1" href="#">XLS</a></li>
-                    <li role="presentation"><a role="menuitem" id="exportAsXlsx" tabindex="-1" href="#">XLSX</a></li>
-                    <li role="presentation"><a role="menuitem" id="exportAsXml" tabindex="-1" href="#">XML</a></li>
-                </ul>
-            </div>
+            <div role="alert" th:if="${statusMessage}" th:class="'alert ' + ${statusMessageClass}?: 'alert-info'" th:text="${statusMessage}" />
 
             <br/><br/>
 
@@ -43,14 +32,14 @@
             <table id="owners" dt:table="true" dt:pagination="true" dt:export="pdf,csv,xls,xlsx,xml" dt:dom="lEfrtip" dt:ext="colreorder">
                 <thead dt:scroller="true">
                     <tr>
-                        <th style="width: 10px;">ID</th>
-                        <th style="width: 150px;">Name</th>
-                        <th style="width: 200px;">Address</th>
+                        <th class="col-sm-1">ID</th>
+                        <th class="col-sm-3">Name</th>
+                        <th class="col-sm-3">Address</th>
                         <th>City</th>
                         <th>Telephone</th>
-                        <th style="width: 100px;">Pets</th>
+                        <th class="col-sm-2">Pets</th>
                     </tr>
-                </thead>
+                 </thead>
                 <tbody>
                     <tr th:each="owner : ${owners}">
                         <td th:text="${owner.id}">1</td>
@@ -62,6 +51,26 @@
                     </tr>
                 </tbody>
             </table>
+
+            <br/><br/>
+
+            <div class="row">
+                <div class="dropdown col-md-5">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">Export list as... <span class="caret"></span></button>
+                    <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
+                        <li role="presentation"><a role="menuitem" id="exportAsCsv" tabindex="-1" href="#">CSV</a></li>
+                        <li role="presentation"><a role="menuitem" id="exportAsPdf" tabindex="-1" href="#">PDF</a></li>
+                        <li role="presentation"><a role="menuitem" id="exportAsXls" tabindex="-1" href="#">XLS</a></li>
+                        <li role="presentation"><a role="menuitem" id="exportAsXlsx" tabindex="-1" href="#">XLSX</a></li>
+                        <li role="presentation"><a role="menuitem" id="exportAsXml" tabindex="-1" href="#">XML</a></li>
+                    </ul>
+                </div>
+
+                <div class="form-actions col-md-offset-3 col-sm-offset-2 pull-right">
+                    <a th:href="@{'/owners/new'}" href="ownerForm.html" class="btn btn-success">Add New Owner</a>
+                    <a th:href="@{'/owners/find'}" href="findOwners.html" class="btn btn-info">Back to Search</a>
+                </div>
+            </div>
         </div>
 
         <table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING</table>

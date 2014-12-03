@@ -35,7 +35,7 @@ import sample.ui.model.Pet;
  * @author Michael Isvy
  * @author Arnaldo Piccinelli
  */
-public interface PetRepository extends Repository<Pet, Integer> {
+public interface PetRepository extends Repository<Pet, Long> {
 
     /**
      * Retrieve a <code>Pet</code> from the data store by id.
@@ -45,7 +45,7 @@ public interface PetRepository extends Repository<Pet, Integer> {
      * @throws org.springframework.dao.DataRetrievalFailureException
      *          if not found
      */
-    Pet findById(Integer id) throws DataAccessException;
+    Pet findById(Long id) throws DataAccessException;
 
     /**
      * Save a <code>Pet</code> to the data store, either inserting or updating it.

@@ -37,7 +37,7 @@ import sample.ui.model.Visit;
  * @author Michael Isvy
  * @author Arnaldo Piccinelli
  */
-public interface VisitRepository extends Repository<Visit, Integer> {
+public interface VisitRepository extends Repository<Visit, Long> {
 
     /**
      * Save a <code>Visit</code> to the data store, either inserting or updating
@@ -49,6 +49,6 @@ public interface VisitRepository extends Repository<Visit, Integer> {
      */
     void save(Visit visit) throws DataAccessException;
 
-    List<Visit> findByPetId(Integer petId);
+    List<Visit> findByPetId(Long petId);
 
 }

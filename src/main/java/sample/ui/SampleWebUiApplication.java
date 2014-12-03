@@ -29,6 +29,12 @@ import org.springframework.context.annotation.Configuration;
 public class SampleWebUiApplication {
 
     public static void main(String[] args) throws Exception {
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                DatabaseManagerSwing.main(new String[] {});
+//            }
+//        }).start();
         SpringApplication springApplication = new SpringApplication(SampleWebUiApplication.class);
         springApplication.addListeners(new ApplicationPidListener());
         springApplication.run(args);

@@ -17,6 +17,8 @@ package sample.ui.web;
 
 import java.util.Collection;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -68,17 +70,15 @@ public class PetController {
         Pet pet = new Pet();
         owner.addPet(pet);
         model.addAttribute("pet", pet);
-        return "pets/createOrUpdatePetForm";
+        return "pets/petForm";
     }
 
     @RequestMapping(value = "/owners/{ownerId}/pets/new", method = RequestMethod.POST)
-    public String processCreationForm(@ModelAttribute("pet") Pet pet, BindingResult result, SessionStatus status) {
-        System.out.println("PET Before validator");
-        new PetValidator().validate(pet, result);
-        System.out.println("PET After validator");
+    public String processCreationForm(@Valid Pet pet, BindingResult result, SessionStatus status) {
         if (result.hasErrors()) {
             System.out.println("PET in if");
-            return "pets/createOrUpdatePetForm";
+            System.out.println("PET " + result.toString());
+            return "pets/petForm";
         } else {
             System.out.println("PET in else");
             this.clinicService.savePet(pet);
@@ -91,15 +91,13 @@ public class PetController {
     public String initUpdateForm(@PathVariable("petId") int petId, Model model) {
         Pet pet = this.clinicService.findPetById(petId);
         model.addAttribute("pet", pet);
-        return "pets/createOrUpdatePetForm";
+        return "pets/petForm";
     }
 
-    @RequestMapping(value = "/owners/{ownerId}/pets/{petId}/edit", method = {RequestMethod.PUT, RequestMethod.POST})
-    public String processUpdateForm(@ModelAttribute("pet") Pet pet, BindingResult result, SessionStatus status) {
-        // we're not using @Valid annotation here because it is easier to define such validation rule in Java
-        new PetValidator().validate(pet, result);
+    @RequestMapping(value = "/owners/{ownerId}/pets/{petId}/edit", method = RequestMethod.POST)
+    public String processUpdateForm(@Valid Pet pet, BindingResult result, SessionStatus status) {
         if (result.hasErrors()) {
-            return "pets/createOrUpdatePetForm";
+            return "pets/petForm";
         } else {
             this.clinicService.savePet(pet);
             status.setComplete();

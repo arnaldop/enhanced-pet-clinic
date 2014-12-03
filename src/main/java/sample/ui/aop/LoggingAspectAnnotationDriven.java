@@ -38,10 +38,15 @@ public class LoggingAspectAnnotationDriven {
 
     private static Log logger = LogFactory.getLog(LoggingAspectAnnotationDriven.class);
 
-//  @Before("execution(* sample.ui.web.HotelsController.*(..))")
-//  public void beforeHotelsController(JoinPoint jp) {
-//      logger.info("(beforeHotelsController) Before executing '" + jp.getSignature().toLongString() + "'");
-//  }
+    @Before("execution(* sample.ui.web.GeneralController.handleException(..))")
+    public void beforeExceptionHandler(JoinPoint jp) {
+        logger.info("(beforeExceptionHandler) Before executing '" + jp.getSignature().toLongString() + "'");
+    }
+
+    @After("execution(* sample.ui.web.GeneralController.handleException(..))")
+    public void afterExceptionHandler(JoinPoint jp) {
+        logger.info("(afterExceptionHandler) Before executing '" + jp.getSignature().toLongString() + "'");
+    }
 
     @Before("execution(* sample.ui.config.MultiHttpSecurityConfig.*.*(..))")
     public void beforeMultiHttpSecurityConfigSubClasses(JoinPoint jp) {
@@ -61,6 +66,16 @@ public class LoggingAspectAnnotationDriven {
     @After("execution(* sample.ui.SampleWebUiApplication.*(..))")
     public void afterSampleWebUiApplication(JoinPoint jp) {
         logger.info("(afterSampleWebUiApplication) After executing '" + jp.getSignature().toLongString() + "'");
+    }
+
+    @Before("execution(* sample.ui.service.ClinicServiceImpl.*(..))")
+    public void beforeClinicServiceImpl(JoinPoint jp) {
+        logger.info("(beforeClinicServiceImpl) Before executing '" + jp.getSignature().toLongString() + "'");
+    }
+
+    @After("execution(* sample.ui.service.ClinicServiceImpl.*(..))")
+    public void afterClinicServiceImpl(JoinPoint jp) {
+        logger.info("(afterClinicServiceImpl) After executing '" + jp.getSignature().toLongString() + "'");
     }
 
 //    @Before("execution(* sample.ui.web.Pet*.*(..))")

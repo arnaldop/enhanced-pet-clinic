@@ -39,6 +39,7 @@ import sample.ui.message.MessageRepository;
 @Controller
 @RequestMapping("/inbox")
 public class MessageController {
+
     private final MessageRepository messageRepository;
 
     @Autowired
@@ -63,13 +64,12 @@ public class MessageController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ModelAndView create(@Valid Message message, BindingResult result,
-            RedirectAttributes redirect) {
+    public ModelAndView create(@Valid Message message, BindingResult result, RedirectAttributes redirect) {
         if (result.hasErrors()) {
             return new ModelAndView("messages/form", "formErrors", result.getAllErrors());
         }
         message = this.messageRepository.save(message);
-        redirect.addFlashAttribute("globalMessage", "Successfully created a new message");
+        redirect.addFlashAttribute("statusMessage", "Successfully created a new message");
         return new ModelAndView("redirect:/inbox/{message.id}", "message.id", message.getId());
     }
 

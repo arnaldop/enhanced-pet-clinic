@@ -11,6 +11,8 @@
         <div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
 
         <div class="container">
+            <div role="alert" th:if="${statusMessage}" th:class="'alert ' + ${statusMessageClass}?: 'alert-info'" th:text="${statusMessage}" />
+
             <div class="starter-template">
                 <h2>
                     <span th:if="${visit['new']}" th:remove="tag">New </span>Visit
@@ -18,73 +20,73 @@
             </div>
 
             <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Pet Name</th>
-                        <th>Birth Date</th>
-                        <th>Type</th>
-                        <th>Owner</th>
-                    </tr>
-                </thead>
                 <tr>
-                    <td th:text="${visit.pet.name}">[name]</td>
+                    <th class="col-sm-1">Pet Name</th>
+                    <td class="col-sm-2"><b th:text="${visit.pet.name}">[name]</b></td>
+                </tr>
+                <tr>
+                    <th>Birth Date</th>
                     <td th:text="${{visit.pet.birthDate}}">[birthdate]</td>
+                </tr>
+                <tr>
+                    <th>Type</th>
                     <td th:text="${visit.pet.type.name}">[type]</td>
-                    <td th:text="|${visit.pet.owner.firstName} ${visit.pet.owner.lastName}|">[firstName lastName]</td>
+                </tr>
+                <tr>
+                    <th>Owner</th>
+                    <td th:text="|${visit.pet.owner.firstName} ${visit.pet.owner.lastName}|">[owner]</td>
                 </tr>
             </table>
 
             <table class="table">
                 <tr>
-                    <td>
+                    <td class="col-sm-3">
                         <b>Visit Info</b>
-                        <form th:object="${visit}" th:method="${visit['new']} ? post : put" action="/owners/ownerDetails.html"
-                            th:action="@{${#httpServletRequest.servletPath}}" class="form-horizontal" id="edit-visit-form">
+                        <form class="form-horizontal" role="form" method="post" id="visit-form" action="/pets/ownerDetails.html"
+                            th:action="@{${#httpServletRequest.servletPath}}" th:object="${visit}">
+                            <div th:replace="fragments/hiddenErrors :: hiddenErrors">REPLACE BEFORE COMMITTING</div>
+
                             <table class="table table-striped">
-                                <tr>
-                                    <th>
-                                        <div class="control-group">
+                                <tr th:classappend="${#fields.hasErrors('date')} ? 'has-error'">
+                                    <td class="col-sm-1">
+                                        <div class="control-group" th:classappend="${#fields.hasErrors('date')} ? 'error'">
                                             <label class="control-label">Date</label>
                                         </div>
-                                    </th>
-                                    <td>
+                                    </td>
+                                    <td class="col-sm-2">
                                         <div class="controls" ddl:bundle-includes="jquery-ui-overcast">
-                                            <input type="text" th:field="*{date}" id="date" />
-                                            <span class="help-inline" th:errors="*{date}">[date error]</span>
+                                            <input type="text" class="form-control" th:field="*{date}" />
+                                            <label class="control-label" th:errors="*{date}">[error]</label>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <th>
-                                        <div class="control-group">
+                                <tr th:classappend="${#fields.hasErrors('description')} ? 'has-error'">
+                                    <td>
+                                        <div class="control-group" th:classappend="${#fields.hasErrors('description')} ? 'error'">
                                             <label class="control-label">Description</label>
                                         </div>
-                                    </th>
+                                    </td>
                                     <td>
                                         <div class="controls">
-                                            <input type="text" th:field="*{description}" />
-                                            <span class="help-inline" th:errors="*{description}">[description error]</span>
+                                            <input type="text" class="form-control" th:field="*{description}" />
+                                            <label class="control-label" th:errors="*{description}">[error]</label>
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td></td>
                                     <td>
-                                        <div class="form-actions">
-                                            <a onclick="history.back(1)" class="btn btn-danger">Cancel</a>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-actions">
+                                        <div class="form-actions pull-right">
                                             <input type="hidden" name="petId" th:value="${visit.pet.id}" />
-                                            <a onclick="javascript:document.getElementById('edit-visit-form').submit()" class="btn btn-success">Add Visit</a>
+                                            <input type="submit" class="btn btn-success" value="Add Visit" />
+                                            <input type="button" class="btn btn-danger" value="Cancel" th:onclick="'window.location.href=\'' + @{|/owners/${visit.pet.owner.id}|} + '\''" />
                                         </div>
                                     </td>
                                 </tr>
                             </table>
                         </form>
                     </td>
-                    <td>
-                        <br/>
+                    <td class="col-sm-2">
                         <b>Previous Visits</b>
                            <table class="table table-striped">
                             <tr>
@@ -92,8 +94,8 @@
                                 <th>Description</th>
                             </tr>
                             <tr th:if="${!visit['new']}" th:each="visit : ${visit.pet.visits}">
-                                <td th:text="${#dates.format(visit.date,'MM/dd/yyyy')}">[date]</td>
-                                <td th:text="${visit.description}">[description]</td>
+                                <td class="col-sm-1" th:text="${#dates.format(visit.date,'MM/dd/yyyy')}">[date]</td>
+                                <td class="col-sm-1" th:text="${visit.description}">[description]</td>
                             </tr>
                         </table>
                     </td>

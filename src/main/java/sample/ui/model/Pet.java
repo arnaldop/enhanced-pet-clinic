@@ -32,6 +32,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
@@ -52,18 +53,25 @@ public class Pet extends NamedEntity {
     @Column(name = "birth_date")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "MM/dd/yyyy")
+    @NotNull
     private Date birthDate;
 
     @ManyToOne
     @JoinColumn(name = "type_id")
+    @NotNull
     private PetType type;
 
     @ManyToOne
     @JoinColumn(name = "owner_id")
+    @NotNull
     private Owner owner;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
     private Set<Visit> visits;
+
+    public Pet() {
+        super();
+    }
 
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;

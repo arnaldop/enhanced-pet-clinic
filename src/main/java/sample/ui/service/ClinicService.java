@@ -16,17 +16,15 @@
 package sample.ui.service;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.springframework.dao.DataAccessException;
 
-import sample.ui.booking.Booking;
-import sample.ui.booking.Hotel;
-import sample.ui.booking.SearchCriteria;
 import sample.ui.message.Message;
 import sample.ui.model.Owner;
 import sample.ui.model.Pet;
 import sample.ui.model.PetType;
+import sample.ui.model.User;
+import sample.ui.model.UserProfile;
 import sample.ui.model.Vet;
 import sample.ui.model.Visit;
 
@@ -40,9 +38,9 @@ public interface ClinicService {
 
     public Collection<PetType> findPetTypes() throws DataAccessException;
 
-    public Owner findOwnerById(int id) throws DataAccessException;
+    public Owner findOwnerById(long id) throws DataAccessException;
 
-    public Pet findPetById(int id) throws DataAccessException;
+    public Pet findPetById(long id) throws DataAccessException;
 
     public void savePet(Pet pet) throws DataAccessException;
 
@@ -62,17 +60,11 @@ public interface ClinicService {
 
     public Message findMessage(Long id) throws DataAccessException;
 
-    public Collection<Booking> findBookings(String username) throws DataAccessException;
+    public User findUser(String userName) throws DataAccessException;
 
-    public List<Hotel> findHotels(SearchCriteria criteria) throws DataAccessException;
+    public User saveUser(User user) throws DataAccessException;
 
-    public List<Hotel> findAllHotels() throws DataAccessException;
+    public User createUser();
 
-    public Hotel findHotelById(Long id) throws DataAccessException;
-
-    public Booking createBooking(Long hotelId, String userName) throws DataAccessException;
-
-    public void persistBooking(Booking booking) throws DataAccessException;
-
-    public void cancelBooking(Long id) throws DataAccessException;
+    public UserProfile createUserProfile(User user);
 }

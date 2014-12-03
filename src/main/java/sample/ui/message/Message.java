@@ -26,10 +26,10 @@ public class Message {
 
     private Long id;
 
-    @NotEmpty(message = "Message is required.")
+    @NotEmpty
     private String text;
 
-    @NotEmpty(message = "Summary is required.")
+    @NotEmpty
     private String summary;
 
     private Calendar created = Calendar.getInstance();

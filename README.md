@@ -54,6 +54,8 @@ There are currently 2 sets of profiles:
 Use different databases depending on profile.
 http://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/ Section 58.5
 
+## HTTP POST vs. PUT
+I removed all PUT requests from the application. Please see http://zacharyvoase.com/2009/07/03/http-post-put-diff/ for more information.
 
 ## TODO / To Fix
 

@@ -55,8 +55,7 @@ public class VetController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String showVetList(Model model) {
         // Here we are returning an object of type 'Vets' rather than a
-        // collection of Vet objects
-        // so it is simpler for Object-Xml mapping
+        // collection of Vet objects so it is simpler for Object-Xml mapping
         Vets vets = new Vets();
         vets.getVetList().addAll(this.clinicService.findVets());
         model.addAttribute("vets", vets);

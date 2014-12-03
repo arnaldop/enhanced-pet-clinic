@@ -14,6 +14,9 @@
             <div class="starter-template">
                 <h1 layout:fragment="header">Messages : View all</h1>
             </div>
+
+            <div role="alert" th:if="${statusMessage}" th:class="'alert ' + ${statusMessageClass}?: 'alert-info'" th:text="${statusMessage}" />
+
             <div layout:fragment="content" class="container">
                 <div class="pull-right">
                     <a href="form.html" th:href="@{/inbox/(form)}">Create Message</a>

@@ -12,23 +12,26 @@
 
         <div class="container">
             <div class="starter-template">
-                <p th:if="${param.logout}" class="alert">You have been logged out</p>
-                <p th:if="${param.error}" class="alert alert-error">There was an error, please try again</p>
+
+                <div role="alert" th:if="${statusMessage}" th:class="'alert ' + ${statusMessageClass}?: 'alert-info'" th:text="${statusMessage}" />
+                <div role="alert" th:if="${param.logout}" class="alert alert-info">You have been logged out</div>
+                <div role="alert" th:if="${param.error}" class="alert alert-error">There was an error, please try again.</div>
+
                 <h2 th:text="#{welcome}">Please log in:</h2>
                 <form name="form" th:action="@{/login}" action="/login" method="POST">
                     <fieldset>
+                        <!-- Field MUST be called 'username' or Spring won't find it. -->
                         <input type="text" name="username" value="" placeholder="Username" /> <input type="password" name="password"
                             placeholder="Password" />
                         <br/><br/>
-                        <label for="rememberMe">Remember Me?</label> <input type="checkbox" id="rememberMe" name="rememberMe" />
+                        <label for="rememberMe">Remember Me?</label> <input type="checkbox" name="rememberMe" />
                     </fieldset>
                     <br/>
-                    <input type="submit" id="login" value="Login" class="btn btn-sm btn-default" />
+                    <input type="submit" value="Login" class="btn btn-sm btn-default" />
                 </form>
                 <br/>
                 <!-- <form action="#" th:action="@{/users/user(mode='embedded')}" method="get"> -->
-                <form action="#" th:action="@{/users/createUser}" method="get">
-                    <!-- <input type="hidden" name="hotelId" th:value="${hotel.id}" /> -->
+                <form action="#" th:action="@{/users}" method="get">
                     <div>
                         <button type="submit">Create user</button>
                     </div>

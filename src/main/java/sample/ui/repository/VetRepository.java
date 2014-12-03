@@ -36,7 +36,7 @@ import sample.ui.model.Vet;
  * @author Michael Isvy
  * @author Arnaldo Piccinelli
  */
-public interface VetRepository extends Repository<Vet, Integer> {
+public interface VetRepository extends Repository<Vet, Long> {
 
     /**
      * Retrieve all <code>Vet</code>s from the data store.

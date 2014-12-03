@@ -18,6 +18,8 @@ package sample.ui.model;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 /**
  * Simple JavaBean domain object adds a name property to <code>BaseEntity</code>. Used as a base class for objects
  * needing these properties.
@@ -29,7 +31,12 @@ import javax.persistence.MappedSuperclass;
 public class NamedEntity extends BaseEntity {
 
     @Column(name = "name")
+    @NotEmpty
     private String name;
+
+    public NamedEntity() {
+        super();
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -43,5 +50,4 @@ public class NamedEntity extends BaseEntity {
     public String toString() {
         return this.getName();
     }
-
 }

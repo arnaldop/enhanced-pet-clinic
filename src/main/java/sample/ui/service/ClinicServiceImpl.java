@@ -16,30 +16,28 @@
 package sample.ui.service;
 
 import java.util.Collection;
-import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import sample.ui.booking.Booking;
-import sample.ui.booking.Hotel;
-import sample.ui.booking.SearchCriteria;
-import sample.ui.booking.User;
 import sample.ui.message.Message;
 import sample.ui.message.MessageRepository;
 import sample.ui.model.Owner;
 import sample.ui.model.Pet;
 import sample.ui.model.PetType;
+import sample.ui.model.User;
+import sample.ui.model.UserProfile;
 import sample.ui.model.Vet;
 import sample.ui.model.Visit;
-import sample.ui.repository.BookingRepository;
-import sample.ui.repository.HotelRepository;
 import sample.ui.repository.OwnerRepository;
 import sample.ui.repository.PetRepository;
 import sample.ui.repository.PetTypeRepository;
+import sample.ui.repository.UserRepository;
 import sample.ui.repository.VetRepository;
 import sample.ui.repository.VisitRepository;
 
@@ -53,29 +51,28 @@ import sample.ui.repository.VisitRepository;
 @Service("clinicService")
 public class ClinicServiceImpl implements ClinicService {
 
-    private PetRepository petRepository;
-    private PetTypeRepository petTypeRepository;
-    private VetRepository vetRepository;
-    private OwnerRepository ownerRepository;
-    private VisitRepository visitRepository;
-    private MessageRepository messageRepository;
-    private BookingRepository bookingRepository;
-    private HotelRepository hotelRepository;
+    private static Log logger = LogFactory.getLog(ClinicServiceImpl.class);
 
     @Autowired
-    public ClinicServiceImpl(PetRepository petRepository, PetTypeRepository petTypeRepository,
-            VetRepository vetRepository, OwnerRepository ownerRepository,
-            VisitRepository visitRepository, MessageRepository messageRepository,
-            BookingRepository bookingRepository, HotelRepository hotelRepository) {
-        this.petRepository = petRepository;
-        this.petTypeRepository = petTypeRepository;
-        this.vetRepository = vetRepository;
-        this.ownerRepository = ownerRepository;
-        this.visitRepository = visitRepository;
-        this.messageRepository = messageRepository;
-        this.bookingRepository = bookingRepository;
-        this.hotelRepository = hotelRepository;
-    }
+    private PetRepository petRepository;
+
+    @Autowired
+    private PetTypeRepository petTypeRepository;
+
+    @Autowired
+    private VetRepository vetRepository;
+
+    @Autowired
+    private OwnerRepository ownerRepository;
+
+    @Autowired
+    private VisitRepository visitRepository;
+
+    @Autowired
+    private MessageRepository messageRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -85,14 +82,14 @@ public class ClinicServiceImpl implements ClinicService {
 
     @Override
     @Transactional(readOnly = true)
-    public Owner findOwnerById(int id) throws DataAccessException {
+    public Owner findOwnerById(long id) throws DataAccessException {
         return ownerRepository.findById(id);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Collection<Owner> findOwnerByLastName(String lastName) throws DataAccessException {
-        return ownerRepository.findByLastName(lastName);
+        return ownerRepository.findByLastNameStartingWithIgnoreCase(lastName);
     }
 
     @Override
@@ -115,7 +112,7 @@ public class ClinicServiceImpl implements ClinicService {
 
     @Override
     @Transactional(readOnly = true)
-    public Pet findPetById(int id) throws DataAccessException {
+    public Pet findPetById(long id) throws DataAccessException {
         return petRepository.findById(id);
     }
 
@@ -152,47 +149,25 @@ public class ClinicServiceImpl implements ClinicService {
 
     @Override
     @Transactional(readOnly = true)
-    public Collection<Booking> findBookings(String userName) {
-        return bookingRepository.findByUserName(userName);
+    public User findUser(String useName) {
+        return userRepository.findByUserName(useName);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Hotel> findHotels(SearchCriteria criteria) {
-        return hotelRepository.findByNameContainingIgnoreCase(criteria.getSearchString());
+    public User createUser() {
+        return new User();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Hotel> findAllHotels() {
-        return hotelRepository.findAll();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Hotel findHotelById(Long id) {
-        return hotelRepository.findById(id);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Booking createBooking(Long hotelId, String userName) {
-        Hotel hotel = hotelRepository.findById(hotelId);
-        User user = null;
-        Booking booking = new Booking(hotel, user);
-        return booking;
+    public UserProfile createUserProfile(User user) {
+        return new UserProfile(user);
     }
 
     @Override
     @Transactional
-    public void persistBooking(Booking booking) {
-        bookingRepository.save(booking);
+    public User saveUser(User user) {
+        return userRepository.save(user);
     }
-
-    @Override
-    @Transactional
-    public void cancelBooking(Long id) {
-        bookingRepository.delete(id);
-    }
-
 }

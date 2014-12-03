@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:ddl="http://www.thymeleaf.org/dandelion"
+      xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
+      ddl:bundle-includes="bootstrap-3.2.0"
+      lang="en">
+
+    <head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING</head>
+
+    <body role="document" onload="$('input[name=userName]').focus();">
+        <div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
+
+        <div class="container">
+            <div class="starter-template">
+                <h2><span th:if="${user['new']}" th:remove="tag">Create</span><span th:unless="${user['new']}" th:remove="tag">Update</span> User</h2>
+            </div>
+
+            <div role="alert" th:if="${statusMessage}" th:class="'alert ' + ${statusMessageClass}?: 'alert-info'" th:text="${statusMessage}" />
+
+            <form th:object="${user}" th:method="${user['new']} ? post : post" th:action="${flowExecutionUrl}"
+                action="./userDetails.html" class="form-horizontal">
+                <div th:replace="fragments/hiddenErrors :: hiddenErrors">REPLACE BEFORE COMMITTING</div>
+                <table class="table table-striped">
+                    <tr th:classappend="${#fields.hasErrors('name')} ? 'has-error'">
+                        <td class="col-sm-1">
+                            <div class="control-group" th:classappend="${#fields.hasErrors('userName')} ? 'error'">
+                                <label class="control-label">Username</label>
+                            </div>
+                        </td>
+                        <td class="col-sm-2">
+                            <div class="controls">
+                                <input type="text" class="form-control" th:field="*{userName}" />
+                                <label class="control-label" th:errors="*{userName}">[error]</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:classappend="${#fields.hasErrors('email')} ? 'has-error'">
+                        <td>
+                            <div class="control-group" th:classappend="${#fields.hasErrors('email')} ? 'error'">
+                                <label class="control-label">Email</label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="controls">
+                                <input type="text" class="form-control" th:field="*{email}" />
+                                <label class="control-label" th:errors="*{email}">[error]</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:classappend="${#fields.hasErrors('name')} ? 'has-error'">
+                        <td>
+                            <div class="control-group" th:classappend="${#fields.hasErrors('name')} ? 'error'">
+                                <label class="control-label">Name</label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="controls">
+                                <input type="text" class="form-control" th:field="*{name}" />
+                                <label class="control-label" th:errors="*{name}">[error]</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:classappend="${#fields.hasErrors('password')} ? 'has-error'">
+                        <td>
+                            <div class="control-group" th:classappend="${#fields.hasErrors('password')} ? 'error'">
+                                <label class="control-label">Password</label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="controls">
+                                <input type="password" class="form-control" th:field="*{password}" />
+                                <label class="control-label" th:errors="*{password}">[error]</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:classappend="${#fields.hasErrors('verifyPassword')} ? 'has-error'">
+                        <td>
+                            <div class="control-group" th:classappend="${#fields.hasErrors('verifyPassword')} ? 'error'">
+                                <label class="control-label">Verify Password</label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="controls">
+                                <input type="password" class="form-control" th:field="*{verifyPassword}" />
+                                <label class="control-label" th:errors="*{verifyPassword}">[error]</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <div class="form-actions pull-right">
+                                <input type="submit" name="_eventId_saveUser" value="Create User" class="btn btn-success" tabindex="5" />
+                                <input type="submit" name="_eventId_cancel" value="Cancel" class="btn btn-danger " tabindex="6" />
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+
+        <table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING</table>
+    </body>
+
+</html>

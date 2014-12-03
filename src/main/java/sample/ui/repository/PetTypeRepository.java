@@ -36,7 +36,7 @@ import sample.ui.model.PetType;
  * @author Michael Isvy
  * @author Arnaldo Piccinelli
  */
-public interface PetTypeRepository extends Repository<PetType, Integer> {
+public interface PetTypeRepository extends Repository<PetType, Long> {
 
     /**
      * Retrieve all <code>PetType</code>s from the data store.
@@ -45,7 +45,7 @@ public interface PetTypeRepository extends Repository<PetType, Integer> {
      */
     List<PetType> findAll() throws DataAccessException;
 
-    PetType findOne(Integer id) throws DataAccessException;
+    PetType findOne(Long id) throws DataAccessException;
 
     void save(PetType pet) throws DataAccessException;
 }

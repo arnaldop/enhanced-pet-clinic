@@ -19,6 +19,8 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -36,6 +38,8 @@ import org.springframework.web.servlet.ModelAndView;
 @ControllerAdvice
 public class GeneralController {
 
+    private static Log logger = LogFactory.getLog(GeneralController.class);
+
     @RequestMapping("/")
     public String index() {
         return "welcome";
@@ -48,11 +52,15 @@ public class GeneralController {
 
     @RequestMapping(value = "/router")
     public String accessDeniedRouter(@RequestParam("q") String resource) {
+        logger.debug("In accessDeniedRouter resource = " + resource);
+
         return "redirect:/" + resource;
     }
 
     @RequestMapping(value = "/unauthorized")
     public ModelAndView accessDenied() {
+        logger.debug("In accessDenied");
+
         ModelAndView mav = new ModelAndView();
         mav.addObject("timestamp", new Date());
         mav.setViewName("unauthorized");
@@ -61,6 +69,8 @@ public class GeneralController {
 
     @ExceptionHandler(Exception.class)
     public ModelAndView handleException(HttpServletRequest req, Exception e) {
+        logger.debug("In handleException");
+
         ModelAndView mav = new ModelAndView();
         mav.addObject("exception", e);
         mav.addObject("timestamp", new Date());

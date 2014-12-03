@@ -17,6 +17,7 @@ package sample.ui.web;
 
 import java.util.Collection;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,14 +65,13 @@ public class OwnerController {
     public String initCreationForm(Model model) {
         Owner owner = new Owner();
         model.addAttribute(owner);
-        return "owners/createOrUpdateOwnerForm";
+        return "owners/ownerForm";
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public String processCreationForm(@Valid Owner owner, BindingResult result,
-            SessionStatus status) {
+    public String processCreationForm(@Valid Owner owner, BindingResult result, SessionStatus status) {
         if (result.hasErrors()) {
-            return "owners/createOrUpdateOwnerForm";
+            return "owners/ownerForm";
         } else {
             this.clinicService.saveOwner(owner);
             status.setComplete();
@@ -91,8 +91,7 @@ public class OwnerController {
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String processFindForm(Owner owner, BindingResult result, Model model) {
-
+    public String processFindForm(Owner owner, BindingResult result, Model model, HttpSession session) {
         Collection<Owner> results = null;
 
         // find owners by last name
@@ -108,6 +107,9 @@ public class OwnerController {
             result.rejectValue("lastName", "notFound", new Object[] {owner.getLastName()}, "not found");
             return "owners/findOwners";
         }
+
+        session.setAttribute("searchLastName", owner.getLastName());
+
         if (results.size() > 1) {
             // multiple owners found
             model.addAttribute("owners", results);
@@ -120,18 +122,16 @@ public class OwnerController {
     }
 
     @RequestMapping(value = "/{ownerId}/edit", method = RequestMethod.GET)
-    public String initUpdateOwnerForm(@PathVariable("ownerId") int ownerId,
-            Model model) {
+    public String initUpdateOwner(@PathVariable("ownerId") int ownerId, Model model) {
         Owner owner = this.clinicService.findOwnerById(ownerId);
         model.addAttribute(owner);
-        return "owners/createOrUpdateOwnerForm";
+        return "owners/ownerForm";
     }
 
-    @RequestMapping(value = "/{ownerId}/edit", method = RequestMethod.PUT)
-    public String processUpdateOwnerForm(@Valid Owner owner,
-            BindingResult result, SessionStatus status) {
+    @RequestMapping(value = "/{ownerId}/edit", method = RequestMethod.POST)
+    public String processUpdateOwner(@Valid Owner owner, BindingResult result, SessionStatus status) {
         if (result.hasErrors()) {
-            return "owners/createOrUpdateOwnerForm";
+            return "owners/ownerForm";
         } else {
             this.clinicService.saveOwner(owner);
             status.setComplete();
