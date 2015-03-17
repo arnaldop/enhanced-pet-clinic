@@ -11,7 +11,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.1.8.RELEASE</version>
+        <version>1.2.2.RELEASE</version>
     </parent>
 
     <organization>
@@ -22,6 +22,8 @@
     <properties>
         <start-class>sample.ui.SampleWebUiApplication</start-class>
 
+        <java.version>1.7</java.version>
+
         <!-- Web Flow -->
         <webflow-version>2.4.0.RELEASE</webflow-version>
 
@@ -29,7 +31,7 @@
         <tomcat.version>8.0.8</tomcat.version>
 
         <!-- RSS -->
-        <rome.version>1.0</rome.version>
+        <rome.version>1.5.0</rome.version>
 
         <!-- EhCache -->
         <ehcache.version>2.6.6</ehcache.version>
@@ -45,9 +47,6 @@
         <dandelion.version>0.10.1</dandelion.version>
         <dandelion.datatables.version>0.10.1</dandelion.datatables.version>
         <dandelion.ehcache.version>0.10.1</dandelion.ehcache.version>
-
-        <!-- Thymeleaf Extras -->
-        <thymeleaf-extras-conditionalcomments-version>2.1.1.RELEASE</thymeleaf-extras-conditionalcomments-version>
     </properties>
 
     <dependencies>
@@ -101,7 +100,6 @@
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-conditionalcomments</artifactId>
-            <version>${thymeleaf-extras-conditionalcomments-version}</version>
         </dependency>
 
         <dependency>
@@ -195,7 +193,7 @@
 
         <!-- used for Atom -->
         <dependency>
-            <groupId>rome</groupId>
+            <groupId>com.rometools</groupId>
             <artifactId>rome</artifactId>
             <version>${rome.version}</version>
         </dependency>

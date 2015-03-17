@@ -32,9 +32,9 @@ import org.springframework.web.servlet.view.feed.AbstractAtomFeedView;
 import sample.ui.model.Vet;
 import sample.ui.model.Vets;
 
-import com.sun.syndication.feed.atom.Content;
-import com.sun.syndication.feed.atom.Entry;
-import com.sun.syndication.feed.atom.Feed;
+import com.rometools.rome.feed.atom.Content;
+import com.rometools.rome.feed.atom.Entry;
+import com.rometools.rome.feed.atom.Feed;
 
 /**
  * A view creating a Atom representation from a list of Visit objects.
