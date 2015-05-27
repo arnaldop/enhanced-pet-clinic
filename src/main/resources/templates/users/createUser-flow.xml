@@ -5,8 +5,6 @@
       	http://www.springframework.org/schema/webflow
       	http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
 
-	<!-- <secured attributes="ROLE_ANONYMOUS" /> -->
-
  	<on-start>
 		<evaluate expression="clinicService.createUser()" result="flowScope.user" />
 	</on-start>
@@ -15,15 +13,15 @@
         <binder>
             <binding property="name" required="true" />
             <binding property="email" required="true" />
-            <binding property="userName" required="true" />
-            <binding property="password" required="true" />
+            <binding property="username" required="true" />
+            <binding property="uiPassword" required="true" />
             <binding property="verifyPassword" required="true" />
         </binder>
 
         <transition on="saveUser" to="updateUserProfile">
             <evaluate expression="clinicService.saveUser(user)" result="flowScope.user" />
             <evaluate expression="clinicService.createUserProfile(user)" result="flowScope.userProfile" />
-            <set name="flashScope.statusMessage" value="resourceBundle.userSaved1 + ' ' + user.userName + ' ' + resourceBundle.userSaved2" />
+            <set name="flashScope.statusMessage" value="resourceBundle.userSaved1 + ' ' + user.username + ' ' + resourceBundle.userSaved2" />
             <set name="flashScope.statusMessageClass" value="'alert-success'" />
         </transition>
         <transition on="cancel" to="login" bind="false">
@@ -42,13 +40,10 @@
             <binding property="zip" required="true" />
             <binding property="phone" required="true" />
         </binder>
-<!--        <on-render>
-            <render fragments="body" />
-        </on-render> -->
 
         <transition on="saveUser" to="login" history="discard">
             <evaluate expression="clinicService.saveUser(user)" result="flowScope.user" />
-            <set name="flashScope.statusMessage" value="resourceBundle.userProfileUpdated1 + ' ' + user.userName + ' ' + resourceBundle.userProfileUpdated2" />
+            <set name="flashScope.statusMessage" value="resourceBundle.userProfileUpdated1 + ' ' + user.username + ' ' + resourceBundle.userProfileUpdated2" />
             <set name="flashScope.statusMessageClass" value="'alert-success'" />
         </transition>
         <transition on="cancel" to="login" bind="false" history="discard">

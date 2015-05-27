@@ -86,7 +86,7 @@ public class OwnerController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView showOwbers(Model model) {
+    public ModelAndView showOwners(Model model) {
         return new ModelAndView("redirect:/owners/list.html", model.asMap());
     }
 

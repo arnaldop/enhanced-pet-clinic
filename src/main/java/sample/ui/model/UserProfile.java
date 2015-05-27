@@ -11,8 +11,10 @@ import javax.validation.constraints.Size;
  * A profile for a system user.
  */
 @Entity
-@Table(name = "userProfiles")
+@Table(name = "user_profiles")
 public class UserProfile extends BaseEntity {
+
+    private static final long serialVersionUID = 6529028956634326182L;
 
     @OneToOne
     @PrimaryKeyJoinColumn
@@ -103,6 +105,6 @@ public class UserProfile extends BaseEntity {
 
     @Override
     public String toString() {
-        return "UserProfile(" + user.getUserName() + ")";
+        return "UserProfile(" + user.getUsername() + ")";
     }
 }

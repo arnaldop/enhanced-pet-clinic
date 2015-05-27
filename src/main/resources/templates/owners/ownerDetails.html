@@ -48,6 +48,9 @@
             <div class="starter-template">
                 <h2>Pets and Visits</h2>
 
+                <a class="btn btn-sm btn-success pull-right" href="../pets/petForm.html" th:href="@{|${owner.id}/pets/new.html|}">Add New Pet</a>
+                <br/><br/>
+
                 <table class="table">
                     <tr th:each="pet : ${owner.pets}">
                         <td>
@@ -67,14 +70,10 @@
                             </table>
                         </td>
                         <td>
-                            <a class="btn btn-sm btn-success pull-left" href="../pets/petForm.html" th:href="@{|${owner.id}/pets/new.html|}">Add New Pet</a>
-                            <br/><br/>
                             <a class="btn btn-sm btn-info pull-left" href="../pets/petForm.html" th:href="@{|/owners/${owner.id}/pets/${pet.id}/edit|}">Edit Pet</a>
                         </td>
                         <td>
                             <a class="btn btn-sm btn-success pull-right" href="../pets/visitForm.html" th:href="@{|/owners/${owner.id}/pets/${pet.id}/visits/new|}">Add Visit</a>
-                        </td>
-                        <td>
                             <table class="table table-striped">
                                 <thead>
                                     <tr>

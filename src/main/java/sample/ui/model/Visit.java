@@ -38,6 +38,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name = "visits")
 public class Visit extends BaseEntity {
 
+    private static final long serialVersionUID = 247903215901008789L;
+
     /**
      * Holds value of property date.
      */

@@ -23,6 +23,24 @@
             </div>
 
             <div role="alert" th:if="${statusMessage}" th:class="'alert ' + ${statusMessageClass}?: 'alert-info'" th:text="${statusMessage}" />
+
+            <table class="table" sec:authorize="isAnonymous()">
+                <tr>
+                    <td class="col-sm-5" style="text-align: right">
+                        <h3>Returning users:</h3>
+                        <a th:href="@{'/login'}" href="ownerForm.html" class="btn btn-success">Click here</a>
+                    </td>
+                    <td class="col-sm-2">&nbsp;</td>
+                    <td class="col-sm-5" style="text-align: left">
+                        <h3>First time users:</h3>
+                        <form action="#" th:action="@{/users}" method="get">
+                            <div>
+                                <button type="submit" class="btn btn-info">Click here</button>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+            </table>
         </div>
 
         <table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING</table>

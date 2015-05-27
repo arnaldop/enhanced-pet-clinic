@@ -7,7 +7,7 @@
 
     <head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING</head>
 
-    <body role="document" onload="$('input[name=userName]').focus();">
+    <body role="document" onload="$('input[name=username]').focus();">
         <div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
 
         <div class="container">
@@ -23,14 +23,14 @@
                 <table class="table table-striped">
                     <tr th:classappend="${#fields.hasErrors('name')} ? 'has-error'">
                         <td class="col-sm-1">
-                            <div class="control-group" th:classappend="${#fields.hasErrors('userName')} ? 'error'">
+                            <div class="control-group" th:classappend="${#fields.hasErrors('username')} ? 'error'">
                                 <label class="control-label">Username</label>
                             </div>
                         </td>
                         <td class="col-sm-2">
                             <div class="controls">
-                                <input type="text" class="form-control" th:field="*{userName}" />
-                                <label class="control-label" th:errors="*{userName}">[error]</label>
+                                <input type="text" class="form-control" th:field="*{username}" />
+                                <label class="control-label" th:errors="*{username}">[error]</label>
                             </div>
                         </td>
                     </tr>
@@ -60,16 +60,16 @@
                             </div>
                         </td>
                     </tr>
-                    <tr th:classappend="${#fields.hasErrors('password')} ? 'has-error'">
+                    <tr th:classappend="${#fields.hasErrors('uiPassword')} ? 'has-error'">
                         <td>
-                            <div class="control-group" th:classappend="${#fields.hasErrors('password')} ? 'error'">
+                            <div class="control-group" th:classappend="${#fields.hasErrors('uiPassword')} ? 'error'">
                                 <label class="control-label">Password</label>
                             </div>
                         </td>
                         <td>
                             <div class="controls">
-                                <input type="password" class="form-control" th:field="*{password}" />
-                                <label class="control-label" th:errors="*{password}">[error]</label>
+                                <input type="password" class="form-control" th:field="*{uiPassword}" />
+                                <label class="control-label" th:errors="*{uiPassword}">[error]</label>
                             </div>
                         </td>
                     </tr>

@@ -16,7 +16,8 @@
 package sample.ui;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.actuate.system.ApplicationPidListener;
+import org.springframework.boot.actuate.system.ApplicationPidFileWriter;
+import org.springframework.boot.actuate.system.EmbeddedServerPortFileWriter;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
@@ -29,14 +30,8 @@ import org.springframework.context.annotation.Configuration;
 public class SampleWebUiApplication {
 
     public static void main(String[] args) throws Exception {
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                DatabaseManagerSwing.main(new String[] {});
-//            }
-//        }).start();
         SpringApplication springApplication = new SpringApplication(SampleWebUiApplication.class);
-        springApplication.addListeners(new ApplicationPidListener());
+        springApplication.addListeners(new ApplicationPidFileWriter(), new EmbeddedServerPortFileWriter());
         springApplication.run(args);
     }
 }

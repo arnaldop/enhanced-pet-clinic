@@ -6,3 +6,4 @@ application.pid
 file*.txt
 xml*.xml
 target/
+/application.port

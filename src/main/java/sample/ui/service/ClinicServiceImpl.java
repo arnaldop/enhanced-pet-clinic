@@ -17,8 +17,6 @@ package sample.ui.service;
 
 import java.util.Collection;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
@@ -42,7 +40,7 @@ import sample.ui.repository.VetRepository;
 import sample.ui.repository.VisitRepository;
 
 /**
- * Mostly used as a facade for all Petclinic controllers Also a placeholder for @Transactional
+ * Mostly used as a facade for all controllers Also a placeholder for @Transactional
  * and @Cacheable annotations
  *
  * @author Michael Isvy
@@ -50,8 +48,6 @@ import sample.ui.repository.VisitRepository;
  */
 @Service("clinicService")
 public class ClinicServiceImpl implements ClinicService {
-
-    private static Log logger = LogFactory.getLog(ClinicServiceImpl.class);
 
     @Autowired
     private PetRepository petRepository;
@@ -150,7 +146,7 @@ public class ClinicServiceImpl implements ClinicService {
     @Override
     @Transactional(readOnly = true)
     public User findUser(String useName) {
-        return userRepository.findByUserName(useName);
+        return userRepository.findByUsername(useName);
     }
 
     @Override

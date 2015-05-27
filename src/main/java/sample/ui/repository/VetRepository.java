@@ -45,5 +45,5 @@ public interface VetRepository extends Repository<Vet, Long> {
      */
     Collection<Vet> findAll() throws DataAccessException;
 
-    void save(Vet pet) throws DataAccessException;
+    void save(Vet vet) throws DataAccessException;
 }

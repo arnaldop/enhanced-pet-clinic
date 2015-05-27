@@ -45,6 +45,8 @@ import org.springframework.core.style.ToStringCreator;
 @Table(name = "owners")
 public class Owner extends Person {
 
+    private static final long serialVersionUID = 447728202717826028L;
+
     @Column(name = "address")
     @NotEmpty
     private String address;

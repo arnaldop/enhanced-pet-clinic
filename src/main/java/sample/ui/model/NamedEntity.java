@@ -30,9 +30,11 @@ import org.hibernate.validator.constraints.NotEmpty;
 @MappedSuperclass
 public class NamedEntity extends BaseEntity {
 
+    private static final long serialVersionUID = -1369326166767704974L;
+
     @Column(name = "name")
     @NotEmpty
-    private String name;
+    protected String name;
 
     public NamedEntity() {
         super();

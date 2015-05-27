@@ -22,7 +22,9 @@ import javax.persistence.Table;
  * @author Juergen Hoeller
  */
 @Entity
-@Table(name = "types")
+@Table(name = "pet_types")
 public class PetType extends NamedEntity {
+
+    private static final long serialVersionUID = -6307992799720112368L;
 
 }

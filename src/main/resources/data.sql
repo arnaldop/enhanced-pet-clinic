@@ -2,11 +2,31 @@
 -- Users
 ------------------------------------------------------------
 
-insert into users (id, email, user_name, password, name) values (1, 'user@aol.com', 'user', '5f4dcc3b5aa765d61d8327deb882cf99', 'User');
-insert into users (id, email, user_name, password, name) values (2, 'keith@aol.com', 'keith', '417c7382b16c395bc25b5da1398cf076', 'Keith');
-insert into users (id, email, user_name, password, name) values (3, 'erwin@aol.com', 'erwin', '12430911a8af075c6f41c6976af22b09', 'Erwin');
-insert into users (id, email, user_name, password, name) values (4, 'jeremy@aol.com', 'jeremy', '57c6cbff0d421449be820763f03139eb', 'Jeremy');
-insert into users (id, email, user_name, password, name) values (5, 'scott@aol.com', 'scott', '942f2339bf50796de535a384f0d1af3e', 'Scott');
+insert into users (id, email, username, password, name, enabled, account_expired, account_locked, credentials_expired) values (1, 'admin@aol.com', 'admin', '$2a$10$YViIt3pVQU.YJ3bfZDNLPukph6yBWHX6KVScxFvY1lcGGpHQgLi9W', 'Admin', true, false, false, false);
+insert into users (id, email, username, password, name, enabled, account_expired, account_locked, credentials_expired) values (2, 'user@aol.com', 'user', '$2a$10$F2a2W8RtbD99xXd9xtwjbuI4zjSYe04kS.s0FyvQcAIDJfh/6jjLW', 'User', true, false, false, false);
+insert into users (id, email, username, password, name, enabled, account_expired, account_locked, credentials_expired) values (3, 'keith@aol.com', 'keith', '$2a$10$5XXFOBdlDGnKl4fUUWGSk.6Ldn.9x7ipMpvCXdwWQ.5CjpuV5JwJC', 'Keith', true, false, false, false);
+insert into users (id, email, username, password, name, enabled, account_expired, account_locked, credentials_expired) values (4, 'erwin@aol.com', 'erwin', '$2a$10$fu75b5J3fqkpqF.Mz7o7weKSUb5nOL3BcyVdxTXV87TtG0qA6Hw8.', 'Erwin', true, false, false, false);
+insert into users (id, email, username, password, name, enabled, account_expired, account_locked, credentials_expired) values (5, 'jeremy@aol.com', 'jeremy', '$2a$10$DDuuuLbcfikHympYff7RA.Uqg1CJO.F0kIwIDF7.nyyRLv..sirCm', 'Jeremy', true, false, false, false);
+insert into users (id, email, username, password, name, enabled, account_expired, account_locked, credentials_expired) values (6, 'scott@aol.com', 'scott', '$2a$10$F9WlZNB83SfM07Wk/sNfTuzbnAmQ5rAx9r1PrEFdlEOP23Sbkga/O', 'Scott', true, false, false, false);
+
+------------------------------------------------------------
+-- Authorities
+------------------------------------------------------------
+
+insert into authorities (id, authority) values (1, 'ROLE_ADMIN');
+insert into authorities (id, authority) values (2, 'ROLE_USER');
+
+------------------------------------------------------------
+-- User_Authorities
+------------------------------------------------------------
+
+insert into user_authorities (user_id, authority_id) values (1, 2);
+insert into user_authorities (user_id, authority_id) values (1, 1);
+insert into user_authorities (user_id, authority_id) values (2, 2);
+insert into user_authorities (user_id, authority_id) values (3, 2);
+insert into user_authorities (user_id, authority_id) values (4, 2);
+insert into user_authorities (user_id, authority_id) values (5, 2);
+insert into user_authorities (user_id, authority_id) values (6, 2);
 
 ------------------------------------------------------------
 -- PetClinic
@@ -29,12 +49,12 @@ insert into vet_specialties(vet_id, specialty_id) values (3, 3);
 insert into vet_specialties(vet_id, specialty_id) values (4, 2);
 insert into vet_specialties(vet_id, specialty_id) values (5, 1);
 
-insert into types(id, name) values (1, 'cat');
-insert into types(id, name) values (2, 'dog');
-insert into types(id, name) values (3, 'lizard');
-insert into types(id, name) values (4, 'snake');
-insert into types(id, name) values (5, 'bird');
-insert into types(id, name) values (6, 'hamster');
+insert into pet_types(id, name) values (1, 'cat');
+insert into pet_types(id, name) values (2, 'dog');
+insert into pet_types(id, name) values (3, 'lizard');
+insert into pet_types(id, name) values (4, 'snake');
+insert into pet_types(id, name) values (5, 'bird');
+insert into pet_types(id, name) values (6, 'hamster');
 
 insert into owners(id, first_name, last_name, address, city, telephone) values (1, 'George', 'Franklin', '110 W. Liberty St.', 'Madison', '6085551023');
 insert into owners(id, first_name, last_name, address, city, telephone) values (2, 'Betty', 'Davis', '638 Cardinal Ave.', 'Sun Prairie', '6085551749');
@@ -48,19 +68,19 @@ insert into owners(id, first_name, last_name, address, city, telephone) values (
 insert into owners(id, first_name, last_name, address, city, telephone) values (10, 'Carlos', 'Estaban', '2335 Independence La.', 'Waunakee', '6085555487');
 insert into owners(id, first_name, last_name, address, city, telephone) values (11, 'Kim', 'Picadilli', '2715 Amanda Way', 'Kissimmee', '7072883864');
 
-insert into pets(id, name, birth_date, type_id, owner_id) values (1, 'Leo', '2010-09-07', 1, 1);
-insert into pets(id, name, birth_date, type_id, owner_id) values (2, 'Basil', '2012-08-06', 6, 2);
-insert into pets(id, name, birth_date, type_id, owner_id) values (3, 'Rosy', '2011-04-17', 2, 3);
-insert into pets(id, name, birth_date, type_id, owner_id) values (4, 'Jewel', '2010-03-07', 2, 3);
-insert into pets(id, name, birth_date, type_id, owner_id) values (5, 'Iggy', '2010-11-30', 3, 4);
-insert into pets(id, name, birth_date, type_id, owner_id) values (6, 'George', '2010-01-20', 4, 5);
-insert into pets(id, name, birth_date, type_id, owner_id) values (7, 'Samantha', '2012-09-04', 1, 6);
-insert into pets(id, name, birth_date, type_id, owner_id) values (8, 'Max', '2012-09-04', 1, 6);
-insert into pets(id, name, birth_date, type_id, owner_id) values (9, 'Lucky', '2011-08-06', 5, 7);
-insert into pets(id, name, birth_date, type_id, owner_id) values (10, 'Mulligan', '2007-02-24', 2, 8);
-insert into pets(id, name, birth_date, type_id, owner_id) values (11, 'Freddy', '2010-03-09', 5, 9);
-insert into pets(id, name, birth_date, type_id, owner_id) values (12, 'Lucky', '2010-06-24', 2, 10);
-insert into pets(id, name, birth_date, type_id, owner_id) values (13, 'Sly', '2012-06-08', 1, 10);
+insert into pets(id, name, birth_date, pet_type_id, owner_id) values (1, 'Leo', '2010-09-07', 1, 1);
+insert into pets(id, name, birth_date, pet_type_id, owner_id) values (2, 'Basil', '2012-08-06', 6, 2);
+insert into pets(id, name, birth_date, pet_type_id, owner_id) values (3, 'Rosy', '2011-04-17', 2, 3);
+insert into pets(id, name, birth_date, pet_type_id, owner_id) values (4, 'Jewel', '2010-03-07', 2, 3);
+insert into pets(id, name, birth_date, pet_type_id, owner_id) values (5, 'Iggy', '2010-11-30', 3, 4);
+insert into pets(id, name, birth_date, pet_type_id, owner_id) values (6, 'George', '2010-01-20', 4, 5);
+insert into pets(id, name, birth_date, pet_type_id, owner_id) values (7, 'Samantha', '2012-09-04', 1, 6);
+insert into pets(id, name, birth_date, pet_type_id, owner_id) values (8, 'Max', '2012-09-04', 1, 6);
+insert into pets(id, name, birth_date, pet_type_id, owner_id) values (9, 'Lucky', '2011-08-06', 5, 7);
+insert into pets(id, name, birth_date, pet_type_id, owner_id) values (10, 'Mulligan', '2007-02-24', 2, 8);
+insert into pets(id, name, birth_date, pet_type_id, owner_id) values (11, 'Freddy', '2010-03-09', 5, 9);
+insert into pets(id, name, birth_date, pet_type_id, owner_id) values (12, 'Lucky', '2010-06-24', 2, 10);
+insert into pets(id, name, birth_date, pet_type_id, owner_id) values (13, 'Sly', '2012-06-08', 1, 10);
 
 insert into visits(id, pet_id, visit_date, description) values (1, 7, '2013-01-01', 'rabies shot');
 insert into visits(id, pet_id, visit_date, description) values (2, 8, '2013-01-02', 'rabies shot');

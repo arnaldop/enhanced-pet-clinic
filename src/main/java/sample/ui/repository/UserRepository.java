@@ -48,9 +48,17 @@ public interface UserRepository extends Repository<User, Long> {
      * @return a <code>Collection</code> of matching <code>User</code>s (or an
      *         empty <code>Collection</code> if none found)
      */
-//    Collection<User> findByLastName(String lastName) throws DataAccessException;
+    Collection<User> findByNameLike(String name) throws DataAccessException;
 
-    User findByUserName(String userName) throws DataAccessException;
+    /**
+     * Retrieve <code>User</code> from the data store by username.
+     *
+     * @param lastName
+     *            Value to search for
+     * @return a <code>Collection</code> of matching <code>User</code>s (or an
+     *         empty <code>Collection</code> if none found)
+     */
+    User findByUsername(String username) throws DataAccessException;
 
     /**
      * Retrieve all <code>User</code>s from the data store.
@@ -69,7 +77,7 @@ public interface UserRepository extends Repository<User, Long> {
      * @throws org.springframework.dao.DataRetrievalFailureException
      *             if not found
      */
-//    User findById(Long id) throws DataAccessException;
+    User findById(Long id) throws DataAccessException;
 
     /**
      * Save an <code>User</code> to the data store, either inserting or
@@ -80,5 +88,22 @@ public interface UserRepository extends Repository<User, Long> {
      * @see BaseEntity#isNew
      */
     User save(User user) throws DataAccessException;
+
+    /**
+     * Save an <code>User</code> to the data store, either inserting or
+     * updating it.
+     *
+     * @param user
+     *            the <code>User</code> to save
+     * @see BaseEntity#isNew
+     */
+    User delete(User user) throws DataAccessException;
+
+    /**
+     *
+     * @param primaryKey
+     * @return
+     */
+    boolean exists(Long userId) throws DataAccessException;
 
 }

@@ -45,3 +45,7 @@ body {
 .#navbar .nav>li>a {
 #    color: #000000;
 #}
+
+.dropdown-menu-right {
+	right: inherit !important;
+}

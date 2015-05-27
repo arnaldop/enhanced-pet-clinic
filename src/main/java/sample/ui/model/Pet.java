@@ -50,6 +50,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name = "pets")
 public class Pet extends NamedEntity {
 
+    private static final long serialVersionUID = -7523031237057644849L;
+
     @Column(name = "birth_date")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "MM/dd/yyyy")
@@ -57,7 +59,7 @@ public class Pet extends NamedEntity {
     private Date birthDate;
 
     @ManyToOne
-    @JoinColumn(name = "type_id")
+    @JoinColumn(name = "pet_type_id")
     @NotNull
     private PetType type;
 
