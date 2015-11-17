@@ -45,6 +45,7 @@ Type help for a list of commands. See [http://docs.spring.io/spring-boot/docs/cu
 ### Use of Profiles
 
 There are currently 2 sets of profiles:
+NOTE: "live" has been renamed "secure" and a new "live" profile has been added.
   * Environment
   ** test - allows for access via HTTP and HTTPS
   ** secure - only allows access via HTTPS and puts management pages behind under security
