@@ -41,7 +41,7 @@ import org.springframework.util.FileCopyUtils;
 @EnableConfigurationProperties
 public class TomcatConfig {
 
-    @Profile({ "live" })
+	@Profile({ "test" })
     public static class MultiTomcatConfig {
 
         @Value("${ssl.keystore.file}")

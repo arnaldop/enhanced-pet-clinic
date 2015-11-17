@@ -43,7 +43,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
-import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
@@ -61,120 +60,103 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class MultiHttpSecurityConfig {
 
-    private static final String[] UNSECURED_RESOURCE_LIST = new String[] { "/resources/**",
-            "/assets/**", "/css/**", "/webjars/**", "/images/**", "/dandelion-assets/**" };
+	private static final String[] UNSECURED_RESOURCE_LIST = new String[] { "/resources/**", "/assets/**", "/css/**",
+			"/webjars/**", "/images/**", "/dandelion-assets/**" };
 
-    private static final String[] UNAUTHORIZED_RESOURCE_LIST = new String[] { "/test.html", "/",
-            "/unauthorized", "/error*", "/users*" };
+	private static final String[] UNAUTHORIZED_RESOURCE_LIST = new String[] { "/test.html", "/", "/unauthorized",
+			"/error*", "/users*" };
 
-    @Configuration
-    @Profile({ "intdb" })
-    protected static class InMemoryPersistentTokenRememberMeSetup {
-        @Value("${rememberMeToken}")
-        private String rememberMeToken;
+	@Configuration
+	@Profile({ "intdb" })
+	protected static class InMemoryPersistentTokenRememberMeSetup {
+		@Value("${rememberMeToken}")
+		private String rememberMeToken;
 
-        @Value("${rememberMeParameter}")
-        private String rememberMeParameter;
+		@Value("${rememberMeParameter}")
+		private String rememberMeParameter;
 
-        @Bean
-        public RememberMeServices getRememberMeServices() {
-            PersistentTokenBasedRememberMeServices services = new PersistentTokenBasedRememberMeServices(
-                    rememberMeToken, new BasicRememberMeUserDetailsService(),
-                    new InMemoryTokenRepositoryImpl());
-            services.setParameter(rememberMeParameter);
-            return services;
-        }
+		@Bean
+		public RememberMeServices getRememberMeServices() {
+			PersistentTokenBasedRememberMeServices services = new PersistentTokenBasedRememberMeServices(
+					rememberMeToken, new BasicRememberMeUserDetailsService(), new InMemoryTokenRepositoryImpl());
+			services.setParameter(rememberMeParameter);
+			return services;
+		}
 
-        public class BasicRememberMeUserDetailsService implements UserDetailsService {
-            @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                return new User(username, "", Collections.<GrantedAuthority> emptyList());
-            }
-        }
-    }
+		public class BasicRememberMeUserDetailsService implements UserDetailsService {
+			@Override
+			public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+				return new User(username, "", Collections.<GrantedAuthority> emptyList());
+			}
+		}
+	}
 
-    @Configuration
-    @Profile({ "extdb" })
-    protected static class JdbcPersistentTokenRememberMeSetup {
-        @Value("${rememberMeToken}")
-        private String rememberMeToken;
+	@Configuration
+	@Profile({ "extdb" })
+	protected static class JdbcPersistentTokenRememberMeSetup {
+		@Value("${rememberMeToken}")
+		private String rememberMeToken;
 
-        @Value("${rememberMeParameter}")
-        private String rememberMeParameter;
+		@Value("${rememberMeParameter}")
+		private String rememberMeParameter;
 
-        @Autowired
-        private DataSource dataSource;
+		@Autowired
+		private DataSource dataSource;
 
-        @Bean
-        public RememberMeServices getRememberMeServices() {
-            JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager();
-            jdbcUserDetailsManager.setDataSource(dataSource);
+		@Bean
+		public RememberMeServices getRememberMeServices() {
+			JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager();
+			jdbcUserDetailsManager.setDataSource(dataSource);
 
-            JdbcTokenRepositoryImpl jdbcTokenRepositoryImpl = new JdbcTokenRepositoryImpl();
-            jdbcTokenRepositoryImpl.setDataSource(dataSource);
+			JdbcTokenRepositoryImpl jdbcTokenRepositoryImpl = new JdbcTokenRepositoryImpl();
+			jdbcTokenRepositoryImpl.setDataSource(dataSource);
 
-            PersistentTokenBasedRememberMeServices services = new PersistentTokenBasedRememberMeServices(
-                    rememberMeToken, jdbcUserDetailsManager, jdbcTokenRepositoryImpl);
-            services.setParameter(rememberMeParameter);
-            return services;
-        }
-    }
+			PersistentTokenBasedRememberMeServices services = new PersistentTokenBasedRememberMeServices(
+					rememberMeToken, jdbcUserDetailsManager, jdbcTokenRepositoryImpl);
+			services.setParameter(rememberMeParameter);
+			return services;
+		}
+	}
 
-    @Order(Ordered.HIGHEST_PRECEDENCE)
-    @Configuration
-    @Profile({ "intdb" })
-    protected static class InternalAuthenticationSecurity extends
-            GlobalAuthenticationConfigurerAdapter {
-        @Override
-        public void init(AuthenticationManagerBuilder auth) throws Exception {
-            //@formatter:off
-            auth
-              .userDetailsService(getUserDetailsManager())
-                  .passwordEncoder(new BCryptPasswordEncoder())
-            ;
-            //@formatter:on
-        }
+	@Order(Ordered.HIGHEST_PRECEDENCE)
+	@Configuration
+	protected static class ExternalAuthenticationSecurity extends GlobalAuthenticationConfigurerAdapter {
+		@Autowired
+		private DataSource dataSource;
 
-        @Bean
-        public UserDetailsManager getUserDetailsManager() {
-            return new DBDrivenUserDetailsManager();
-        }
-    }
+		@Override
+		public void init(AuthenticationManagerBuilder auth) throws Exception {
+			//@formatter:off
+			String authoritiesByUsernameQuery = "select username,authority from user_authorities " +
+            		"inner join users on user_authorities.user_id = users.id " +
+            		"inner join authorities on user_authorities.authority_id = authorities.id " +
+            		"where username = ?";
 
-    @Order(Ordered.HIGHEST_PRECEDENCE)
-    @Configuration
-    @Profile({ "extdb" })
-    protected static class ExternalAuthenticationSecurity extends
-            GlobalAuthenticationConfigurerAdapter {
-        @Autowired
-        private DataSource dataSource;
-
-        @Override
-        public void init(AuthenticationManagerBuilder auth) throws Exception {
-            //@formatter:off
-            JdbcUserDetailsManager userDetailsService = new JdbcUserDetailsManager();
+			JdbcUserDetailsManager userDetailsService = new JdbcUserDetailsManager();
             userDetailsService.setDataSource(dataSource);
-            PasswordEncoder encoder = new BCryptPasswordEncoder();
+            userDetailsService.setAuthoritiesByUsernameQuery(authoritiesByUsernameQuery);
+            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
             auth
                 .userDetailsService(userDetailsService)
-                    .passwordEncoder(encoder)
+                    .passwordEncoder(passwordEncoder)
                 .and()
                     .jdbcAuthentication()
+                    	.authoritiesByUsernameQuery(authoritiesByUsernameQuery)
+                    	.passwordEncoder(passwordEncoder)
                         .dataSource(dataSource)
             ;
             //@formatter:on
-        }
-    }
+		}
+	}
 
-    @Configuration
-    @Order(1)
-    @Profile({ "live" })
-    public static class ClosedActuatorWebSecurityConfigurationAdapter extends
-            WebSecurityConfigurerAdapter {
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
-            // @formatter:off
+	@Configuration
+	@Order(1)
+	@Profile({ "secure" })
+	public static class ClosedActuatorWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
+		@Override
+		protected void configure(HttpSecurity http) throws Exception {
+			// @formatter:off
             http
                 .antMatcher("/manage/**")
                     .authorizeRequests()
@@ -183,17 +165,16 @@ public class MultiHttpSecurityConfig {
                 .and()
                     .httpBasic();
             //@formatter:on
-        }
-    }
+		}
+	}
 
-    @Configuration
-    @Order(1)
-    @Profile({ "test" })
-    public static class OpenActuatorWebSecurityConfigurationAdapter extends
-            WebSecurityConfigurerAdapter {
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
-            // @formatter:off
+	@Configuration
+	@Order(1)
+	@Profile({ "test" })
+	public static class OpenActuatorWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
+		@Override
+		protected void configure(HttpSecurity http) throws Exception {
+			// @formatter:off
             http
                 .antMatcher("/manage/**")
                     .authorizeRequests()
@@ -202,30 +183,30 @@ public class MultiHttpSecurityConfig {
                 .and()
                     .httpBasic();
             //@formatter:on
-        }
-    }
+		}
+	}
 
-    @Configuration
-    @Order(2)
-    public static class FormLoginWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
-        @Value("${rememberMeToken}")
-        private String rememberMeToken;
+	@Configuration
+	@Order(2)
+	public static class FormLoginWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
+		@Value("${rememberMeToken}")
+		private String rememberMeToken;
 
-        @Autowired
-        RememberMeServices rememberMeServices;
+		@Autowired
+		RememberMeServices rememberMeServices;
 
-        @Override
-        public void configure(WebSecurity web) throws Exception {
-            //@formatter:off
+		@Override
+		public void configure(WebSecurity web) throws Exception {
+			//@formatter:off
             web
                 .ignoring()
                     .antMatchers(UNSECURED_RESOURCE_LIST);
             //@formatter:on
-        }
+		}
 
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
-            //@formatter:off
+		@Override
+		protected void configure(HttpSecurity http) throws Exception {
+			//@formatter:off
             http
                 .headers()
                     .httpStrictTransportSecurity()
@@ -262,18 +243,18 @@ public class MultiHttpSecurityConfig {
                     .sessionRegistry(sessionRegistry())
                     .expiredUrl("/login?expired");
             // @formatter:on
-        }
+		}
 
-        @Bean
-        public SessionRegistry sessionRegistry() {
-            SessionRegistry sessionRegistry = new SessionRegistryImpl();
-            return sessionRegistry;
-        }
-    }
+		@Bean
+		public SessionRegistry sessionRegistry() {
+			SessionRegistry sessionRegistry = new SessionRegistryImpl();
+			return sessionRegistry;
+		}
+	}
 
-    // Register HttpSessionEventPublisher
-    @Bean
-    public static ServletListenerRegistrationBean<HttpSessionEventPublisher> httpSessionEventPublisher() {
-        return new ServletListenerRegistrationBean<HttpSessionEventPublisher>(new HttpSessionEventPublisher());
-    }
+	// Register HttpSessionEventPublisher
+	@Bean
+	public static ServletListenerRegistrationBean<HttpSessionEventPublisher> httpSessionEventPublisher() {
+		return new ServletListenerRegistrationBean<HttpSessionEventPublisher>(new HttpSessionEventPublisher());
+	}
 }

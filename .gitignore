@@ -1,9 +1,10 @@
+**/git.properties
 .classpath
 .project
 .settings/
 .springBeans
 application.pid
+application.port
 file*.txt
-xml*.xml
 target/
-/application.port
+xml*.xml

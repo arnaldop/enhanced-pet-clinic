@@ -32,6 +32,7 @@ import sample.ui.model.User;
 import sample.ui.model.UserProfile;
 import sample.ui.model.Vet;
 import sample.ui.model.Visit;
+import sample.ui.repository.AuthorityRepository;
 import sample.ui.repository.OwnerRepository;
 import sample.ui.repository.PetRepository;
 import sample.ui.repository.PetTypeRepository;
@@ -69,6 +70,9 @@ public class ClinicServiceImpl implements ClinicService {
 
     @Autowired
     private UserRepository userRepository;
+
+	@Autowired
+	private AuthorityRepository authorityRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -164,6 +168,7 @@ public class ClinicServiceImpl implements ClinicService {
     @Override
     @Transactional
     public User saveUser(User user) {
+		user.addAuthority(authorityRepository.findByAuthority("ROLE_USER"));
         return userRepository.save(user);
     }
 }

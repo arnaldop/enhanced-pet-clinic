@@ -11,7 +11,9 @@ import org.springframework.security.core.GrantedAuthority;
 @Table(name = "authorities")
 public class Authority extends BaseEntity implements GrantedAuthority {
 
-    @Column
+	private static final long serialVersionUID = 8635976989721024158L;
+
+	@Column
     @NotEmpty
     private String authority;
 

@@ -1,5 +1,6 @@
 package sample.ui.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.CascadeType;
@@ -174,6 +175,18 @@ public class User extends BaseEntity implements UserDetails {
         }
 
         return false;
+    }
+
+	public void addAuthority(Authority authority) {
+		if (authority == null) {
+            return;
+        }
+        if (authorities == null) {
+            System.err.println("authorities is null for user " + this);
+            authorities = new ArrayList<Authority>();
+        }
+
+		authorities.add(authority);
     }
 
     @Override
