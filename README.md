@@ -20,12 +20,6 @@ Spring Pet Clinic example using Spring-Boot, Thymeleaf, AOP, MVC, Embedded Tomca
  - Spring JPA
  - Spring AOP
 
-## Tomcat 8
-
-POM <tomcat.version>8.0.8</tomcat.version>
-
-NOTE: Check latest stable version.
-
 ## To run this application
 
 Using __Embedded Apache Tomcat__:
@@ -34,27 +28,28 @@ Using __Embedded Apache Tomcat__:
 
 You can then access the sample here: [http://localhost:8080/](http://localhost:8080/)
 
+Logins are found in [data.sql](src/main/resources/data.sql). Passwords are the same as the user name.
+
 ## Spring Boot Remote Shell
 
 To access this application via SSH, use the username sshuser with password sshpassword on port 2000.
 
 Example: ssh -p 2000 sshuser@localhost
 
-Type help for a list of commands. See [http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready-connecting-to-the-remote-shell](Spring Boot Reference Manual Section 38.1).
+Type help for a list of commands. See [http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready-remote-shell](Monitoring and management using a remote shell).
 
 ### Use of Profiles
 
-There are currently 2 sets of profiles:
-NOTE: "live" has been renamed "secure" and a new "live" profile has been added.
-  * Environment
-  ** test - allows for access via HTTP and HTTPS
-  ** secure - only allows access via HTTPS and puts management pages behind under security
-  * Database
-  ** intdb - uses hsqldb as an internal database
-  ** extdb - uses MySQL as an external database
-  ** livedb - extra profile that causes database to NOT be initialized
+For the sake of simplicity, there are 3 profiles:
+  * dev
+  ** in-memory database (HSQLDB), HTTP (8080) interface only, actuator features are open
+  * test
+  ** external database (MySQL), HTTP (8080) and HTTPS (8443) interfaces, actuator is open
+  * live
+  ** external database (MySQL), HTTPS (8443) interface only, actuator is secured
+
 Use different databases depending on profile.
-http://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/ Section 58.5
+[Database Initialization](http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto-database-initialization)
 
 ## HTTP POST vs. PUT
 I removed all PUT requests from the application. Please see http://zacharyvoase.com/2009/07/03/http-post-put-diff/ for more information.
@@ -67,15 +62,7 @@ Add implementation for a lock-out policy based on authentication failures.
 
 ### Packaging executable jar application
 
-http://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/ Section 53.1
-
-### Logout (Spring Security)
-
-When session management is enabled with a lockout policy for maximum sessions reached, logging out prevents the user from re-logging in. So far I have been unable to figure out how to implement the removal of the session upon logout.
-
-### Actuator
-
-Make index page for Actuator services, available to an ADMIN or superuser.
+This works, with the caveat that the embedded Tomcat cannot find the keystore in the embedded JAR file, which means the file must be found in the file system and must be properly referenced from application.properties.
 
 ### "Whitelabel" Error Page
 

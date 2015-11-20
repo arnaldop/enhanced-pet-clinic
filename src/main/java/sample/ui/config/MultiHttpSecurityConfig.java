@@ -67,7 +67,7 @@ public class MultiHttpSecurityConfig {
 			"/error*", "/users*" };
 
 	@Configuration
-	@Profile({ "intdb" })
+	@Profile({ "dev" })
 	protected static class InMemoryPersistentTokenRememberMeSetup {
 		@Value("${rememberMeToken}")
 		private String rememberMeToken;
@@ -92,7 +92,7 @@ public class MultiHttpSecurityConfig {
 	}
 
 	@Configuration
-	@Profile({ "extdb" })
+	@Profile({ "test", "live" })
 	protected static class JdbcPersistentTokenRememberMeSetup {
 		@Value("${rememberMeToken}")
 		private String rememberMeToken;
@@ -152,7 +152,7 @@ public class MultiHttpSecurityConfig {
 
 	@Configuration
 	@Order(1)
-	@Profile({ "secure" })
+	@Profile({ "live" })
 	public static class ClosedActuatorWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
@@ -170,7 +170,7 @@ public class MultiHttpSecurityConfig {
 
 	@Configuration
 	@Order(1)
-	@Profile({ "test" })
+	@Profile({ "dev", "test" })
 	public static class OpenActuatorWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
