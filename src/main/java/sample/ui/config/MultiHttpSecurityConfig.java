@@ -31,8 +31,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
@@ -56,7 +56,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
  * @author Arnaldo Piccinelli
  */
 @Configuration
-@EnableWebMvcSecurity
+@EnableWebSecurity
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class MultiHttpSecurityConfig {
 
@@ -209,9 +209,8 @@ public class MultiHttpSecurityConfig {
 			//@formatter:off
             http
                 .headers()
-                    .httpStrictTransportSecurity()
-                    .frameOptions()
-                    .xssProtection()
+                	.frameOptions()
+                		.sameOrigin()
                 .and()
                     .authorizeRequests()
                         .antMatchers(UNAUTHORIZED_RESOURCE_LIST)
