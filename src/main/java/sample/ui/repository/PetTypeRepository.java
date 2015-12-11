@@ -26,6 +26,7 @@ import sample.ui.model.PetType;
  * Repository class for <code>Pet</code> domain objects All method names are
  * compliant with Spring Data naming conventions so this interface can easily be
  * extended for Spring Data See here:
+ * 
  * <pre>
  * http://static.springsource.org/spring-data/jpa/docs/current/reference/html/jpa.repositories.html#jpa.query-methods.query-creation
  * </pre>
@@ -38,14 +39,14 @@ import sample.ui.model.PetType;
  */
 public interface PetTypeRepository extends Repository<PetType, Long> {
 
-    /**
+	/**
      * Retrieve all <code>PetType</code>s from the data store.
      *
      * @return a <code>Collection</code> of <code>PetType</code>s
      */
     List<PetType> findAll() throws DataAccessException;
 
-    PetType findOne(Long id) throws DataAccessException;
+	PetType findOne(Long id) throws DataAccessException;
 
-    void save(PetType pet) throws DataAccessException;
+	void save(PetType pet) throws DataAccessException;
 }

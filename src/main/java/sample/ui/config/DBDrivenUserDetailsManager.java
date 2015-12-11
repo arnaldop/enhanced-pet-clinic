@@ -17,87 +17,85 @@ import sample.ui.model.User;
 import sample.ui.repository.UserRepository;
 
 public class DBDrivenUserDetailsManager implements UserDetailsManager {
-    protected final Log logger = LogFactory.getLog(getClass());
+	protected final Log logger = LogFactory.getLog(getClass());
 
-    private AuthenticationManager authenticationManager;
+	private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private UserRepository userRepository;
+	@Autowired
+	private UserRepository userRepository;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		User user = userRepository.findByUsername(username);
 
-        if (user == null) {
-            throw new UsernameNotFoundException("User " + username + " not found.");
-        }
+		if (user == null) {
+			throw new UsernameNotFoundException("User " + username + " not found.");
+		}
 
-        return user;
-    }
+		return user;
+	}
 
-    @Override
-    public void createUser(UserDetails user) {
-        userRepository.save((User) user);
-    }
+	@Override
+	public void createUser(UserDetails user) {
+		userRepository.save((User) user);
+	}
 
-    @Override
-    public void updateUser(UserDetails user) {
-        userRepository.save((User) user);
-    }
+	@Override
+	public void updateUser(UserDetails user) {
+		userRepository.save((User) user);
+	}
 
-    /**
-     * Users are not deleted, just disabled.
-     */
-    @Override
-    public void deleteUser(String username) {
-        User user = userRepository.findByUsername(username);
-        user.setEnabled(false);
-        userRepository.save(user);
-    }
+	/**
+	 * Users are not deleted, just disabled.
+	 */
+	@Override
+	public void deleteUser(String username) {
+		User user = userRepository.findByUsername(username);
+		user.setEnabled(false);
+		userRepository.save(user);
+	}
 
-    @Override
-    public void changePassword(String oldPassword, String newPassword) {
-        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+	@Override
+	public void changePassword(String oldPassword, String newPassword) {
+		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
 
-        if (currentUser == null) {
-            // This would indicate bad coding somewhere
-            throw new AccessDeniedException(
-                    "Can't change password as no Authentication object found in context "
-                            + "for current user.");
-        }
+		if (currentUser == null) {
+			// This would indicate bad coding somewhere
+			throw new AccessDeniedException(
+					"Can't change password as no Authentication object found in context " + "for current user.");
+		}
 
-        String username = currentUser.getName();
+		String username = currentUser.getName();
 
-        logger.debug("Changing password for user '" + username + "'");
+		logger.debug("Changing password for user '" + username + "'");
 
-        // If an authentication manager has been set, re-authenticate the user
-        // with the supplied password.
-        if (authenticationManager != null) {
-            logger.debug("Reauthenticating user '" + username + "' for password change request.");
+		// If an authentication manager has been set, re-authenticate the user
+		// with the supplied password.
+		if (authenticationManager != null) {
+			logger.debug("Reauthenticating user '" + username + "' for password change request.");
 
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username,
-                    oldPassword));
-        } else {
-            logger.debug("No authentication manager set. Password won't be re-checked.");
-        }
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, oldPassword));
+		} else {
+			logger.debug("No authentication manager set. Password won't be re-checked.");
+		}
 
-        User changedUser = userRepository.findByUsername(username);
+		User changedUser = userRepository.findByUsername(username);
 
-        if (changedUser == null) {
-            throw new IllegalStateException("Current user doesn't exist in database.");
-        }
+		if (changedUser == null) {
+			throw new IllegalStateException("Current user doesn't exist in database.");
+		}
 
-        changedUser.setPassword(new BCryptPasswordEncoder().encode(newPassword));
+		changedUser.setPassword(new BCryptPasswordEncoder().encode(newPassword));
 
-        userRepository.save(changedUser);
-    }
+		userRepository.save(changedUser);
+	}
 
-    @Override
-    public boolean userExists(String username) {
-        return userRepository.findByUsername(username) != null;
-    }
+	@Override
+	public boolean userExists(String username) {
+		return userRepository.findByUsername(username) != null;
+	}
 
-    public void setAuthenticationManager(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
-    }
+	public void setAuthenticationManager(AuthenticationManager authenticationManager) {
+		this.authenticationManager = authenticationManager;
+	}
 }

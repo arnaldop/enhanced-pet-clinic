@@ -39,7 +39,7 @@ import sample.ui.model.Owner;
  */
 public interface OwnerRepository extends Repository<Owner, Long> {
 
-    /**
+	/**
      * Retrieve <code>Owner</code>s from the data store by last name, returning
      * all owners whose last name <i>starts</i> with the given name.
      *
@@ -50,7 +50,7 @@ public interface OwnerRepository extends Repository<Owner, Long> {
      */
     Collection<Owner> findByLastNameStartingWithIgnoreCase(String lastName) throws DataAccessException;
 
-    /**
+	/**
      * Retrieve all <code>Owner</code>s from the data store.
      *
      * @return a <code>Collection</code> of matching <code>Owner</code>s (or an
@@ -58,7 +58,7 @@ public interface OwnerRepository extends Repository<Owner, Long> {
      */
     Collection<Owner> findAll() throws DataAccessException;
 
-    /**
+	/**
      * Retrieve an <code>Owner</code> from the data store by id.
      *
      * @param id
@@ -69,7 +69,7 @@ public interface OwnerRepository extends Repository<Owner, Long> {
      */
     Owner findById(Long id) throws DataAccessException;
 
-    /**
+	/**
      * Save an <code>Owner</code> to the data store, either inserting or
      * updating it.
      *

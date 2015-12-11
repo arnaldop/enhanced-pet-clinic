@@ -18,56 +18,51 @@ import sample.ui.flow.UsersFlowHandler;
 @Configuration
 public class WebFlowConfig extends AbstractFlowConfiguration {
 
-    @Autowired
-    private WebMvcConfig webMvcConfig;
+	@Autowired
+	private WebMvcConfig webMvcConfig;
 
-    @Autowired
-    private List<ViewResolver> viewResolvers;
+	@Autowired
+	private List<ViewResolver> viewResolvers;
 
-    @Autowired
-    private MvcViewFactoryCreator mvcViewFactoryCreator;
+	@Autowired
+	private MvcViewFactoryCreator mvcViewFactoryCreator;
 
-    @Bean
-    public FlowExecutor flowExecutor() {
-        return getFlowExecutorBuilder(flowRegistry())
-                .addFlowExecutionListener(new SecurityFlowExecutionListener(), "*")
-                .build();
-    }
+	@Bean
+	public FlowExecutor flowExecutor() {
+		return getFlowExecutorBuilder(flowRegistry()).addFlowExecutionListener(new SecurityFlowExecutionListener(), "*")
+				.build();
+	}
 
-    @Bean
-    public FlowDefinitionRegistry flowRegistry() {
-        return getFlowDefinitionRegistryBuilder(flowBuilderServices())
-                .setBasePath("classpath*:/templates")
-                .addFlowLocationPattern("/**/*-flow.xml")
-                .build();
-    }
+	@Bean
+	public FlowDefinitionRegistry flowRegistry() {
+		return getFlowDefinitionRegistryBuilder(flowBuilderServices()).setBasePath("classpath*:/templates")
+				.addFlowLocationPattern("/**/*-flow.xml").build();
+	}
 
-    @Bean
-    public FlowBuilderServices flowBuilderServices() {
-        return getFlowBuilderServicesBuilder()
-                .setViewFactoryCreator(mvcViewFactoryCreator())
-//                .setValidator(validator())
-                .setDevelopmentMode(true)
-                .build();
-    }
+	@Bean
+	public FlowBuilderServices flowBuilderServices() {
+		return getFlowBuilderServicesBuilder().setViewFactoryCreator(mvcViewFactoryCreator())
+				// .setValidator(validator())
+				.setDevelopmentMode(true).build();
+	}
 
-    @Bean
-    public MvcViewFactoryCreator mvcViewFactoryCreator() {
-        viewResolvers.add(this.webMvcConfig.ajaxThymeleafViewResolver());
+	@Bean
+	public MvcViewFactoryCreator mvcViewFactoryCreator() {
+		viewResolvers.add(this.webMvcConfig.ajaxThymeleafViewResolver());
 
-        MvcViewFactoryCreator factoryCreator = new MvcViewFactoryCreator();
-        factoryCreator.setViewResolvers(viewResolvers);
-        factoryCreator.setUseSpringBeanBinding(true);
-        return factoryCreator;
-    }
+		MvcViewFactoryCreator factoryCreator = new MvcViewFactoryCreator();
+		factoryCreator.setViewResolvers(viewResolvers);
+		factoryCreator.setUseSpringBeanBinding(true);
+		return factoryCreator;
+	}
 
-//    @Bean
-//    public LocalValidatorFactoryBean validator() {
-//        return new LocalValidatorFactoryBean();
-//    }
+	// @Bean
+	// public LocalValidatorFactoryBean validator() {
+	// return new LocalValidatorFactoryBean();
+	// }
 
-    @Bean(name="users/createUser")
-    public UsersFlowHandler usersFlowHandler() {
-        return new UsersFlowHandler();
-    }
+	@Bean(name = "users/createUser")
+	public UsersFlowHandler usersFlowHandler() {
+		return new UsersFlowHandler();
+	}
 }

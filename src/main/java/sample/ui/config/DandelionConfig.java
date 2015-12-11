@@ -36,29 +36,28 @@ import com.github.dandelion.thymeleaf.dialect.DandelionDialect;
 @Configuration
 public class DandelionConfig {
 
-    @Bean
-    public DataTablesDialect dataTablesDialect() {
-        return new DataTablesDialect();
-    }
+	@Bean
+	public DataTablesDialect dataTablesDialect() {
+		return new DataTablesDialect();
+	}
 
-    @Bean
-    public DandelionDialect dandelionDialect() {
-        return new DandelionDialect();
-    }
+	@Bean
+	public DandelionDialect dandelionDialect() {
+		return new DandelionDialect();
+	}
 
-    @Bean
-    public FilterRegistrationBean dandelionFilterRegistrationBean() {
-        return new FilterRegistrationBean(new DandelionFilter());
-    }
+	@Bean
+	public FilterRegistrationBean dandelionFilterRegistrationBean() {
+		return new FilterRegistrationBean(new DandelionFilter());
+	}
 
-    @Bean
-    public FilterRegistrationBean datatableFilterRegistrationBean() {
-        return new FilterRegistrationBean(new DatatablesFilter());
-    }
+	@Bean
+	public FilterRegistrationBean datatableFilterRegistrationBean() {
+		return new FilterRegistrationBean(new DatatablesFilter());
+	}
 
-    @Bean
-    public ServletRegistrationBean dandelionServletRegistrationBean() {
-        return new ServletRegistrationBean(new DandelionServlet(),
-                "/dandelion-assets/*");
-    }
+	@Bean
+	public ServletRegistrationBean dandelionServletRegistrationBean() {
+		return new ServletRegistrationBean(new DandelionServlet(), "/dandelion-assets/*");
+	}
 }

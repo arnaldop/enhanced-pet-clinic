@@ -27,6 +27,6 @@ import javax.persistence.Table;
 @Table(name = "specialties")
 public class Specialty extends NamedEntity {
 
-    private static final long serialVersionUID = -3562707899528621917L;
+	private static final long serialVersionUID = -3562707899528621917L;
 
 }

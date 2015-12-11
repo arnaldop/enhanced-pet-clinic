@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *	  http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -34,8 +34,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -63,8 +61,8 @@ public class MultiHttpSecurityConfig {
 	private static final String[] UNSECURED_RESOURCE_LIST = new String[] { "/resources/**", "/assets/**", "/css/**",
 			"/webjars/**", "/images/**", "/dandelion-assets/**" };
 
-	private static final String[] UNAUTHORIZED_RESOURCE_LIST = new String[] { "/test.html", "/", "/unauthorized",
-			"/error*", "/users*" };
+	private static final String[] UNAUTHORIZED_RESOURCE_LIST = new String[] { "/test.html", "/", "/unauthorized*",
+			"/error*", "/users*", "/accessDenied" };
 
 	@Configuration
 	@Profile({ "dev" })
@@ -128,69 +126,37 @@ public class MultiHttpSecurityConfig {
 		public void init(AuthenticationManagerBuilder auth) throws Exception {
 			//@formatter:off
 			String authoritiesByUsernameQuery = "select username,authority from user_authorities " +
-            		"inner join users on user_authorities.user_id = users.id " +
-            		"inner join authorities on user_authorities.authority_id = authorities.id " +
-            		"where username = ?";
+					"inner join users on user_authorities.user_id = users.id " +
+					"inner join authorities on user_authorities.authority_id = authorities.id " +
+					"where username = ?";
 
 			JdbcUserDetailsManager userDetailsService = new JdbcUserDetailsManager();
-            userDetailsService.setDataSource(dataSource);
-            userDetailsService.setAuthoritiesByUsernameQuery(authoritiesByUsernameQuery);
-            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			userDetailsService.setDataSource(dataSource);
+			userDetailsService.setAuthoritiesByUsernameQuery(authoritiesByUsernameQuery);
+			PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-            auth
-                .userDetailsService(userDetailsService)
-                    .passwordEncoder(passwordEncoder)
-                .and()
-                    .jdbcAuthentication()
-                    	.authoritiesByUsernameQuery(authoritiesByUsernameQuery)
-                    	.passwordEncoder(passwordEncoder)
-                        .dataSource(dataSource)
-            ;
-            //@formatter:on
+			auth
+				.userDetailsService(userDetailsService)
+					.passwordEncoder(passwordEncoder)
+				.and()
+					.jdbcAuthentication()
+						.authoritiesByUsernameQuery(authoritiesByUsernameQuery)
+						.passwordEncoder(passwordEncoder)
+						.dataSource(dataSource)
+			;
+			//@formatter:on
 		}
 	}
 
 	@Configuration
 	@Order(1)
 	@Profile({ "live" })
-	public static class ClosedActuatorWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
-		@Override
-		protected void configure(HttpSecurity http) throws Exception {
-			// @formatter:off
-            http
-                .antMatcher("/manage/**")
-                    .authorizeRequests()
-                        .anyRequest()
-                            .hasRole("ADMIN")
-                .and()
-                    .httpBasic();
-            //@formatter:on
-		}
-	}
-
-	@Configuration
-	@Order(1)
-	@Profile({ "dev", "test" })
-	public static class OpenActuatorWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
-		@Override
-		protected void configure(HttpSecurity http) throws Exception {
-			// @formatter:off
-            http
-                .antMatcher("/manage/**")
-                    .authorizeRequests()
-                        .anyRequest()
-                            .permitAll()
-                .and()
-                    .httpBasic();
-            //@formatter:on
-		}
-	}
-
-	@Configuration
-	@Order(2)
-	public static class FormLoginWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
+	public static class LiveWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 		@Value("${rememberMeToken}")
 		private String rememberMeToken;
+
+		@Value("${spring.profiles.active}")
+		private String activeProfile;
 
 		@Autowired
 		RememberMeServices rememberMeServices;
@@ -198,56 +164,123 @@ public class MultiHttpSecurityConfig {
 		@Override
 		public void configure(WebSecurity web) throws Exception {
 			//@formatter:off
-            web
-                .ignoring()
-                    .antMatchers(UNSECURED_RESOURCE_LIST);
-            //@formatter:on
+			web
+				.ignoring()
+					.antMatchers(UNSECURED_RESOURCE_LIST);
+			//@formatter:on
 		}
 
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			//@formatter:off
-            http
-                .headers()
+			http
+				.headers()
+					.frameOptions()
+						.sameOrigin()
+			.and()
+				.authorizeRequests()
+					.antMatchers(UNAUTHORIZED_RESOURCE_LIST)
+						.permitAll()
+					.antMatchers("/git", "/manage", "/manage/**")
+						.hasRole("ADMIN")
+					.anyRequest()
+						.authenticated()
+			.and()
+				.formLogin()
+					.loginPage("/login")
+					.permitAll()
+			.and()
+            	.headers()
+            		.cacheControl()
+            	.and()
                 	.frameOptions()
-                		.sameOrigin()
-                .and()
-                    .authorizeRequests()
-                        .antMatchers(UNAUTHORIZED_RESOURCE_LIST)
-                            .permitAll()
-                .and()
-                    .authorizeRequests()
-                        .anyRequest()
-                            .authenticated()
-                .and()
-                    .formLogin()
-                        .loginPage("/login")
-                        .failureUrl("/login?error")
-                        .permitAll()
-                .and()
-                    .rememberMe()
-                        .useSecureCookie(true)
-                        .tokenValiditySeconds(60 * 60 * 24 * 10) // 10 days
-                        .rememberMeServices(rememberMeServices)
-                        .key(rememberMeToken)
-                .and()
-                    .logout()
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                        .logoutSuccessUrl("/?logout")
-                .and()
-                    .sessionManagement()
-                    .maximumSessions(1)
-                    .maxSessionsPreventsLogin(false)
-                    .maxSessionsPreventsLogin(true)
-                    .sessionRegistry(sessionRegistry())
-                    .expiredUrl("/login?expired");
-            // @formatter:on
+                		.deny()
+			.and()
+				.exceptionHandling()
+					.accessDeniedPage("/access?error")
+			.and()
+				.rememberMe()
+					.useSecureCookie(true)
+					.tokenValiditySeconds(60 * 60 * 24 * 10) // 10 days
+					.rememberMeServices(rememberMeServices)
+					.key(rememberMeToken)
+			.and()
+				.logout()
+					.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+					.logoutSuccessUrl("/?logout")
+			.and()
+				.sessionManagement()
+					.maximumSessions(1)
+					.expiredUrl("/login?expired");
+			// @formatter:on
+		}
+	}
+
+	@Configuration
+	@Order(1)
+	@Profile({ "dev", "test" })
+	public static class NonLiveWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
+		@Value("${rememberMeToken}")
+		private String rememberMeToken;
+
+		@Value("${spring.profiles.active}")
+		private String activeProfile;
+
+		@Autowired
+		RememberMeServices rememberMeServices;
+
+		@Override
+		public void configure(WebSecurity web) throws Exception {
+			//@formatter:off
+			web
+				.ignoring()
+					.antMatchers(UNSECURED_RESOURCE_LIST);
+			//@formatter:on
 		}
 
-		@Bean
-		public SessionRegistry sessionRegistry() {
-			SessionRegistry sessionRegistry = new SessionRegistryImpl();
-			return sessionRegistry;
+		@Override
+		protected void configure(HttpSecurity http) throws Exception {
+			//@formatter:off
+			http
+				.headers()
+					.frameOptions()
+						.sameOrigin()
+			.and()
+				.authorizeRequests()
+					.antMatchers(UNAUTHORIZED_RESOURCE_LIST)
+						.permitAll()
+					.antMatchers("/git", "/manage", "/manage/**")
+						.permitAll()
+					.anyRequest()
+						.authenticated()
+			.and()
+				.formLogin()
+					.loginPage("/login")
+					.permitAll()
+			.and()
+            	.headers()
+            		.cacheControl()
+            	.and()
+                	.frameOptions()
+                		.deny()
+			.and()
+				.exceptionHandling()
+					.accessDeniedPage("/access?error")
+			.and()
+				.rememberMe()
+					.useSecureCookie(true)
+					.tokenValiditySeconds(60 * 60 * 24 * 10) // 10 days
+					.rememberMeServices(rememberMeServices)
+					.key(rememberMeToken)
+			.and()
+				.logout()
+					.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+					.logoutSuccessUrl("/?logout")
+			.and()
+				.sessionManagement()
+					.maximumSessions(1)
+					.expiredUrl("/login?expired");
+			// @formatter:on
 		}
 	}
 

@@ -5,4 +5,3 @@
  *
  */
 package sample.ui.web;
-

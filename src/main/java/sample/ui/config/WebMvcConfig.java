@@ -43,57 +43,57 @@ import sample.ui.view.XmlViewResolver;
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
-    @Autowired
-    private WebFlowConfig webFlowConfig;
+	@Autowired
+	private WebFlowConfig webFlowConfig;
 
-    @Autowired
-    private SpringTemplateEngine springTemplateEngine;
+	@Autowired
+	private SpringTemplateEngine springTemplateEngine;
 
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/login").setViewName("login");
-        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
-    }
+	@Override
+	public void addViewControllers(ViewControllerRegistry registry) {
+		registry.addViewController("/login").setViewName("login");
+		registry.addViewController("/access").setViewName("access");
+		registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
+	}
 
-    @Override
-    public void configureContentNegotiation(
-            ContentNegotiationConfigurer configurer) {
-        configurer.favorPathExtension(true).favorParameter(true);
-    }
+	@Override
+	public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+		configurer.favorPathExtension(true).favorParameter(true);
+	}
 
-    @Bean(name = "marshallingXmlViewResolver")
-    public ViewResolver getMarshallingXmlViewResolver() {
-        Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-        marshaller.setClassesToBeBound(new Class[] { Vets.class });
-        return new XmlViewResolver(marshaller);
-    }
+	@Bean(name = "marshallingXmlViewResolver")
+	public ViewResolver getMarshallingXmlViewResolver() {
+		Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
+		marshaller.setClassesToBeBound(new Class[] { Vets.class });
+		return new XmlViewResolver(marshaller);
+	}
 
-    @Bean
-    public FilterRegistrationBean hiddenFilterRegistrationBean() {
-        return new FilterRegistrationBean(new HiddenHttpMethodFilter());
-    }
+	@Bean
+	public FilterRegistrationBean hiddenFilterRegistrationBean() {
+		return new FilterRegistrationBean(new HiddenHttpMethodFilter());
+	}
 
-    @Bean
-    public FlowHandlerMapping flowHandlerMapping() {
-        FlowHandlerMapping handlerMapping = new FlowHandlerMapping();
-        handlerMapping.setOrder(-1);
-        handlerMapping.setFlowRegistry(this.webFlowConfig.flowRegistry());
-        return handlerMapping;
-    }
+	@Bean
+	public FlowHandlerMapping flowHandlerMapping() {
+		FlowHandlerMapping handlerMapping = new FlowHandlerMapping();
+		handlerMapping.setOrder(-1);
+		handlerMapping.setFlowRegistry(this.webFlowConfig.flowRegistry());
+		return handlerMapping;
+	}
 
-    @Bean
-    public FlowHandlerAdapter flowHandlerAdapter() {
-        FlowHandlerAdapter handlerAdapter = new FlowHandlerAdapter();
-        handlerAdapter.setFlowExecutor(this.webFlowConfig.flowExecutor());
-        handlerAdapter.setSaveOutputToFlashScopeOnRedirect(true);
-        return handlerAdapter;
-    }
+	@Bean
+	public FlowHandlerAdapter flowHandlerAdapter() {
+		FlowHandlerAdapter handlerAdapter = new FlowHandlerAdapter();
+		handlerAdapter.setFlowExecutor(this.webFlowConfig.flowExecutor());
+		handlerAdapter.setSaveOutputToFlashScopeOnRedirect(true);
+		return handlerAdapter;
+	}
 
-    @Bean
-    public AjaxThymeleafViewResolver ajaxThymeleafViewResolver() {
-        AjaxThymeleafViewResolver viewResolver = new AjaxThymeleafViewResolver();
-        viewResolver.setViewClass(FlowAjaxThymeleafView.class);
-        viewResolver.setTemplateEngine(springTemplateEngine);
-        return viewResolver;
-    }
+	@Bean
+	public AjaxThymeleafViewResolver ajaxThymeleafViewResolver() {
+		AjaxThymeleafViewResolver viewResolver = new AjaxThymeleafViewResolver();
+		viewResolver.setViewClass(FlowAjaxThymeleafView.class);
+		viewResolver.setTemplateEngine(springTemplateEngine);
+		return viewResolver;
+	}
 }

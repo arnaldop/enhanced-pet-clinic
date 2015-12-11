@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *	http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,23 +20,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import org.apache.commons.lang3.StringUtils;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.TestRestTemplate;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.util.LinkedMultiValueMap;
@@ -52,139 +45,116 @@ import org.springframework.util.MultiValueMap;
 @SpringApplicationConfiguration(classes = SampleWebUiApplication.class)
 @WebAppConfiguration
 @IntegrationTest("server.port:0")
-@DirtiesContext
-public class SampleWebUiApplicationTests {
+public class SampleWebUiApplicationTests extends BaseTests {
 
-    @Value("${local.server.port}")
-    private int port;
+	@After
+	public void cleanSession() throws Exception {
+		ResponseEntity<String> page = sendRequest("http://localhost:" + this.port, HttpMethod.GET);
 
-    @Test
-    public void testHome() throws Exception {
-        ResponseEntity<String> entity = new TestRestTemplate().getForEntity(
-                "http://localhost:" + this.port, String.class);
-        assertEquals(HttpStatus.OK, entity.getStatusCode());
-        assertTrue("Wrong body (title doesn't match):\n" + entity.getBody(), entity
-                .getBody().contains("<title>PetClinic"));
-        assertTrue("Wrong body (did not find heading):\n" + entity.getBody(), entity
-                .getBody().contains("<h2>Welcome</h2>"));
-    }
+		MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
+		form.set("_csrf", csrfValue);
+		httpHeaders.set("X-CSRF-TOKEN", csrfValue);
 
-    @Test
-    public void testLoginPage() throws Exception {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.TEXT_HTML));
-        ResponseEntity<String> entity = new TestRestTemplate().exchange(
-                "http://localhost:" + this.port + "/login", HttpMethod.GET,
-                new HttpEntity<Void>(headers), String.class);
-        assertEquals(HttpStatus.OK, entity.getStatusCode());
-        assertTrue("Wrong content:\n" + entity.getBody(),
-                entity.getBody().contains("_csrf"));
-    }
+		page = sendRequest("http://localhost:" + this.port + "/logout", HttpMethod.GET, form);
 
-    @Test
-    public void testLogin() throws Exception {
-        executeLogin("user", "password");
-    }
+		assertEquals(HttpStatus.FOUND, page.getStatusCode());
 
-    private void executeLogin(String username, String password) throws Exception {
-        HttpHeaders headers = getHeaders();
-        headers.setAccept(Arrays.asList(MediaType.TEXT_HTML));
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		if (page.getStatusCode() == HttpStatus.FOUND) {
+			page = sendRequest(page.getHeaders().getLocation(), HttpMethod.GET);
+		}
 
-        MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
-        form.set("username", username);
-        form.set("password", password);
+		httpHeaders = null;
+		csrfValue = null;
+	}
 
-        ResponseEntity<String> entity = new TestRestTemplate().exchange(
-                "http://localhost:" + this.port + "/login", HttpMethod.POST,
-                new HttpEntity<MultiValueMap<String, String>>(form, headers),
-                String.class);
-        assertEquals(HttpStatus.FOUND, entity.getStatusCode());
-        assertTrue("Wrong location:\n" + entity.getHeaders(), entity.getHeaders()
-                .getLocation().toString().endsWith(port + "/"));
-        assertNotNull("Missing cookie:\n" + entity.getHeaders(),
-                entity.getHeaders().get("Set-Cookie"));
-    }
+	@Test
+	public void testHome() throws Exception {
+		ResponseEntity<String> page = sendRequest("http://localhost:" + this.port, HttpMethod.GET);
 
-    @Test
-    public void testCreateUserAndLogin() throws Exception {
-        // get Create User page
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.TEXT_HTML));
-        String url = "http://localhost:" + this.port + "/users";
+		assertEquals(HttpStatus.OK, page.getStatusCode());
+		assertTrue("Wrong body (title doesn't match):\n" + page.getBody(), page.getBody().contains("<title>PetClinic"));
+		assertTrue("Wrong body (did not find heading):\n" + page.getBody(),
+				page.getBody().contains("<h2>Welcome</h2>"));
+	}
 
-        ResponseEntity<String> entity = new TestRestTemplate().exchange(
-                url, HttpMethod.GET, new HttpEntity<Void>(headers), String.class);
+	@Test
+	public void testLoginPage() throws Exception {
+		ResponseEntity<String> page = sendRequest("http://localhost:" + this.port + "/login", HttpMethod.GET);
 
-        if (entity.getStatusCode() == HttpStatus.FOUND) {
-            entity = new TestRestTemplate().exchange(
-                entity.getHeaders().getLocation(), HttpMethod.POST,
-                new HttpEntity<Void>(headers), String.class);
-        }
-        String body = entity.getBody();
-        assertNotNull("Body was null", body);
+		assertEquals(HttpStatus.OK, page.getStatusCode());
+		assertTrue("Wrong content:\n" + page.getBody(), page.getBody().contains("_csrf"));
+	}
 
-        String actionHTML = "<form action=\"";
-        String username = "newuser";
-        String password= "password";
-        String formAction = body.substring(body.indexOf(actionHTML) + actionHTML.length());
-        formAction = formAction.substring(0, formAction.indexOf("\""));
+	@Test
+	public void testLogin() throws Exception {
+		executeLogin("user", "user");
+	}
 
-        headers.setAccept(Arrays.asList(MediaType.TEXT_HTML));
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
-        form.set("username", username);
-        form.set("email", "newuser@newuser.org");
-        form.set("name", "New User");
-        form.set("uiPassword", "password");
-        form.set("verifyPassword", "password");
-        form.set("_eventId_saveUser", "Create User");
+	@Test
+	public void testVeterinariansPage() throws Exception {
+		ResponseEntity<String> page = executeLogin("user", "user");
 
-        entity = new TestRestTemplate().exchange(
-                "http://localhost:" + this.port + formAction, HttpMethod.POST,
-                new HttpEntity<MultiValueMap<String, String>>(form, headers),
-                String.class);
+		page = getPage("http://localhost:" + this.port + "/vets/list.html");
 
-        if (entity.getStatusCode() == HttpStatus.FOUND) {
-            entity = new TestRestTemplate().exchange(
-                entity.getHeaders().getLocation(), HttpMethod.POST,
-                new HttpEntity<Void>(headers), String.class);
-        }
+		assertEquals(HttpStatus.OK, page.getStatusCode());
 
-        if (entity.getStatusCode() == HttpStatus.FOUND) {
-            entity = new TestRestTemplate().exchange(
-                entity.getHeaders().getLocation(), HttpMethod.POST,
-                new HttpEntity<Void>(headers), String.class);
-        }
+		String body = page.getBody();
+		assertNotNull("Page body is null.", body);
+		assertTrue("Wrong page", body.contains("<h2>Veterinarians</h2>"));
 
-        assertEquals(HttpStatus.OK, entity.getStatusCode());
-        body = entity.getBody();
-        assertNotNull("Body was null", body);
-        assertTrue("User not created:\n" + body,
-                body.contains("User " + username + " saved"));
+		String vetList = body.substring(body.indexOf("<tbody>"));
+		vetList = vetList.substring(0, vetList.indexOf("</tbody>"));
+		assertTrue("Missing expected data.", StringUtils.countMatches(vetList, "<tr>") == 6);
+	}
 
-        executeLogin(username, password);
-    }
+	@Test
+	public void testCreateUserAndLogin() throws Exception {
+		ResponseEntity<String> page = getPage("http://localhost:" + this.port + "/users");
 
-    private HttpHeaders getHeaders() {
-        HttpHeaders headers = new HttpHeaders();
-        ResponseEntity<String> page = new TestRestTemplate().getForEntity(
-                "http://localhost:" + this.port + "/login", String.class);
-        assertEquals(HttpStatus.OK, page.getStatusCode());
-        String cookie = page.getHeaders().getFirst("Set-Cookie");
-        headers.set("Cookie", cookie);
-        Matcher matcher = Pattern.compile("(?s).*name=\"_csrf\".*?value=\"([^\"]+).*")
-                .matcher(page.getBody());
-        assertTrue("No csrf token: " + page.getBody(), matcher.matches());
-        headers.set("X-CSRF-TOKEN", matcher.group(1));
-        return headers;
-    }
+		assertTrue("Client or server error.",
+				!page.getStatusCode().is4xxClientError() && !page.getStatusCode().is5xxServerError());
 
-    @Test
-    public void testCss() throws Exception {
-        ResponseEntity<String> entity = new TestRestTemplate().getForEntity(
-                "http://localhost:" + this.port + "/css/camptracker.css", String.class);
-        assertEquals(HttpStatus.OK, entity.getStatusCode());
-        assertTrue("Wrong body:\n" + entity.getBody(), entity.getBody().contains("body"));
-    }
+		if (page.getStatusCode() == HttpStatus.FOUND) {
+			page = getPage(page.getHeaders().getLocation());
+		}
+
+		String body = page.getBody();
+		assertNotNull("Body was null", body);
+
+		String username = "newuser";
+		String password = "password";
+		String formAction = getFormAction(page);
+
+		MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
+		form.set("username", username);
+		form.set("email", "newuser@newuser.org");
+		form.set("name", "New User");
+		form.set("uiPassword", password);
+		form.set("verifyPassword", password);
+		form.set("_eventId_saveUser", "Create User");
+		form.set("_csrf", csrfValue);
+
+		httpHeaders.set("X-CSRF-TOKEN", csrfValue);
+
+		page = postPage(formAction, form);
+
+		if (page.getStatusCode() == HttpStatus.FOUND) {
+			page = getPage(page.getHeaders().getLocation());
+		}
+
+		assertEquals(HttpStatus.OK, page.getStatusCode());
+		body = page.getBody();
+		assertNotNull("Body was null", body);
+		assertTrue("User not created:\n" + body, body.contains("User " + username + " saved"));
+
+		executeLogin(username, password);
+	}
+
+	@Test
+	public void testCss() throws Exception {
+		ResponseEntity<String> entity = new TestRestTemplate()
+				.getForEntity("http://localhost:" + this.port + "/css/main.css", String.class);
+		assertEquals(HttpStatus.OK, entity.getStatusCode());
+		assertTrue("Wrong body:\n" + entity.getBody(), entity.getBody().contains("body"));
+	}
 }

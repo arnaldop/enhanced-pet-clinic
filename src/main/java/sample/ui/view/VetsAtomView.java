@@ -29,12 +29,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.view.feed.AbstractAtomFeedView;
 
-import sample.ui.model.Vet;
-import sample.ui.model.Vets;
-
 import com.rometools.rome.feed.atom.Content;
 import com.rometools.rome.feed.atom.Entry;
 import com.rometools.rome.feed.atom.Feed;
+
+import sample.ui.model.Vet;
+import sample.ui.model.Vets;
 
 /**
  * A view creating a Atom representation from a list of Visit objects.
@@ -46,45 +46,46 @@ import com.rometools.rome.feed.atom.Feed;
 @Configuration
 public class VetsAtomView extends AbstractAtomFeedView {
 
-    private static Log logger = LogFactory.getLog(VetsAtomView.class);
+	private static Log logger = LogFactory.getLog(VetsAtomView.class);
 
-    @Bean(name = "vets/vetList.atom")
-    public VetsAtomView getVetsAtomView() {
-        return this;
-    }
+	@Bean(name = "vets/vetList.atom")
+	public VetsAtomView getVetsAtomView() {
+		return this;
+	}
 
-    @Override
-    protected void buildFeedMetadata(Map<String, Object> model, Feed feed, HttpServletRequest request) {
-        feed.setId("tag:springsource.org");
-        feed.setTitle("Veterinarians");
-        feed.setUpdated(new Date());
-    }
+	@Override
+	protected void buildFeedMetadata(Map<String, Object> model, Feed feed, HttpServletRequest request) {
+		feed.setId("tag:springsource.org");
+		feed.setTitle("Veterinarians");
+		feed.setUpdated(new Date());
+	}
 
-    @Override
-    protected List<Entry> buildFeedEntries(Map<String, Object> model,
-                                           HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@Override
+	protected List<Entry> buildFeedEntries(Map<String, Object> model, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 
-        logger.info("In buildFeedEntries: " + model);
+		logger.info("In buildFeedEntries: " + model);
 
-        Vets vets = (Vets) model.get("vets");
-        List<Vet> vetList = vets.getVetList();
-        List<Entry> entries = new ArrayList<Entry>(vetList.size());
+		Vets vets = (Vets) model.get("vets");
+		List<Vet> vetList = vets.getVetList();
+		List<Entry> entries = new ArrayList<Entry>(vetList.size());
 
-        for (Vet vet : vetList) {
-            Entry entry = new Entry();
-            // see http://diveintomark.org/archives/2004/05/28/howto-atom-id#other
-            entry.setId(String.format("tag:springsource.org,%s", vet.getId()));
-            entry.setTitle(String.format("Vet: %s %s", vet.getFirstName(), vet.getLastName()));
-            entry.setUpdated(new Date());
+		for (Vet vet : vetList) {
+			Entry entry = new Entry();
+			// see
+			// http://diveintomark.org/archives/2004/05/28/howto-atom-id#other
+			entry.setId(String.format("tag:springsource.org,%s", vet.getId()));
+			entry.setTitle(String.format("Vet: %s %s", vet.getFirstName(), vet.getLastName()));
+			entry.setUpdated(new Date());
 
-            Content summary = new Content();
-            summary.setValue(vet.getSpecialties().toString());
-            entry.setSummary(summary);
+			Content summary = new Content();
+			summary.setValue(vet.getSpecialties().toString());
+			entry.setSummary(summary);
 
-            entries.add(entry);
-        }
-        response.setContentType("blabla");
-        return entries;
-    }
+			entries.add(entry);
+		}
+		response.setContentType("blabla");
+		return entries;
+	}
 
 }

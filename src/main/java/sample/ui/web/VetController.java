@@ -38,31 +38,31 @@ import sample.ui.service.ClinicService;
 @RequestMapping("/vets")
 public class VetController {
 
-    private static Log logger = LogFactory.getLog(VetController.class);
+	private static Log logger = LogFactory.getLog(VetController.class);
 
-    private final ClinicService clinicService;
+	private final ClinicService clinicService;
 
-    @Autowired
-    public VetController(ClinicService clinicService) {
-        this.clinicService = clinicService;
-    }
+	@Autowired
+	public VetController(ClinicService clinicService) {
+		this.clinicService = clinicService;
+	}
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView showVets(Model model) {
-        return new ModelAndView("redirect:/vets/list.html", model.asMap());
-    }
+	@RequestMapping(method = RequestMethod.GET)
+	public ModelAndView showVets(Model model) {
+		return new ModelAndView("redirect:/vets/list.html", model.asMap());
+	}
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String showVetList(Model model) {
-        // Here we are returning an object of type 'Vets' rather than a
-        // collection of Vet objects so it is simpler for Object-Xml mapping
-        Vets vets = new Vets();
-        vets.getVetList().addAll(this.clinicService.findVets());
-        model.addAttribute("vets", vets);
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public String showVetList(Model model) {
+		// Here we are returning an object of type 'Vets' rather than a
+		// collection of Vet objects so it is simpler for Object-Xml mapping
+		Vets vets = new Vets();
+		vets.getVetList().addAll(this.clinicService.findVets());
+		model.addAttribute("vets", vets);
 
-        logger.info("In showVetList: " + model);
+		logger.info("In showVetList: " + model);
 
-        return "vets/vetList";
-    }
+		return "vets/vetList";
+	}
 
 }

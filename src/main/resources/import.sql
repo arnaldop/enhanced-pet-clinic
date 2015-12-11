@@ -1,6 +1,6 @@
-------------------------------------------------------------
+-- ----------------------------------------------------------
 -- Users
-------------------------------------------------------------
+-- ----------------------------------------------------------
 
 insert into users (id, email, username, password, name, enabled, account_expired, account_locked, credentials_expired) values (1, 'admin@aol.com', 'admin', '$2a$04$xaSaTL6AF6nIiD32tDlsuuSvegdQEm3oKiBWi6ApCTSP9nFNAj/Qy', 'Admin', true, false, false, false);
 insert into users (id, email, username, password, name, enabled, account_expired, account_locked, credentials_expired) values (2, 'user@aol.com', 'user', '$2a$04$4cUGAGKkm2AxnMJIRZ5dG.BrA5XtYXNm9Wt2VlyFC/xxTI0c3NbKu', 'User', true, false, false, false);
@@ -9,16 +9,16 @@ insert into users (id, email, username, password, name, enabled, account_expired
 insert into users (id, email, username, password, name, enabled, account_expired, account_locked, credentials_expired) values (5, 'jeremy@aol.com', 'jeremy', '$2a$04$Fiy/tKQ6j5Easl1YeN1PfuIr6YyCham5Ezm/992Wq3y2rhvyVnAfS', 'Jeremy', true, false, false, false);
 insert into users (id, email, username, password, name, enabled, account_expired, account_locked, credentials_expired) values (6, 'scott@aol.com', 'scott', '$2a$04$BdckjEcXl9cjbG.1WHoVluNNtlxKhUcykpS4ts.TVymm9pb/ZZmFu', 'Scott', true, false, false, false);
 
-------------------------------------------------------------
+-- ----------------------------------------------------------
 -- Authorities
-------------------------------------------------------------
+-- ----------------------------------------------------------
 
 insert into authorities (id, authority) values (1, 'ROLE_ADMIN');
 insert into authorities (id, authority) values (2, 'ROLE_USER');
 
-------------------------------------------------------------
+-- ----------------------------------------------------------
 -- User_Authorities
-------------------------------------------------------------
+-- ----------------------------------------------------------
 
 insert into user_authorities (user_id, authority_id) values (1, 2);
 insert into user_authorities (user_id, authority_id) values (1, 1);
@@ -28,9 +28,9 @@ insert into user_authorities (user_id, authority_id) values (4, 2);
 insert into user_authorities (user_id, authority_id) values (5, 2);
 insert into user_authorities (user_id, authority_id) values (6, 2);
 
-------------------------------------------------------------
+-- ----------------------------------------------------------
 -- PetClinic
-------------------------------------------------------------
+-- ----------------------------------------------------------
 
 insert into vets(id, first_name, last_name) values (1, 'James', 'Carter');
 insert into vets(id, first_name, last_name) values (2, 'Helen', 'Leary');

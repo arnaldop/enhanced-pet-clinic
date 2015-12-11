@@ -25,6 +25,7 @@ import sample.ui.model.Pet;
  * Repository class for <code>Pet</code> domain objects All method names are
  * compliant with Spring Data naming conventions so this interface can easily be
  * extended for Spring Data See here:
+ * 
  * <pre>
  * http://static.springsource.org/spring-data/jpa/docs/current/reference/html/jpa.repositories.html#jpa.query-methods.query-creation
  * </pre>
@@ -37,7 +38,7 @@ import sample.ui.model.Pet;
  */
 public interface PetRepository extends Repository<Pet, Long> {
 
-    /**
+	/**
      * Retrieve a <code>Pet</code> from the data store by id.
      *
      * @param id the id to search for
@@ -47,7 +48,7 @@ public interface PetRepository extends Repository<Pet, Long> {
      */
     Pet findById(Long id) throws DataAccessException;
 
-    /**
+	/**
      * Save a <code>Pet</code> to the data store, either inserting or updating it.
      *
      * @param pet the <code>Pet</code> to save

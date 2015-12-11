@@ -42,64 +42,64 @@ import org.springframework.util.FileCopyUtils;
 public class TomcatConfig {
 
 	@Profile({ "test" })
-    public static class MultiTomcatConfig {
+	public static class MultiTomcatConfig {
 
-        @Value("${ssl.keystore.file}")
-        private String sslKeystoreFile;
+		@Value("${ssl.keystore.file}")
+		private String sslKeystoreFile;
 
-        @Value("${ssl.keystore.password}")
-        private String sslKeystorePassword;
+		@Value("${ssl.keystore.password}")
+		private String sslKeystorePassword;
 
-        @Value("${ssl.keystore.type}")
-        private String sslKeystoreType;
+		@Value("${ssl.keystore.type}")
+		private String sslKeystoreType;
 
-        @Value("${ssl.keystore.alias}")
-        private String sslKeystoreAlias;
+		@Value("${ssl.keystore.alias}")
+		private String sslKeystoreAlias;
 
-        @Value("${tls.port}")
-        private int tlsPort;
+		@Value("${tls.port}")
+		private int tlsPort;
 
-        @Bean
-        public EmbeddedServletContainerFactory getServletContainer() {
-            TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory();
-            tomcat.addAdditionalTomcatConnectors(createSslConnector());
-            return tomcat;
-        }
+		@Bean
+		public EmbeddedServletContainerFactory getServletContainer() {
+			TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory();
+			tomcat.addAdditionalTomcatConnectors(createSslConnector());
+			return tomcat;
+		}
 
-        private Connector createSslConnector() {
-            Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
-            Http11NioProtocol protocol = (Http11NioProtocol) connector.getProtocolHandler();
-            try {
-                connector.setScheme("https");
-                connector.setSecure(true);
-                connector.setPort(tlsPort);
+		private Connector createSslConnector() {
+			Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
+			Http11NioProtocol protocol = (Http11NioProtocol) connector.getProtocolHandler();
+			try {
+				connector.setScheme("https");
+				connector.setSecure(true);
+				connector.setPort(tlsPort);
 
-                File keystore = getKeyStoreFile();
-                File truststore = keystore;
+				File keystore = getKeyStoreFile();
+				File truststore = keystore;
 
-                protocol.setSSLEnabled(true);
-                protocol.setKeystoreFile(keystore.getAbsolutePath());
-                protocol.setKeystorePass(sslKeystorePassword);
-                protocol.setTruststoreFile(truststore.getAbsolutePath());
-                protocol.setTruststorePass(sslKeystorePassword);
-                protocol.setKeyAlias(sslKeystoreAlias);
-                return connector;
-            } catch (IOException ex) {
-                throw new IllegalStateException("can't access keystore: [" + "keystore"
-                        + "] or truststore: [" + "keystore" + "]", ex);
-            }
-        }
+				protocol.setSSLEnabled(true);
+				protocol.setKeystoreFile(keystore.getAbsolutePath());
+				protocol.setKeystorePass(sslKeystorePassword);
+				protocol.setTruststoreFile(truststore.getAbsolutePath());
+				protocol.setTruststorePass(sslKeystorePassword);
+				protocol.setKeyAlias(sslKeystoreAlias);
+				return connector;
+			} catch (IOException ex) {
+				throw new IllegalStateException(
+						"can't access keystore: [" + "keystore" + "] or truststore: [" + "keystore" + "]", ex);
+			}
+		}
 
-        private File getKeyStoreFile() throws IOException {
-            ClassPathResource resource = new ClassPathResource(sslKeystoreFile);
-            try {
-                return resource.getFile();
-            } catch (Exception ex) {
-                File temp = File.createTempFile("keystore", ".tmp");
-                FileCopyUtils.copy(resource.getInputStream(), new FileOutputStream(temp));
-                return temp;
-            }
-        }
+		private File getKeyStoreFile() throws IOException {
+			ClassPathResource resource = new ClassPathResource(sslKeystoreFile);
+			try {
+				return resource.getFile();
+			} catch (Exception ex) {
+				File temp = File.createTempFile("keystore", ".tmp");
+				FileCopyUtils.copy(resource.getInputStream(), new FileOutputStream(temp));
+				return temp;
+			}
+		}
 
-    }
+	}
 }

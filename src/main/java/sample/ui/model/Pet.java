@@ -50,76 +50,75 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name = "pets")
 public class Pet extends NamedEntity {
 
-    private static final long serialVersionUID = -7523031237057644849L;
+	private static final long serialVersionUID = -7523031237057644849L;
 
-    @Column(name = "birth_date")
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "MM/dd/yyyy")
-    @NotNull
-    private Date birthDate;
+	@Column(name = "birth_date")
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "MM/dd/yyyy")
+	@NotNull
+	private Date birthDate;
 
-    @ManyToOne
-    @JoinColumn(name = "pet_type_id")
-    @NotNull
-    private PetType type;
+	@ManyToOne
+	@JoinColumn(name = "pet_type_id")
+	@NotNull
+	private PetType type;
 
-    @ManyToOne
-    @JoinColumn(name = "owner_id")
-    @NotNull
-    private Owner owner;
+	@ManyToOne
+	@JoinColumn(name = "owner_id")
+	@NotNull
+	private Owner owner;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
-    private Set<Visit> visits;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
+	private Set<Visit> visits;
 
-    public Pet() {
-        super();
-    }
+	public Pet() {
+		super();
+	}
 
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
-    }
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
 
-    public Date getBirthDate() {
-        return this.birthDate;
-    }
+	public Date getBirthDate() {
+		return this.birthDate;
+	}
 
-    public void setType(PetType type) {
-        this.type = type;
-    }
+	public void setType(PetType type) {
+		this.type = type;
+	}
 
-    public PetType getType() {
-        return this.type;
-    }
+	public PetType getType() {
+		return this.type;
+	}
 
-    protected void setOwner(Owner owner) {
-        this.owner = owner;
-    }
+	protected void setOwner(Owner owner) {
+		this.owner = owner;
+	}
 
-    public Owner getOwner() {
-        return this.owner;
-    }
+	public Owner getOwner() {
+		return this.owner;
+	}
 
-    protected void setVisitsInternal(Set<Visit> visits) {
-        this.visits = visits;
-    }
+	protected void setVisitsInternal(Set<Visit> visits) {
+		this.visits = visits;
+	}
 
-    protected Set<Visit> getVisitsInternal() {
-        if (this.visits == null) {
-            this.visits = new HashSet<Visit>();
-        }
-        return this.visits;
-    }
+	protected Set<Visit> getVisitsInternal() {
+		if (this.visits == null) {
+			this.visits = new HashSet<Visit>();
+		}
+		return this.visits;
+	}
 
-    public List<Visit> getVisits() {
-        List<Visit> sortedVisits = new ArrayList<Visit>(getVisitsInternal());
-        PropertyComparator.sort(sortedVisits, new MutableSortDefinition("date",
-                false, false));
-        return Collections.unmodifiableList(sortedVisits);
-    }
+	public List<Visit> getVisits() {
+		List<Visit> sortedVisits = new ArrayList<Visit>(getVisitsInternal());
+		PropertyComparator.sort(sortedVisits, new MutableSortDefinition("date", false, false));
+		return Collections.unmodifiableList(sortedVisits);
+	}
 
-    public void addVisit(Visit visit) {
-        getVisitsInternal().add(visit);
-        visit.setPet(this);
-    }
+	public void addVisit(Visit visit) {
+		getVisitsInternal().add(visit);
+		visit.setPet(this);
+	}
 
 }

@@ -44,43 +44,43 @@ import sample.ui.service.ClinicService;
 @SessionAttributes("visit")
 public class VisitController {
 
-    private final ClinicService clinicService;
+	private final ClinicService clinicService;
 
-    @Autowired
-    public VisitController(ClinicService clinicService) {
-        this.clinicService = clinicService;
-    }
+	@Autowired
+	public VisitController(ClinicService clinicService) {
+		this.clinicService = clinicService;
+	}
 
-    @InitBinder
-    public void setAllowedFields(WebDataBinder dataBinder) {
-        dataBinder.setDisallowedFields("id");
-    }
+	@InitBinder
+	public void setAllowedFields(WebDataBinder dataBinder) {
+		dataBinder.setDisallowedFields("id");
+	}
 
-    @RequestMapping(value = "/owners/*/pets/{petId}/visits/new", method = RequestMethod.GET)
-    public String initNewVisitForm(@PathVariable("petId") int petId, Model model) {
-        Pet pet = this.clinicService.findPetById(petId);
-        Visit visit = new Visit();
-        pet.addVisit(visit);
-        model.addAttribute("visit", visit);
-        return "pets/visitForm";
-    }
+	@RequestMapping(value = "/owners/*/pets/{petId}/visits/new", method = RequestMethod.GET)
+	public String initNewVisitForm(@PathVariable("petId") int petId, Model model) {
+		Pet pet = this.clinicService.findPetById(petId);
+		Visit visit = new Visit();
+		pet.addVisit(visit);
+		model.addAttribute("visit", visit);
+		return "pets/visitForm";
+	}
 
-    @RequestMapping(value = "/owners/{ownerId}/pets/{petId}/visits/new", method = RequestMethod.POST)
-    public String processNewVisitForm(@Valid Visit visit, BindingResult result, SessionStatus status) {
-        if (result.hasErrors()) {
-            return "pets/visitForm";
-        } else {
-            this.clinicService.saveVisit(visit);
-            status.setComplete();
-            return "redirect:/owners/{ownerId}";
-        }
-    }
+	@RequestMapping(value = "/owners/{ownerId}/pets/{petId}/visits/new", method = RequestMethod.POST)
+	public String processNewVisitForm(@Valid Visit visit, BindingResult result, SessionStatus status) {
+		if (result.hasErrors()) {
+			return "pets/visitForm";
+		} else {
+			this.clinicService.saveVisit(visit);
+			status.setComplete();
+			return "redirect:/owners/{ownerId}";
+		}
+	}
 
-    @RequestMapping(value = "/owners/*/pets/{petId}/visits", method = RequestMethod.GET)
-    public ModelAndView showVisits(@PathVariable int petId) {
-        ModelAndView mav = new ModelAndView("visitList");
-        mav.addObject("visits", this.clinicService.findPetById(petId).getVisits());
-        return mav;
-    }
+	@RequestMapping(value = "/owners/*/pets/{petId}/visits", method = RequestMethod.GET)
+	public ModelAndView showVisits(@PathVariable int petId) {
+		ModelAndView mav = new ModelAndView("visitList");
+		mav.addObject("visits", this.clinicService.findPetById(petId).getVisits());
+		return mav;
+	}
 
 }

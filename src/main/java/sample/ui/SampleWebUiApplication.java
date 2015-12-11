@@ -29,9 +29,9 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties
 public class SampleWebUiApplication {
 
-    public static void main(String[] args) throws Exception {
-        SpringApplication springApplication = new SpringApplication(SampleWebUiApplication.class);
-        springApplication.addListeners(new ApplicationPidFileWriter(), new EmbeddedServerPortFileWriter());
-        springApplication.run(args);
-    }
+	public static void main(String[] args) throws Exception {
+		SpringApplication springApplication = new SpringApplication(SampleWebUiApplication.class);
+		springApplication.addListeners(new ApplicationPidFileWriter(), new EmbeddedServerPortFileWriter());
+		springApplication.run(args);
+	}
 }

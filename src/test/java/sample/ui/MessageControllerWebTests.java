@@ -16,15 +16,19 @@
 
 package sample.ui;
 
-import java.util.regex.Pattern;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-import org.hamcrest.Description;
-import org.hamcrest.TypeSafeMatcher;
-import org.junit.Before;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.IntegrationTest;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 /**
  * A Basic Spring MVC Test for the Sample Controller"
@@ -32,66 +36,37 @@ import org.springframework.web.context.WebApplicationContext;
  * @author Biju Kunjummen
  * @author Doo-Hwan, Kwak
  */
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@WebAppConfiguration
-//@ContextConfiguration(classes = SampleWebUiApplication.class)
-public class MessageControllerWebTests {
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = SampleWebUiApplication.class)
+@WebAppConfiguration
+@IntegrationTest("server.port:0")
+public class MessageControllerWebTests extends BaseTests {
 
-    @Autowired
-    private WebApplicationContext wac;
+	@Test
+	public void testCreate() throws Exception {
+		ResponseEntity<String> page = executeLogin("user", "user");
+		page = getPage("http://localhost:" + this.port + "/inbox?form");
 
-    private MockMvc mockMvc;
+		String body = page.getBody();
+		assertNotNull("Body was null", body);
 
-    @Before
-    public void setup() {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-    }
+		MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
+		form.set("summary", "summary");
+		form.set("text", "text");
+		form.set("_csrf", csrfValue);
 
-//    @Test
-//    public void testHome() throws Exception {
-//        this.mockMvc.perform(get("/")).andExpect(status().isOk())
-//                .andExpect(content().string(containsString("<title>Messages")));
-//    }
-//
-//    @Test
-//    public void testCreate() throws Exception {
-//        this.mockMvc.perform(post("/").param("text", "FOO text").param("summary", "FOO"))
-//                .andExpect(status().isFound())
-//                .andExpect(header().string("location", RegexMatcher.matches("/[0-9]+")));
-//    }
-//
-//    @Test
-//    public void testCreateValidation() throws Exception {
-//        this.mockMvc.perform(post("/").param("text", "").param("summary", ""))
-//                .andExpect(status().isOk())
-//                .andExpect(content().string(containsString("is required")));
-//    }
+		String formAction = getFormAction(page);
 
-    private static class RegexMatcher extends TypeSafeMatcher<String> {
-        private final String regex;
+		page = postPage(formAction, form);
+		body = page.getBody();
 
-        public RegexMatcher(String regex) {
-            this.regex = regex;
-        }
+		assertTrue("Error creating message.", body == null || body.contains("alert alert-danger"));
+		assertTrue("Status was not FOUND (redirect), means message was not created properly.",
+				page.getStatusCode() == HttpStatus.FOUND);
 
-        public static org.hamcrest.Matcher<java.lang.String> matches(String regex) {
-            return new RegexMatcher(regex);
-        }
+		page = getPage(page.getHeaders().getLocation());
 
-        @Override
-        public boolean matchesSafely(String item) {
-            return Pattern.compile(this.regex).matcher(item).find();
-        }
-
-        @Override
-        public void describeMismatchSafely(String item, Description mismatchDescription) {
-            mismatchDescription.appendText("was \"").appendText(item).appendText("\"");
-        }
-
-        @Override
-        public void describeTo(Description description) {
-            description.appendText("a string that matches regex: ")
-                    .appendText(this.regex);
-        }
-    }
+		body = page.getBody();
+		assertTrue("Error creating message.", body.contains("Successfully created a new message"));
+	}
 }

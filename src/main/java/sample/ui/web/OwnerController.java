@@ -49,108 +49,108 @@ import sample.ui.service.ClinicService;
 @RequestMapping(value = "/owners")
 public class OwnerController {
 
-    private final ClinicService clinicService;
+	private final ClinicService clinicService;
 
-    @Autowired
-    public OwnerController(ClinicService clinicService) {
-        this.clinicService = clinicService;
-    }
+	@Autowired
+	public OwnerController(ClinicService clinicService) {
+		this.clinicService = clinicService;
+	}
 
-    @InitBinder
-    public void setAllowedFields(WebDataBinder dataBinder) {
-        dataBinder.setDisallowedFields("id");
-    }
+	@InitBinder
+	public void setAllowedFields(WebDataBinder dataBinder) {
+		dataBinder.setDisallowedFields("id");
+	}
 
-    @RequestMapping(value = "/new", method = RequestMethod.GET)
-    public String initCreationForm(Model model) {
-        Owner owner = new Owner();
-        model.addAttribute(owner);
-        return "owners/ownerForm";
-    }
+	@RequestMapping(value = "/new", method = RequestMethod.GET)
+	public String initCreationForm(Model model) {
+		Owner owner = new Owner();
+		model.addAttribute(owner);
+		return "owners/ownerForm";
+	}
 
-    @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public String processCreationForm(@Valid Owner owner, BindingResult result, SessionStatus status) {
-        if (result.hasErrors()) {
-            return "owners/ownerForm";
-        } else {
-            this.clinicService.saveOwner(owner);
-            status.setComplete();
-            return "redirect:/owners/" + owner.getId();
-        }
-    }
+	@RequestMapping(value = "/new", method = RequestMethod.POST)
+	public String processCreationForm(@Valid Owner owner, BindingResult result, SessionStatus status) {
+		if (result.hasErrors()) {
+			return "owners/ownerForm";
+		} else {
+			this.clinicService.saveOwner(owner);
+			status.setComplete();
+			return "redirect:/owners/" + owner.getId();
+		}
+	}
 
-    @RequestMapping(value = "/find", method = RequestMethod.GET)
-    public String initFindForm(Model model) {
-        model.addAttribute("owner", new Owner());
-        return "owners/findOwners";
-    }
+	@RequestMapping(value = "/find", method = RequestMethod.GET)
+	public String initFindForm(Model model) {
+		model.addAttribute("owner", new Owner());
+		return "owners/findOwners";
+	}
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView showOwners(Model model) {
-        return new ModelAndView("redirect:/owners/list.html", model.asMap());
-    }
+	@RequestMapping(method = RequestMethod.GET)
+	public ModelAndView showOwners(Model model) {
+		return new ModelAndView("redirect:/owners/list.html", model.asMap());
+	}
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String processFindForm(Owner owner, BindingResult result, Model model, HttpSession session) {
-        Collection<Owner> results = null;
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public String processFindForm(Owner owner, BindingResult result, Model model, HttpSession session) {
+		Collection<Owner> results = null;
 
-        // find owners by last name
-        if (StringUtils.isEmpty(owner.getLastName())) {
-            // allow parameterless GET request for /owners to return all records
-            results = this.clinicService.findOwners();
-        } else {
-            results = this.clinicService.findOwnerByLastName(owner.getLastName());
-        }
+		// find owners by last name
+		if (StringUtils.isEmpty(owner.getLastName())) {
+			// allow parameterless GET request for /owners to return all records
+			results = this.clinicService.findOwners();
+		} else {
+			results = this.clinicService.findOwnerByLastName(owner.getLastName());
+		}
 
-        if (results.size() < 1) {
-            // no owners found
-            result.rejectValue("lastName", "notFound", new Object[] {owner.getLastName()}, "not found");
-            return "owners/findOwners";
-        }
+		if (results.size() < 1) {
+			// no owners found
+			result.rejectValue("lastName", "notFound", new Object[] { owner.getLastName() }, "not found");
+			return "owners/findOwners";
+		}
 
-        session.setAttribute("searchLastName", owner.getLastName());
+		session.setAttribute("searchLastName", owner.getLastName());
 
-        if (results.size() > 1) {
-            // multiple owners found
-            model.addAttribute("owners", results);
-            return "owners/ownersList";
-        } else {
-            // 1 owner found
-            owner = results.iterator().next();
-            return "redirect:/owners/" + owner.getId();
-        }
-    }
+		if (results.size() > 1) {
+			// multiple owners found
+			model.addAttribute("owners", results);
+			return "owners/ownersList";
+		} else {
+			// 1 owner found
+			owner = results.iterator().next();
+			return "redirect:/owners/" + owner.getId();
+		}
+	}
 
-    @RequestMapping(value = "/{ownerId}/edit", method = RequestMethod.GET)
-    public String initUpdateOwner(@PathVariable("ownerId") int ownerId, Model model) {
-        Owner owner = this.clinicService.findOwnerById(ownerId);
-        model.addAttribute(owner);
-        return "owners/ownerForm";
-    }
+	@RequestMapping(value = "/{ownerId}/edit", method = RequestMethod.GET)
+	public String initUpdateOwner(@PathVariable("ownerId") int ownerId, Model model) {
+		Owner owner = this.clinicService.findOwnerById(ownerId);
+		model.addAttribute(owner);
+		return "owners/ownerForm";
+	}
 
-    @RequestMapping(value = "/{ownerId}/edit", method = RequestMethod.POST)
-    public String processUpdateOwner(@Valid Owner owner, BindingResult result, SessionStatus status) {
-        if (result.hasErrors()) {
-            return "owners/ownerForm";
-        } else {
-            this.clinicService.saveOwner(owner);
-            status.setComplete();
-            return "redirect:/owners/{ownerId}";
-        }
-    }
+	@RequestMapping(value = "/{ownerId}/edit", method = RequestMethod.POST)
+	public String processUpdateOwner(@Valid Owner owner, BindingResult result, SessionStatus status) {
+		if (result.hasErrors()) {
+			return "owners/ownerForm";
+		} else {
+			this.clinicService.saveOwner(owner);
+			status.setComplete();
+			return "redirect:/owners/{ownerId}";
+		}
+	}
 
-    /**
-     * Custom handler for displaying an owner.
-     *
-     * @param ownerId
-     *            the ID of the owner to display
-     * @return a ModelMap with the model attributes for the view
-     */
-    @RequestMapping("/{ownerId}")
-    public ModelAndView showOwner(@PathVariable("ownerId") int ownerId) {
-        ModelAndView mav = new ModelAndView("owners/ownerDetails");
-        mav.addObject(this.clinicService.findOwnerById(ownerId));
-        return mav;
-    }
+	/**
+	 * Custom handler for displaying an owner.
+	 *
+	 * @param ownerId
+	 *            the ID of the owner to display
+	 * @return a ModelMap with the model attributes for the view
+	 */
+	@RequestMapping("/{ownerId}")
+	public ModelAndView showOwner(@PathVariable("ownerId") int ownerId) {
+		ModelAndView mav = new ModelAndView("owners/ownerDetails");
+		mav.addObject(this.clinicService.findOwnerById(ownerId));
+		return mav;
+	}
 
 }

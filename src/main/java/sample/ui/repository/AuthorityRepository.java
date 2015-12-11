@@ -34,7 +34,7 @@ import sample.ui.model.Authority;
  */
 public interface AuthorityRepository extends Repository<Authority, Long> {
 
-    /**
+	/**
      * Retrieve <code>Authority</code>s from the data store by last name, returning
      * all authorities whose last name <i>starts</i> with the given name.
      *
@@ -45,7 +45,7 @@ public interface AuthorityRepository extends Repository<Authority, Long> {
      */
     Authority findByAuthority(String authority) throws DataAccessException;
 
-    /**
+	/**
      * Retrieve all <code>Authority</code>s from the data store.
      *
      * @return a <code>Collection</code> of matching <code>Authority</code>s (or an
@@ -53,7 +53,7 @@ public interface AuthorityRepository extends Repository<Authority, Long> {
      */
     Collection<Authority> findAll() throws DataAccessException;
 
-    /**
+	/**
      * Retrieve an <code>Authority</code> from the data store by id.
      *
      * @param id
