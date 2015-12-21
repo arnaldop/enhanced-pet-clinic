@@ -1,38 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:ddl="http://www.thymeleaf.org/dandelion"
-      xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
-      ddl:bundle-includes="bootstrap-3.2.0"
-      lang="en">
+	  xmlns:ddl="http://www.thymeleaf.org/dandelion"
+	  xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
+	  ddl:bundle-includes="bootstrap-3.2.0"
+	  lang="en">
 
-    <head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING</head>
+	<head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING</head>
 
-    <body role="document" onload="$('input[name=username]').focus();">
-        <div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
+	<body role="document" onload="$('input[name=username]').focus();">
+		<div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
 
-        <div class="container">
-            <div class="starter-template">
+		<div class="container">
+			<div class="starter-template">
 
-                <div role="alert" th:if="${statusMessage}" th:class="'alert ' + ${statusMessageClass}?: 'alert-info'" th:text="${statusMessage}" />
-                <div role="alert" th:if="${param.logout}" class="alert alert-info">You have been logged out</div>
-                <div role="alert" th:if="${param.error}" class="alert alert-error">There was an error, please try again.</div>
+				<div role="alert" th:if="${statusMessage}" th:class="'alert ' + ${statusMessageClass}?: 'alert-info'" th:text="${statusMessage}" />
+				<div role="alert" th:if="${param.logout}" class="alert alert-info">You have been logged out</div>
+				<div role="alert" th:if="${param.error}" class="alert alert-error">There was an error, please try again.</div>
 
-                <h2 th:text="#{welcome}">Please log in:</h2>
-                <form name="form" th:action="@{/login}" action="/login" method="POST">
-                    <fieldset>
-                        <!-- Field MUST be called 'username' or Spring won't find it. -->
-                        <input type="text" name="username" value="" placeholder="Username" /> <input type="password" name="password"
-                            placeholder="Password" />
-                        <br/><br/>
-                        <label for="rememberMe">Remember Me?</label> <input type="checkbox" name="rememberMe" />
-                    </fieldset>
-                    <br/>
-                    <input type="submit" value="Login" class="btn btn-sm btn-default" />
-                </form>
-            </div>
-        </div>
+				<h2 th:text="#{welcome}">Please log in:</h2>
+				<form name="form" th:action="@{/login}" action="welcome.html" method="POST">
+					<fieldset>
+						<!-- Field MUST be called 'username' or Spring won't find it. -->
+						<input type="text" name="username" value="" placeholder="Username" /> <input type="password" name="password"
+							placeholder="Password" />
+						<br/><br/>
+						<label for="rememberMe">Remember Me?</label> <input type="checkbox" name="rememberMe" />
+					</fieldset>
+					<br/>
+					<input type="submit" value="Login" class="btn btn-sm btn-info" />
+				</form>
+			</div>
+		</div>
 
-        <table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING</table>
-    </body>
+		<table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING</table>
+	</body>
 
 </html>

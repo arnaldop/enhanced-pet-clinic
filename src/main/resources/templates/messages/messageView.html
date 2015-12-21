@@ -18,7 +18,7 @@
             <div role="alert" th:if="${statusMessage}" th:class="'alert ' + ${statusMessageClass}?: 'alert-info'" th:text="${statusMessage}" />
 
             <div class="pull-right">
-                <a th:href="@{/inbox/}" href="list.html"> Messages </a>
+                <a th:href="@{/messages/}" href="messageList.html"> Messages </a>
             </div>
 
             <table class="table table-bordered table-striped">
@@ -36,7 +36,7 @@
                 </tr>
                 <tr>
                     <td>Message</td>
-                    <td th:text="${message.text}">A detailed message that is longer than the summary.</td>
+                    <td th:text="${message.messageText}">A detailed message that is longer than the summary.</td>
                 </tr>
             </table>
         </div>

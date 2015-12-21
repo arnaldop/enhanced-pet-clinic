@@ -6,13 +6,17 @@ import static org.junit.Assert.assertTrue;
 
 import java.net.URI;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.TestRestTemplate;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -26,11 +30,19 @@ public class BaseTests {
 	protected static final String FORM_ACTION_PATTERN = "<form [^>]*action=\"([^\"]+).*";
 	protected static final String CSRF_VALUE_PATTERN = "(?s).*name=\"_csrf\".*?value=\"([^\"]+).*";
 
+	@Autowired
+	private MessageSource messageSource;
+
 	@Value("${local.server.port}")
 	protected int port;
 
 	protected String csrfValue = null;
 	protected HttpHeaders httpHeaders = null;
+
+	public String getMessageBundleText(String key) {
+		Locale locale = LocaleContextHolder.getLocale();
+		return messageSource.getMessage(key, new Object[0], locale);
+	}
 
 	@Before
 	public void setUpHeaders() {

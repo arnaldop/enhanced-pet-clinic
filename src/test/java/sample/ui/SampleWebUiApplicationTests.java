@@ -72,9 +72,10 @@ public class SampleWebUiApplicationTests extends BaseTests {
 		ResponseEntity<String> page = sendRequest("http://localhost:" + this.port, HttpMethod.GET);
 
 		assertEquals(HttpStatus.OK, page.getStatusCode());
-		assertTrue("Wrong body (title doesn't match):\n" + page.getBody(), page.getBody().contains("<title>PetClinic"));
+		assertTrue("Wrong body (title doesn't match):\n" + page.getBody(),
+				page.getBody().contains(getMessageBundleText("app.title")));
 		assertTrue("Wrong body (did not find heading):\n" + page.getBody(),
-				page.getBody().contains("<h2>Welcome</h2>"));
+				page.getBody().contains(getMessageBundleText("welcome")));
 	}
 
 	@Test

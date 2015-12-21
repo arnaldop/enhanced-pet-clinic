@@ -24,8 +24,8 @@ public class WebFlowConfig extends AbstractFlowConfiguration {
 	@Autowired
 	private List<ViewResolver> viewResolvers;
 
-	@Autowired
-	private MvcViewFactoryCreator mvcViewFactoryCreator;
+	// @Autowired
+	// private MvcViewFactoryCreator mvcViewFactoryCreator;
 
 	@Bean
 	public FlowExecutor flowExecutor() {

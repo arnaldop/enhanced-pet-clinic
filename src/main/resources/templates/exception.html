@@ -1,34 +1,34 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:ddl="http://www.thymeleaf.org/dandelion"
-      xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
-      ddl:bundle-includes="bootstrap-3.2.0"
-      lang="en">
+	  xmlns:ddl="http://www.thymeleaf.org/dandelion"
+	  xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
+	  ddl:bundle-includes="bootstrap-3.2.0"
+	  lang="en">
 
-    <head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING</head>
+	<head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING</head>
 
-    <body role="document">
-        <div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
+	<body role="document">
+		<div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
 
-        <div class="container" role="main">
-            <div class="starter-template">
-                <h2>We're sorry!</h2>
-                <img src="../../images/pets.png" th:src="@{/images/pets.png}" />
-                <h2>Something not good happened...</h2>
-            </div>
+		<div class="container" role="main">
+			<div class="starter-template">
+				<h2>We're sorry!</h2>
+				<img src="../../images/pets.png" th:src="@{/images/pets.png}" />
+				<h3>Something not good happened...</h3>
+			</div>
 
-            <h2 th:text="${title}">Title</h2>
+			<h2 th:text="${title}">Title</h2>
 
-            <div th:text="${#dates.format(timestamp)}">July 11, 2012 2:17:16 PM CDT</div>
+			<div th:text="${#dates.format(timestamp)}">July 11, 2012 2:17:16 PM CDT</div>
 
-            <p th:text="${exception.message}">The exception message...</p>
+			<p th:text="${exception.message}">The exception message...</p>
 
-            <p th:text="${exception}">The exception...</p>
+			<p th:text="${exception}">The exception...</p>
 
-            <div>Please contact the operator with the above information.</div>
-        </div>
+			<div>Please contact the operator with the above information.</div>
+		</div>
 
-        <table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING</table>
-    </body>
+		<table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING</table>
+	</body>
 
 </html>

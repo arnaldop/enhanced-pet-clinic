@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *	  http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -47,12 +47,8 @@ import sample.ui.service.ClinicService;
 @SessionAttributes("pet")
 public class PetController {
 
-	private final ClinicService clinicService;
-
 	@Autowired
-	public PetController(ClinicService clinicService) {
-		this.clinicService = clinicService;
-	}
+	private ClinicService clinicService;
 
 	@ModelAttribute("types")
 	public Collection<PetType> populatePetTypes() {

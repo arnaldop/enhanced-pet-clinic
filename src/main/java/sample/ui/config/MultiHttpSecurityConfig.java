@@ -125,7 +125,7 @@ public class MultiHttpSecurityConfig {
 		@Override
 		public void init(AuthenticationManagerBuilder auth) throws Exception {
 			//@formatter:off
-			String authoritiesByUsernameQuery = "select username,authority from user_authorities " +
+			String authoritiesByUsernameQuery = "select username, authority from user_authorities " +
 					"inner join users on user_authorities.user_id = users.id " +
 					"inner join authorities on user_authorities.authority_id = authorities.id " +
 					"where username = ?";

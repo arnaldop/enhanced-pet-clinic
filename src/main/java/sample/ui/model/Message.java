@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *	  http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package sample.ui.message;
+package sample.ui.model;
 
 import java.util.Calendar;
 
@@ -22,25 +22,17 @@ import org.hibernate.validator.constraints.NotEmpty;
 /**
  * @author Rob Winch
  */
-public class Message {
+public class Message extends BaseEntity {
 
-	private Long id;
+	private static final long serialVersionUID = -4768045909580278883L;
 
 	@NotEmpty
-	private String text;
+	private String messageText;
 
 	@NotEmpty
 	private String summary;
 
 	private Calendar created = Calendar.getInstance();
-
-	public Long getId() {
-		return this.id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public Calendar getCreated() {
 		return this.created;
@@ -50,12 +42,12 @@ public class Message {
 		this.created = created;
 	}
 
-	public String getText() {
-		return this.text;
+	public String getMessageText() {
+		return this.messageText;
 	}
 
-	public void setText(String text) {
-		this.text = text;
+	public void setMessageText(String messageText) {
+		this.messageText = messageText;
 	}
 
 	public String getSummary() {

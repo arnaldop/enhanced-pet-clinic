@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *	  http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -45,14 +45,14 @@ public class MessageControllerWebTests extends BaseTests {
 	@Test
 	public void testCreate() throws Exception {
 		ResponseEntity<String> page = executeLogin("user", "user");
-		page = getPage("http://localhost:" + this.port + "/inbox?form");
+		page = getPage("http://localhost:" + this.port + "/messages?form");
 
 		String body = page.getBody();
 		assertNotNull("Body was null", body);
 
 		MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
 		form.set("summary", "summary");
-		form.set("text", "text");
+		form.set("messageText", "messageText");
 		form.set("_csrf", csrfValue);
 
 		String formAction = getFormAction(page);

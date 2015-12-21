@@ -18,7 +18,7 @@
             <div role="alert" th:if="${statusMessage}" th:class="'alert ' + ${statusMessageClass}?: 'alert-info'" th:text="${statusMessage}" />
 
             <div layout:fragment="content" class="container">
-                <form id="messageForm" th:action="@{/inbox/(form)}" th:object="${message}" action="#" method="post">
+                <form id="messageForm" th:action="@{/messages/(form)}" th:object="${message}" action="#" method="post">
                     <div th:replace="fragments/hiddenErrors :: hiddenErrors">REPLACE BEFORE COMMITTING</div>
                     <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger" role="alert">
                         <p th:each="error : ${#fields.errors('*')}" th:text="${error}">Validation error</p>
@@ -27,18 +27,18 @@
                     <table class="table table-striped">
                         <tr th:class="${#fields.hasErrors('summary')} ? 'alert-danger'" th:role="${#fields.hasErrors('summary')} ? 'alert'">
                             <th><label for="summary">Summary</label></th>
-                            <td><input type="text" th:field="*{summary}"/></td>
+                            <td><input type="messageText" th:field="*{summary}"/></td>
                         </tr>
                         <tr>
-                            <th><label for="text">Message</label></th>
-                            <td><textarea th:field="*{text}" th:class="${#fields.hasErrors('text')} ? 'field-error'"></textarea></td>
+                            <th><label for="messageText">Message</label></th>
+                            <td><textarea th:field="*{messageText}" th:class="${#fields.hasErrors('messageText')} ? 'field-error'"></textarea></td>
                         </tr>
                         <tr>
                             <td></td>
                             <td>
                                 <div class="form-actions pull-right">
                                     <input type="submit" value="Create Message" class="btn btn-success" />
-                                    <a href="/inbox" th:href="@{/inbox}" class="btn btn-danger">Cancel</a>
+                                    <a href="/messages" th:href="@{/messages}" class="btn btn-danger">Cancel</a>
                                 </div>
                             </td>
                         </tr>

@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *	  http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,8 +23,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import sample.ui.message.Message;
-import sample.ui.message.MessageRepository;
+import sample.ui.model.Message;
 import sample.ui.model.Owner;
 import sample.ui.model.Pet;
 import sample.ui.model.PetType;
@@ -33,6 +32,7 @@ import sample.ui.model.UserProfile;
 import sample.ui.model.Vet;
 import sample.ui.model.Visit;
 import sample.ui.repository.AuthorityRepository;
+import sample.ui.repository.MessageRepository;
 import sample.ui.repository.OwnerRepository;
 import sample.ui.repository.PetRepository;
 import sample.ui.repository.PetTypeRepository;
@@ -144,7 +144,7 @@ public class ClinicServiceImpl implements ClinicService {
 	@Override
 	@Transactional(readOnly = true)
 	public Message findMessage(Long id) throws DataAccessException {
-		return messageRepository.findMessage(id);
+		return messageRepository.findById(id);
 	}
 
 	@Override

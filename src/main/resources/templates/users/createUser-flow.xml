@@ -1,60 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <flow xmlns="http://www.springframework.org/schema/webflow"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="
-      	http://www.springframework.org/schema/webflow
-      	http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:schemaLocation="
+	  	http://www.springframework.org/schema/webflow
+	  	http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
 
  	<on-start>
 		<evaluate expression="clinicService.createUser()" result="flowScope.user" />
 	</on-start>
 
-    <view-state id="createUser" view="/users/userForm" model="user">
-        <binder>
-            <binding property="name" required="true" />
-            <binding property="email" required="true" />
-            <binding property="username" required="true" />
-            <binding property="uiPassword" required="true" />
-            <binding property="verifyPassword" required="true" />
-        </binder>
+	<view-state id="createUser" view="/users/userForm" model="user">
+		<binder>
+			<binding property="name" required="true" />
+			<binding property="email" required="true" />
+			<binding property="username" required="true" />
+			<binding property="uiPassword" required="true" />
+			<binding property="verifyPassword" required="true" />
+		</binder>
 
-        <transition on="saveUser" to="updateUserProfile">
-            <evaluate expression="clinicService.saveUser(user)" result="flowScope.user" />
-            <evaluate expression="clinicService.createUserProfile(user)" result="flowScope.userProfile" />
-            <set name="flashScope.statusMessage" value="resourceBundle.userSaved1 + ' ' + user.username + ' ' + resourceBundle.userSaved2" />
-            <set name="flashScope.statusMessageClass" value="'alert-success'" />
-        </transition>
-        <transition on="cancel" to="login" bind="false">
-            <set name="flashScope.statusMessage" value="resourceBundle.userCreationCanceled" />
-            <set name="flashScope.statusMessageClass" value="'alert-danger'" />
-        </transition>
-    </view-state>
+		<transition on="saveUser" to="updateUserProfile">
+			<evaluate expression="clinicService.saveUser(user)" result="flowScope.user" />
+			<evaluate expression="clinicService.createUserProfile(user)" result="flowScope.userProfile" />
+			<set name="flashScope.statusMessage" value="resourceBundle.userSaved1 + ' ' + user.username + ' ' + resourceBundle.userSaved2" />
+			<set name="flashScope.statusMessageClass" value="'alert-success'" />
+		</transition>
+		<transition on="cancel" to="login" bind="false">
+			<set name="flashScope.statusMessage" value="resourceBundle.userCreationCanceled" />
+			<set name="flashScope.statusMessageClass" value="'alert-danger'" />
+		</transition>
+	</view-state>
 
-    <view-state id="updateUserProfile" view="/users/profileForm" model="userProfile">
-        <binder>
-            <binding property="name" required="true" />
-            <binding property="address" required="true" />
-            <binding property="address2" />
-            <binding property="city" required="true" />
-            <binding property="state" required="true" />
-            <binding property="zip" required="true" />
-            <binding property="phone" required="true" />
-        </binder>
+	<view-state id="updateUserProfile" view="/users/profileForm" model="userProfile">
+		<binder>
+			<binding property="name" required="true" />
+			<binding property="address" required="true" />
+			<binding property="address2" />
+			<binding property="city" required="true" />
+			<binding property="state" required="true" />
+			<binding property="zip" required="true" />
+			<binding property="phone" required="true" />
+		</binder>
 
-        <transition on="saveUser" to="login" history="discard">
-            <evaluate expression="clinicService.saveUser(user)" result="flowScope.user" />
-            <set name="flashScope.statusMessage" value="resourceBundle.userProfileUpdated1 + ' ' + user.username + ' ' + resourceBundle.userProfileUpdated2" />
-            <set name="flashScope.statusMessageClass" value="'alert-success'" />
-        </transition>
-        <transition on="cancel" to="login" bind="false" history="discard">
-            <set name="flashScope.statusMessage" value="resourceBundle.profileUpdateCanceled" />
-            <set name="flashScope.statusMessageClass" value="'alert-warning'" />
-        </transition>
-    </view-state>
+		<transition on="saveUser" to="login" history="discard">
+			<evaluate expression="clinicService.saveUser(user)" result="flowScope.user" />
+			<set name="flashScope.statusMessage" value="resourceBundle.userProfileUpdated1 + ' ' + user.username + ' ' + resourceBundle.userProfileUpdated2" />
+			<set name="flashScope.statusMessageClass" value="'alert-success'" />
+		</transition>
+		<transition on="cancel" to="login" bind="false" history="discard">
+			<set name="flashScope.statusMessage" value="resourceBundle.profileUpdateCanceled" />
+			<set name="flashScope.statusMessageClass" value="'alert-warning'" />
+		</transition>
+	</view-state>
 
-    <end-state id="login" view="externalRedirect:login">
-        <output name="statusMessage" value="flashScope.statusMessage" />
-        <output name="statusMessageClass" value="flashScope.statusMessageClass" />
-    </end-state>
+	<end-state id="login" view="externalRedirect:login">
+		<output name="statusMessage" value="flashScope.statusMessage" />
+		<output name="statusMessageClass" value="flashScope.statusMessageClass" />
+	</end-state>
 
 </flow>
