@@ -1,52 +1,52 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:ddl="http://www.thymeleaf.org/dandelion"
-      xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
-      ddl:bundle-includes="bootstrap-3.2.0"
-      lang="en">
+	  xmlns:ddl="http://www.thymeleaf.org/dandelion"
+	  xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
+	  ddl:bundle-includes="bootstrap-3.2.0"
+	  lang="en">
 
-    <head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING</head>
+	<head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING</head>
 
-    <body role="document">
-        <div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
+	<body role="document">
+		<div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
 
-        <div class="container" role="main">
-            <div class="starter-template">
-                <h2>Veterinarians</h2>
-            </div>
+		<div class="container" role="main">
+			<div class="starter-template">
+				<h2>Veterinarians</h2>
+			</div>
 
-            <div role="alert" th:if="${statusMessage}" th:class="'alert ' + ${statusMessageClass}?: 'alert-info'" th:text="${statusMessage}" />
+			<div role="alert" th:if="${statusMessage}" th:class="'alert ' + ${statusMessageClass}?: 'alert-info'" th:text="${statusMessage}" />
 
-            <table id="myTableId" class="table table-striped" dt:table="true" dt:pagination="true">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Specialties</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="vet : ${vets.vetList}">
-                        <td th:text="|${vet.firstName} ${vet.lastName}|">[firstName lastName]</td>
-                        <td>
-                            <span th:remove="tag" th:each="specialty : ${vet.specialties}" th:text="${specialty.name}">[specialty name]</span>
-                            <span th:remove="tag" th:if="${vet.nrOfSpecialties == 0}">none</span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+			<table id="myTableId" class="table table-striped" dt:table="true" dt:pagination="true">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Specialties</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="vet : ${vets.vetList}">
+						<td th:text="|${vet.firstName} ${vet.lastName}|">[firstName lastName]</td>
+						<td>
+							<span th:remove="tag" th:each="specialty : ${vet.specialties}" th:text="${specialty.name}">[specialty name]</span>
+							<span th:remove="tag" th:if="${vet.nrOfSpecialties == 0}">none</span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 
-            <br/><br/>
+			<br/><br/>
 
-            <table class="table-buttons">
-                <tr>
-                    <td><a th:href="@{'/vets/list.xml'}" href="#" class="btn btn-info">View as XML</a></td>
-                    <td>&nbsp;</td>
-                    <td><a th:href="@{'/vets/list.atom'}" href="#" class="btn btn-success">Subscribe to Atom feed</a></td>
-                </tr>
-            </table>
-        </div>
+			<table class="table-buttons">
+				<tr>
+					<td><a th:href="@{'/vets/list.xml'}" href="#" class="btn btn-info">View as XML</a></td>
+					<td>&nbsp;</td>
+					<td><a th:href="@{'/vets/list.atom'}" href="#" class="btn btn-success">Subscribe to Atom feed</a></td>
+				</tr>
+			</table>
+		</div>
 
-        <table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING</table>
-    </body>
+		<table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING</table>
+	</body>
 
 </html>

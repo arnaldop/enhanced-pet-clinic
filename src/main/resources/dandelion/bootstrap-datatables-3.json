@@ -1,22 +1,22 @@
 {
-    "bundle" : "bootstrap-datatables-3",
-    "dependencies" : [ "jquery", "bootstrap-3.2.0" ],
-    "assets": [
-        {
-            "name": "bootstrap-datatables",
-            "version": "3",
-            "type": "css",
-            "locations": {
-                "cdn": "//cdn.datatables.net/plug-ins/725b2a2115b/integration/bootstrap/3/dataTables.bootstrap.css"
-            }
-        },
-        {
-            "name": "bootstrap-datatables",
-            "version": "3",
-            "type": "js",
-            "locations": {
-                "cdn": "//cdn.datatables.net/plug-ins/725b2a2115b/integration/bootstrap/3/dataTables.bootstrap.js"
-            }
-        }
-    ]
+	"bundle" : "bootstrap-datatables-3",
+	"dependencies" : [ "jquery", "bootstrap-3.2.0" ],
+	"assets": [
+		{
+			"name": "bootstrap-datatables",
+			"version": "3",
+			"type": "css",
+			"locations": {
+				"cdn": "//cdn.datatables.net/plug-ins/725b2a2115b/integration/bootstrap/3/dataTables.bootstrap.css"
+			}
+		},
+		{
+			"name": "bootstrap-datatables",
+			"version": "3",
+			"type": "js",
+			"locations": {
+				"cdn": "//cdn.datatables.net/plug-ins/725b2a2115b/integration/bootstrap/3/dataTables.bootstrap.js"
+			}
+		}
+	]
 }

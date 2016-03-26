@@ -24,7 +24,7 @@ Spring Pet Clinic example using Spring-Boot, Thymeleaf, AOP, MVC, Embedded Tomca
 
 Using __Embedded Apache Tomcat__:
 
-    mvn spring-boot:run
+	mvn spring-boot:run
 
 You can then access the sample here: [http://localhost:8080/](http://localhost:8080/)
 
@@ -42,11 +42,11 @@ Type help for a list of commands. See [http://docs.spring.io/spring-boot/docs/cu
 
 For the sake of simplicity, there are 3 profiles:
   * dev
-    * in-memory database (auto-generated HSQLDB with sample data), HTTP (8080) interface only, actuator features are open
+	* in-memory database (auto-generated HSQLDB with sample data), HTTP (8080) interface only, actuator features are open
   * test
-    * external database (auto-generated MySQL with sample data), HTTP (8080) and HTTPS (8443) interfaces, actuator is open
+	* external database (auto-generated MySQL with sample data), HTTP (8080) and HTTPS (8443) interfaces, actuator is open
   * live
-    * external database (assumes existing MySQL with data), HTTPS (8443) interface only, actuator is secured
+	* external database (assumes existing MySQL with data), HTTPS (8443) interface only, actuator is secured
 
 Use different databases depending on profile.
 [Database Initialization](http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto-database-initialization)

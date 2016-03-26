@@ -35,33 +35,33 @@ import sample.ui.model.Authority;
 public interface AuthorityRepository extends Repository<Authority, Long> {
 
 	/**
-     * Retrieve <code>Authority</code>s from the data store by last name, returning
-     * all authorities whose last name <i>starts</i> with the given name.
-     *
-     * @param lastName
-     *            Value to search for
-     * @return a <code>Collection</code> of matching <code>Authority</code>s (or an
-     *         empty <code>Collection</code> if none found)
-     */
-    Authority findByAuthority(String authority) throws DataAccessException;
+	 * Retrieve <code>Authority</code>s from the data store by last name, returning
+	 * all authorities whose last name <i>starts</i> with the given name.
+	 *
+	 * @param lastName
+	 *			Value to search for
+	 * @return a <code>Collection</code> of matching <code>Authority</code>s (or an
+	 *		 empty <code>Collection</code> if none found)
+	 */
+	Authority findByAuthority(String authority) throws DataAccessException;
 
 	/**
-     * Retrieve all <code>Authority</code>s from the data store.
-     *
-     * @return a <code>Collection</code> of matching <code>Authority</code>s (or an
-     *         empty <code>Collection</code> if none found)
-     */
-    Collection<Authority> findAll() throws DataAccessException;
+	 * Retrieve all <code>Authority</code>s from the data store.
+	 *
+	 * @return a <code>Collection</code> of matching <code>Authority</code>s (or an
+	 *		 empty <code>Collection</code> if none found)
+	 */
+	Collection<Authority> findAll() throws DataAccessException;
 
 	/**
-     * Retrieve an <code>Authority</code> from the data store by id.
-     *
-     * @param id
-     *            the id to search for
-     * @return the <code>Authority</code> if found
-     * @throws org.springframework.dao.DataRetrievalFailureException
-     *             if not found
-     */
-    Authority findById(Long id) throws DataAccessException;
+	 * Retrieve an <code>Authority</code> from the data store by id.
+	 *
+	 * @param id
+	 *			the id to search for
+	 * @return the <code>Authority</code> if found
+	 * @throws org.springframework.dao.DataRetrievalFailureException
+	 *			 if not found
+	 */
+	Authority findById(Long id) throws DataAccessException;
 
 }

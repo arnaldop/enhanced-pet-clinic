@@ -40,11 +40,11 @@ import sample.ui.model.PetType;
 public interface PetTypeRepository extends Repository<PetType, Long> {
 
 	/**
-     * Retrieve all <code>PetType</code>s from the data store.
-     *
-     * @return a <code>Collection</code> of <code>PetType</code>s
-     */
-    List<PetType> findAll() throws DataAccessException;
+	 * Retrieve all <code>PetType</code>s from the data store.
+	 *
+	 * @return a <code>Collection</code> of <code>PetType</code>s
+	 */
+	List<PetType> findAll() throws DataAccessException;
 
 	PetType findOne(Long id) throws DataAccessException;
 

@@ -40,43 +40,43 @@ import sample.ui.model.Owner;
 public interface OwnerRepository extends Repository<Owner, Long> {
 
 	/**
-     * Retrieve <code>Owner</code>s from the data store by last name, returning
-     * all owners whose last name <i>starts</i> with the given name.
-     *
-     * @param lastName
-     *            Value to search for
-     * @return a <code>Collection</code> of matching <code>Owner</code>s (or an
-     *         empty <code>Collection</code> if none found)
-     */
-    Collection<Owner> findByLastNameStartingWithIgnoreCase(String lastName) throws DataAccessException;
+	 * Retrieve <code>Owner</code>s from the data store by last name, returning
+	 * all owners whose last name <i>starts</i> with the given name.
+	 *
+	 * @param lastName
+	 *			Value to search for
+	 * @return a <code>Collection</code> of matching <code>Owner</code>s (or an
+	 *		 empty <code>Collection</code> if none found)
+	 */
+	Collection<Owner> findByLastNameStartingWithIgnoreCase(String lastName) throws DataAccessException;
 
 	/**
-     * Retrieve all <code>Owner</code>s from the data store.
-     *
-     * @return a <code>Collection</code> of matching <code>Owner</code>s (or an
-     *         empty <code>Collection</code> if none found)
-     */
-    Collection<Owner> findAll() throws DataAccessException;
+	 * Retrieve all <code>Owner</code>s from the data store.
+	 *
+	 * @return a <code>Collection</code> of matching <code>Owner</code>s (or an
+	 *		 empty <code>Collection</code> if none found)
+	 */
+	Collection<Owner> findAll() throws DataAccessException;
 
 	/**
-     * Retrieve an <code>Owner</code> from the data store by id.
-     *
-     * @param id
-     *            the id to search for
-     * @return the <code>Owner</code> if found
-     * @throws org.springframework.dao.DataRetrievalFailureException
-     *             if not found
-     */
-    Owner findById(Long id) throws DataAccessException;
+	 * Retrieve an <code>Owner</code> from the data store by id.
+	 *
+	 * @param id
+	 *			the id to search for
+	 * @return the <code>Owner</code> if found
+	 * @throws org.springframework.dao.DataRetrievalFailureException
+	 *			 if not found
+	 */
+	Owner findById(Long id) throws DataAccessException;
 
 	/**
-     * Save an <code>Owner</code> to the data store, either inserting or
-     * updating it.
-     *
-     * @param owner
-     *            the <code>Owner</code> to save
-     * @see BaseEntity#isNew
-     */
-    void save(Owner owner) throws DataAccessException;
+	 * Save an <code>Owner</code> to the data store, either inserting or
+	 * updating it.
+	 *
+	 * @param owner
+	 *			the <code>Owner</code> to save
+	 * @see BaseEntity#isNew
+	 */
+	void save(Owner owner) throws DataAccessException;
 
 }

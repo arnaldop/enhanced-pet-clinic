@@ -1,96 +1,96 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:ddl="http://www.thymeleaf.org/dandelion"
-      xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
-      ddl:bundle-includes="bootstrap-3.2.0"
-      lang="en">
+	  xmlns:ddl="http://www.thymeleaf.org/dandelion"
+	  xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
+	  ddl:bundle-includes="bootstrap-3.2.0"
+	  lang="en">
 
-    <head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING</head>
+	<head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING</head>
 
-    <body role="document" onload="$('input[name=name]').focus();$(function () { $('#birthDate').datepicker({ dateFormat: 'mm/dd/yy' }); });">
-        <div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
+	<body role="document" onload="$('input[name=name]').focus();$(function () { $('#birthDate').datepicker({ dateFormat: 'mm/dd/yy' }); });">
+		<div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
 
-        <div class="container">
-            <div class="starter-template">
-                <h2>
-                    <span th:if="${pet['new']}" th:remove="tag">New </span> Pet
-                </h2>
-            </div>
+		<div class="container">
+			<div class="starter-template">
+				<h2>
+					<span th:if="${pet['new']}" th:remove="tag">New </span> Pet
+				</h2>
+			</div>
 
-            <div role="alert" th:if="${statusMessage}" th:class="'alert ' + ${statusMessageClass}?: 'alert-info'" th:text="${statusMessage}" />
+			<div role="alert" th:if="${statusMessage}" th:class="'alert ' + ${statusMessageClass}?: 'alert-info'" th:text="${statusMessage}" />
 
-            <form class="form-horizontal" role="form" method="post" id="pet-form" action="/owners/ownerDetails.html"
-                th:action="@{${#httpServletRequest.servletPath}}" th:object="${pet}">
-                <div th:replace="fragments/hiddenErrors :: hiddenErrors">REPLACE BEFORE COMMITTING</div>
+			<form class="form-horizontal" role="form" method="post" id="pet-form" action="/owners/ownerDetails.html"
+				th:action="@{${#httpServletRequest.servletPath}}" th:object="${pet}">
+				<div th:replace="fragments/hiddenErrors :: hiddenErrors">REPLACE BEFORE COMMITTING</div>
 
-                <table class="table table-striped">
-                    <tr>
-                        <td class="col-sm-1">
-                            <div class="control-group">
-                                <label class="control-label">Owner</label>
-                            </div>
-                        </td>
-                        <td class="col-sm-2" style="vertical-align:bottom">
-                            <div class="control-group">
-                                <label class="control-label" th:text="${pet.owner.firstName + ' ' + pet.owner.lastName}">[firstName lastName]</label>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr th:classappend="${#fields.hasErrors('name')} ? 'has-error'">
-                        <td>
-                            <div class="control-group" th:classappend="${#fields.hasErrors('name')} ? 'error'">
-                                <label class="control-label">Name</label>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="controls">
-                                <input type="text" class="form-control" th:field="*{name}" />
-                                <label class="control-label" th:errors="*{name}">[error]</label>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr th:classappend="${#fields.hasErrors('birthDate')} ? 'has-error'">
-                        <td>
-                            <div class="control-group" th:classappend="${#fields.hasErrors('birthDate')} ? 'error'">
-                                <label class="control-label">Birth Date</label>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="controls" ddl:bundle-includes="jquery-ui-overcast">
-                                <input type="text" class="form-control" autocomplete="off" th:field="*{birthDate}" />
-                                <label class="control-label" th:errors="*{birthDate}">[error]</label>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr th:classappend="${#fields.hasErrors('type')} ? 'has-error'">
-                        <td>
-                            <div class="control-group" th:classappend="${#fields.hasErrors('type')} ? 'error'">
-                                <label class="control-label">Type</label>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="control-group" ddl:bundle-includes="jquery-ui-overcast">
-                                <select class="form-control" th:field="*{type}">
-                                    <option th:each="t : ${types}" th:text="${t.name}" th:value="${t.id}">[option]</option>
-                                </select>
-                                <label class="control-label" th:errors="*{type}">[error]</label>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>
-                            <div class="form-actions pull-right">
-                                <input type="submit" class="btn btn-success" th:value="(${pet['new']} ? 'Add' : 'Update') + ' Pet'" />
-                                <input type="button" th:onclick="'window.location.href=\'' + @{|/owners/${pet.owner.id}|} + '\''" class="btn btn-danger" value="Cancel" />
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </form>
-        </div>
+				<table class="table table-striped">
+					<tr>
+						<td class="col-sm-1">
+							<div class="control-group">
+								<label class="control-label">Owner</label>
+							</div>
+						</td>
+						<td class="col-sm-2" style="vertical-align:bottom">
+							<div class="control-group">
+								<label class="control-label" th:text="${pet.owner.firstName + ' ' + pet.owner.lastName}">[firstName lastName]</label>
+							</div>
+						</td>
+					</tr>
+					<tr th:classappend="${#fields.hasErrors('name')} ? 'has-error'">
+						<td>
+							<div class="control-group" th:classappend="${#fields.hasErrors('name')} ? 'error'">
+								<label class="control-label">Name</label>
+							</div>
+						</td>
+						<td>
+							<div class="controls">
+								<input type="text" class="form-control" th:field="*{name}" />
+								<label class="control-label" th:errors="*{name}">[error]</label>
+							</div>
+						</td>
+					</tr>
+					<tr th:classappend="${#fields.hasErrors('birthDate')} ? 'has-error'">
+						<td>
+							<div class="control-group" th:classappend="${#fields.hasErrors('birthDate')} ? 'error'">
+								<label class="control-label">Birth Date</label>
+							</div>
+						</td>
+						<td>
+							<div class="controls" ddl:bundle-includes="jquery-ui-overcast">
+								<input type="text" class="form-control" autocomplete="off" th:field="*{birthDate}" />
+								<label class="control-label" th:errors="*{birthDate}">[error]</label>
+							</div>
+						</td>
+					</tr>
+					<tr th:classappend="${#fields.hasErrors('type')} ? 'has-error'">
+						<td>
+							<div class="control-group" th:classappend="${#fields.hasErrors('type')} ? 'error'">
+								<label class="control-label">Type</label>
+							</div>
+						</td>
+						<td>
+							<div class="control-group" ddl:bundle-includes="jquery-ui-overcast">
+								<select class="form-control" th:field="*{type}">
+									<option th:each="t : ${types}" th:text="${t.name}" th:value="${t.id}">[option]</option>
+								</select>
+								<label class="control-label" th:errors="*{type}">[error]</label>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>
+							<div class="form-actions pull-right">
+								<input type="submit" class="btn btn-success" th:value="(${pet['new']} ? 'Add' : 'Update') + ' Pet'" />
+								<input type="button" th:onclick="'window.location.href=\'' + @{|/owners/${pet.owner.id}|} + '\''" class="btn btn-danger" value="Cancel" />
+							</div>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
 
-        <table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING</table>
-    </body>
+		<table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING</table>
+	</body>
 
 </html>

@@ -58,7 +58,7 @@ CREATE TABLE `vet_specialties` (
   FOREIGN KEY (`vet_id`) REFERENCES `vets` (`id`),
   FOREIGN KEY (`specialty_id`) REFERENCES `specialties` (`id`)
 );
-      
+
 CREATE TABLE `pet_types` (
   `id` INTEGER NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50),

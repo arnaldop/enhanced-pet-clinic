@@ -1,38 +1,38 @@
 {
-    "bundle" : "bootstrap-3.2.0",
-    "dependencies" : [ "jquery" ],
-    "assets": [
-        {
-            "name": "bootstrap",
-            "version": "3.2.0",
-            "type": "css",
-            "locations": {
-                "cdn": "//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
-            }
-        },
-        {
-            "name": "bootstrap-theme",
-            "version": "3.2.0",
-            "type": "css",
-            "locations": {
-                "cdn": "//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"
-            }
-        },
-        {
-            "name": "ie10-viewport-bug-workaround",
-            "version": "3.2.0",
-            "type": "js",
-            "locations": {
-                "webapp": "/js/ie10-viewport-bug-workaround.js"
-            }
-        },
-        {
-            "name": "bootstrap",
-            "version": "3.2.0",
-            "type": "js",
-            "locations": {
-                "cdn": "//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"
-            }
-        }
-    ]
+	"bundle" : "bootstrap-3.2.0",
+	"dependencies" : [ "jquery" ],
+	"assets": [
+		{
+			"name": "bootstrap",
+			"version": "3.2.0",
+			"type": "css",
+			"locations": {
+				"cdn": "//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
+			}
+		},
+		{
+			"name": "bootstrap-theme",
+			"version": "3.2.0",
+			"type": "css",
+			"locations": {
+				"cdn": "//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"
+			}
+		},
+		{
+			"name": "ie10-viewport-bug-workaround",
+			"version": "3.2.0",
+			"type": "js",
+			"locations": {
+				"webapp": "/js/ie10-viewport-bug-workaround.js"
+			}
+		},
+		{
+			"name": "bootstrap",
+			"version": "3.2.0",
+			"type": "js",
+			"locations": {
+				"cdn": "//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"
+			}
+		}
+	]
 }

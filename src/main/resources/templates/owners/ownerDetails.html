@@ -1,101 +1,101 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:ddl="http://www.thymeleaf.org/dandelion"
-      xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
-      ddl:bundle-includes="bootstrap-3.2.0"
-      lang="en">
+	  xmlns:ddl="http://www.thymeleaf.org/dandelion"
+	  xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
+	  ddl:bundle-includes="bootstrap-3.2.0"
+	  lang="en">
 
-    <head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING</head>
+	<head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING</head>
 
-    <body role="document">
-        <div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
+	<body role="document">
+		<div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
 
-        <div class="container">
-            <div class="starter-template">
-                <h2>Owner Information</h2>
-            </div>
+		<div class="container">
+			<div class="starter-template">
+				<h2>Owner Information</h2>
+			</div>
 
-            <div role="alert" th:if="${statusMessage}" th:class="'alert ' + ${statusMessageClass}?: 'alert-info'" th:text="${statusMessage}" />
+			<div role="alert" th:if="${statusMessage}" th:class="'alert ' + ${statusMessageClass}?: 'alert-info'" th:text="${statusMessage}" />
 
-            <table class="table table-striped">
-                <tr>
-                    <th class="col-sm-1">Name</th>
-                    <td class="col-sm-2"><b th:text="|${owner.firstName} ${owner.lastName}|">[firstname lastname]</b></td>
-                </tr>
-                <tr>
-                    <th>Address</th>
-                    <td th:text="${owner.address}">[address]</td>
-                </tr>
-                <tr>
-                    <th>City</th>
-                    <td th:text="${owner.city}">[city]</td>
-                </tr>
-                <tr>
-                    <th>Telephone</th>
-                    <td th:text="${owner.telephone}">[telephone]</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        <div class="form-actions pull-right">
-                            <input type="button" class="btn btn-info" value="Edit Owner" onclick="window.location.href='ownerForm.html'" th:onclick="'window.location.href=\'' + @{|${owner.id}/edit.html|} + '\''" />
-                            <input type="button" class="btn btn-danger" value="Back to List" onclick="window.location.href='ownersList.html'" th:onclick="'window.location.href=\'' + @{|/owners/list.html?lastName=${session.searchLastName}|} + '\''" />
-                        </div>
-                    </td>
-                </tr>
-            </table>
+			<table class="table table-striped">
+				<tr>
+					<th class="col-sm-1">Name</th>
+					<td class="col-sm-2"><b th:text="|${owner.firstName} ${owner.lastName}|">[firstname lastname]</b></td>
+				</tr>
+				<tr>
+					<th>Address</th>
+					<td th:text="${owner.address}">[address]</td>
+				</tr>
+				<tr>
+					<th>City</th>
+					<td th:text="${owner.city}">[city]</td>
+				</tr>
+				<tr>
+					<th>Telephone</th>
+					<td th:text="${owner.telephone}">[telephone]</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<div class="form-actions pull-right">
+							<input type="button" class="btn btn-info" value="Edit Owner" onclick="window.location.href='ownerForm.html'" th:onclick="'window.location.href=\'' + @{|${owner.id}/edit.html|} + '\''" />
+							<input type="button" class="btn btn-danger" value="Back to List" onclick="window.location.href='ownersList.html'" th:onclick="'window.location.href=\'' + @{|/owners/list.html?lastName=${session.searchLastName}|} + '\''" />
+						</div>
+					</td>
+				</tr>
+			</table>
 
-            <div class="starter-template">
-                <h2>Pets and Visits</h2>
+			<div class="starter-template">
+				<h2>Pets and Visits</h2>
 
-                <a class="btn btn-sm btn-success pull-right" href="../pets/petForm.html" th:href="@{|${owner.id}/pets/new.html|}">Add New Pet</a>
-                <br/><br/>
+				<a class="btn btn-sm btn-success pull-right" href="../pets/petForm.html" th:href="@{|${owner.id}/pets/new.html|}">Add New Pet</a>
+				<br/><br/>
 
-                <table class="table">
-                    <tr th:each="pet : ${owner.pets}">
-                        <td>
-                            <table class="table table-striped">
-                                <tr>
-                                    <th class="col-sm-1">Name</th>
-                                    <td class="col-sm-1" th:text="${pet.name}">[name]</td>
-                                </tr>
-                                <tr>
-                                    <th>Birth Date</th>
-                                    <td th:text="${#dates.format(pet.birthDate, 'yyyy-MM-dd')}">[birthdate yyyy-MM-dd]</td>
-                                </tr>
-                                <tr>
-                                    <th>Type</th>
-                                    <td th:text="${pet.type.name}">[type]</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td>
-                            <a class="btn btn-sm btn-info pull-left" href="../pets/petForm.html" th:href="@{|/owners/${owner.id}/pets/${pet.id}/edit|}">Edit Pet</a>
-                        </td>
-                        <td>
-                            <a class="btn btn-sm btn-success pull-right" href="../pets/visitForm.html" th:href="@{|/owners/${owner.id}/pets/${pet.id}/visits/new|}">Add Visit</a>
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th class="col-sm-1" style="text-align: center">Visit Date</th>
-                                        <th class="col-sm-1" style="text-align: center">Description</th>
-                                    </tr>
-                                </thead>
-                                <tr th:if="${pet.visits.size()} == 0">
-                                    <td colspan="2" style="text-align: center">None</td>
-                                </tr>
-                                <tr th:each="visit : ${pet.visits}">
-                                    <td style="text-align: center" th:text="${#dates.format(visit.date, 'yyyy-MM-dd')}">[date yyyy-MM-dd]</td>
-                                    <td style="text-align: center" th:text="${visit.description}">[description]</td>
-                                </tr>
-                            </table>
-                         </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
+				<table class="table">
+					<tr th:each="pet : ${owner.pets}">
+						<td>
+							<table class="table table-striped">
+								<tr>
+									<th class="col-sm-1">Name</th>
+									<td class="col-sm-1" th:text="${pet.name}">[name]</td>
+								</tr>
+								<tr>
+									<th>Birth Date</th>
+									<td th:text="${#dates.format(pet.birthDate, 'yyyy-MM-dd')}">[birthdate yyyy-MM-dd]</td>
+								</tr>
+								<tr>
+									<th>Type</th>
+									<td th:text="${pet.type.name}">[type]</td>
+								</tr>
+							</table>
+						</td>
+						<td>
+							<a class="btn btn-sm btn-info pull-left" href="../pets/petForm.html" th:href="@{|/owners/${owner.id}/pets/${pet.id}/edit|}">Edit Pet</a>
+						</td>
+						<td>
+							<a class="btn btn-sm btn-success pull-right" href="../pets/visitForm.html" th:href="@{|/owners/${owner.id}/pets/${pet.id}/visits/new|}">Add Visit</a>
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th class="col-sm-1" style="text-align: center">Visit Date</th>
+										<th class="col-sm-1" style="text-align: center">Description</th>
+									</tr>
+								</thead>
+								<tr th:if="${pet.visits.size()} == 0">
+									<td colspan="2" style="text-align: center">None</td>
+								</tr>
+								<tr th:each="visit : ${pet.visits}">
+									<td style="text-align: center" th:text="${#dates.format(visit.date, 'yyyy-MM-dd')}">[date yyyy-MM-dd]</td>
+									<td style="text-align: center" th:text="${visit.description}">[description]</td>
+								</tr>
+							</table>
+						 </td>
+					</tr>
+				</table>
+			</div>
+		</div>
 
-        <table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING</table>
-    </body>
+		<table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING</table>
+	</body>
 
 </html>

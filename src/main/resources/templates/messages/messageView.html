@@ -1,47 +1,47 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:ddl="http://www.thymeleaf.org/dandelion"
-      xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
-      ddl:bundle-includes="bootstrap-3.2.0"
-      lang="en">
+	  xmlns:ddl="http://www.thymeleaf.org/dandelion"
+	  xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
+	  ddl:bundle-includes="bootstrap-3.2.0"
+	  lang="en">
 
-    <head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING</head>
+	<head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING</head>
 
-    <body role="document">
-        <div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
+	<body role="document">
+		<div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
 
-        <div class="container">
-            <div class="starter-template">
-                <h1 layout:fragment="header">Messages : View</h1>
-            </div>
+		<div class="container">
+			<div class="starter-template">
+				<h1 layout:fragment="header">Messages : View</h1>
+			</div>
 
-            <div role="alert" th:if="${statusMessage}" th:class="'alert ' + ${statusMessageClass}?: 'alert-info'" th:text="${statusMessage}" />
+			<div role="alert" th:if="${statusMessage}" th:class="'alert ' + ${statusMessageClass}?: 'alert-info'" th:text="${statusMessage}" />
 
-            <div class="pull-right">
-                <a th:href="@{/messages/}" href="messageList.html"> Messages </a>
-            </div>
+			<div class="pull-right">
+				<a th:href="@{/messages/}" href="messageList.html"> Messages </a>
+			</div>
 
-            <table class="table table-bordered table-striped">
-                <tr>
-                    <td>ID</td>
-                    <td th:text="${message.id}">123</td>
-                </tr>
-                <tr>
-                    <td>Created</td>
-                    <td  th:text="${#calendars.format(message.created)}">July 11, 2012 2:17:16 PM CDT</td>
-                </tr>
-                <tr>
-                    <td>Summary</td>
-                    <td th:text="${message.summary}">A short summary...</td>
-                </tr>
-                <tr>
-                    <td>Message</td>
-                    <td th:text="${message.messageText}">A detailed message that is longer than the summary.</td>
-                </tr>
-            </table>
-        </div>
+			<table class="table table-bordered table-striped">
+				<tr>
+					<td>ID</td>
+					<td th:text="${message.id}">123</td>
+				</tr>
+				<tr>
+					<td>Created</td>
+					<td  th:text="${#calendars.format(message.created)}">July 11, 2012 2:17:16 PM CDT</td>
+				</tr>
+				<tr>
+					<td>Summary</td>
+					<td th:text="${message.summary}">A short summary...</td>
+				</tr>
+				<tr>
+					<td>Message</td>
+					<td th:text="${message.messageText}">A detailed message that is longer than the summary.</td>
+				</tr>
+			</table>
+		</div>
 
-        <table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING</table>
-    </body>
+		<table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING</table>
+	</body>
 
 </html>

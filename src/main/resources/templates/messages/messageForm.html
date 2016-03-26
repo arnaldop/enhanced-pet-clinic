@@ -1,53 +1,53 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:ddl="http://www.thymeleaf.org/dandelion"
-      xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
-      ddl:bundle-includes="bootstrap-3.2.0"
-      lang="en">
+	  xmlns:ddl="http://www.thymeleaf.org/dandelion"
+	  xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
+	  ddl:bundle-includes="bootstrap-3.2.0"
+	  lang="en">
 
-    <head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING</head>
+	<head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING</head>
 
-    <body role="document" onload="$('input[name=summary]').focus();">
-        <div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
+	<body role="document" onload="$('input[name=summary]').focus();">
+		<div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
 
-        <div class="container">
-            <div class="starter-template">
-                <h1 layout:fragment="header">Messages : Create</h1>
-            </div>
+		<div class="container">
+			<div class="starter-template">
+				<h1 layout:fragment="header">Messages : Create</h1>
+			</div>
 
-            <div role="alert" th:if="${statusMessage}" th:class="'alert ' + ${statusMessageClass}?: 'alert-info'" th:text="${statusMessage}" />
+			<div role="alert" th:if="${statusMessage}" th:class="'alert ' + ${statusMessageClass}?: 'alert-info'" th:text="${statusMessage}" />
 
-            <div layout:fragment="content" class="container">
-                <form id="messageForm" th:action="@{/messages/(form)}" th:object="${message}" action="#" method="post">
-                    <div th:replace="fragments/hiddenErrors :: hiddenErrors">REPLACE BEFORE COMMITTING</div>
-                    <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger" role="alert">
-                        <p th:each="error : ${#fields.errors('*')}" th:text="${error}">Validation error</p>
-                    </div>
-                    <br th:if="${#fields.hasErrors('*')}"/>
-                    <table class="table table-striped">
-                        <tr th:class="${#fields.hasErrors('summary')} ? 'alert-danger'" th:role="${#fields.hasErrors('summary')} ? 'alert'">
-                            <th><label for="summary">Summary</label></th>
-                            <td><input type="messageText" th:field="*{summary}"/></td>
-                        </tr>
-                        <tr>
-                            <th><label for="messageText">Message</label></th>
-                            <td><textarea th:field="*{messageText}" th:class="${#fields.hasErrors('messageText')} ? 'field-error'"></textarea></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <div class="form-actions pull-right">
-                                    <input type="submit" value="Create Message" class="btn btn-success" />
-                                    <a href="/messages" th:href="@{/messages}" class="btn btn-danger">Cancel</a>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
-            </div>
-        </div>
+			<div layout:fragment="content" class="container">
+				<form id="messageForm" th:action="@{/messages/(form)}" th:object="${message}" action="#" method="post">
+					<div th:replace="fragments/hiddenErrors :: hiddenErrors">REPLACE BEFORE COMMITTING</div>
+					<div th:if="${#fields.hasErrors('*')}" class="alert alert-danger" role="alert">
+						<p th:each="error : ${#fields.errors('*')}" th:text="${error}">Validation error</p>
+					</div>
+					<br th:if="${#fields.hasErrors('*')}"/>
+					<table class="table table-striped">
+						<tr th:class="${#fields.hasErrors('summary')} ? 'alert-danger'" th:role="${#fields.hasErrors('summary')} ? 'alert'">
+							<th><label for="summary">Summary</label></th>
+							<td><input type="messageText" th:field="*{summary}"/></td>
+						</tr>
+						<tr>
+							<th><label for="messageText">Message</label></th>
+							<td><textarea th:field="*{messageText}" th:class="${#fields.hasErrors('messageText')} ? 'field-error'"></textarea></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>
+								<div class="form-actions pull-right">
+									<input type="submit" value="Create Message" class="btn btn-success" />
+									<a href="/messages" th:href="@{/messages}" class="btn btn-danger">Cancel</a>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
 
-        <table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING</table>
-    </body>
+		<table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING</table>
+	</body>
 
 </html>

@@ -76,5 +76,4 @@ public class MessageController {
 	public String foo() {
 		throw new RuntimeException("Expected exception in controller");
 	}
-
 }

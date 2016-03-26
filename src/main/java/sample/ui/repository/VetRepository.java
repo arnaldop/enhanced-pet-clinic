@@ -40,11 +40,11 @@ import sample.ui.model.Vet;
 public interface VetRepository extends Repository<Vet, Long> {
 
 	/**
-     * Retrieve all <code>Vet</code>s from the data store.
-     *
-     * @return a <code>Collection</code> of <code>Vet</code>s
-     */
-    Collection<Vet> findAll() throws DataAccessException;
+	 * Retrieve all <code>Vet</code>s from the data store.
+	 *
+	 * @return a <code>Collection</code> of <code>Vet</code>s
+	 */
+	Collection<Vet> findAll() throws DataAccessException;
 
 	void save(Vet vet) throws DataAccessException;
 }

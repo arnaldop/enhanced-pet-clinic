@@ -1,56 +1,56 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:ddl="http://www.thymeleaf.org/dandelion"
-      xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
-      ddl:bundle-includes="bootstrap-3.2.0"
-      lang="en">
+	  xmlns:ddl="http://www.thymeleaf.org/dandelion"
+	  xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
+	  ddl:bundle-includes="bootstrap-3.2.0"
+	  lang="en">
 
-    <head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING</head>
+	<head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING</head>
 
-    <body role="document" onload="$('input[name=lastName]').focus();">
-        <div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
+	<body role="document" onload="$('input[name=lastName]').focus();">
+		<div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
 
-        <div class="container">
-            <div class="starter-template">
-                <h2>Find Owners</h2>
-            </div>
+		<div class="container">
+			<div class="starter-template">
+				<h2>Find Owners</h2>
+			</div>
 
-            <div role="alert" th:if="${statusMessage}" th:class="'alert ' + ${statusMessageClass}?: 'alert-info'" th:text="${statusMessage}" />
+			<div role="alert" th:if="${statusMessage}" th:class="'alert ' + ${statusMessageClass}?: 'alert-info'" th:text="${statusMessage}" />
 
-            <form th:object="${owner}" action="owners/list.html" th:action="@{/owners/list.html}" method="get" class="form-horizontal"
-                id="search-owner-form">
-                <div th:replace="fragments/hiddenErrors :: hiddenErrors">REPLACE BEFORE COMMITTING</div>
-                <table class="table table-striped">
-                    <tr th:classappend="${#fields.hasErrors('lastName')} ? 'has-error'">
-                        <td class="col-sm-1">
-                            <div class="control-group" th:classappend="${#fields.hasErrors('lastName')} ? 'error'">
-                                <label class="control-label">Last Name</label>
-                            </div>
-                        </td>
-                        <td class="col-sm-2">
-                            <div class="controls">
-                                <input type="text" class="form-control" th:field="*{lastName}" size="30" maxlength="80" />
-                            </div>
-                            <div class="controls" th:if="${#fields.hasErrors('lastName')}">
-                                <h4><span class="label label-danger" th:errors="*{lastName}">[Errors]</span></h4>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>
-                            <div class="form-actions pull-right">
-                                <button type="submit" class="btn btn-success">Find Owner</button>
-                                <a th:href="@{'/owners/new'}" href="ownerForm.html" class="btn btn-info">Add Owner</a>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </form>
+			<form th:object="${owner}" action="owners/list.html" th:action="@{/owners/list.html}" method="get" class="form-horizontal"
+				id="search-owner-form">
+				<div th:replace="fragments/hiddenErrors :: hiddenErrors">REPLACE BEFORE COMMITTING</div>
+				<table class="table table-striped">
+					<tr th:classappend="${#fields.hasErrors('lastName')} ? 'has-error'">
+						<td class="col-sm-1">
+							<div class="control-group" th:classappend="${#fields.hasErrors('lastName')} ? 'error'">
+								<label class="control-label">Last Name</label>
+							</div>
+						</td>
+						<td class="col-sm-2">
+							<div class="controls">
+								<input type="text" class="form-control" th:field="*{lastName}" size="30" maxlength="80" />
+							</div>
+							<div class="controls" th:if="${#fields.hasErrors('lastName')}">
+								<h4><span class="label label-danger" th:errors="*{lastName}">[Errors]</span></h4>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>
+							<div class="form-actions pull-right">
+								<button type="submit" class="btn btn-success">Find Owner</button>
+								<a th:href="@{'/owners/new'}" href="ownerForm.html" class="btn btn-info">Add Owner</a>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</form>
 
-            <br />
-        </div>
+			<br />
+		</div>
 
-        <table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING</table>
-    </body>
+		<table th:replace="fragments/footer :: footer" class="footer">REPLACE BEFORE COMMITTING</table>
+	</body>
 </html>
