@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:ddl="http://www.thymeleaf.org/dandelion"
-	  xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
-	  ddl:bundle-includes="bootstrap-3.2.0,export-dropdown"
-	  ddl:bundle-excludes="bootstrap3"
+	  xmlns:dt="http://github.com/dandelion/datatables"
+	  ddl:bundle-includes="export-dropdown"
 	  lang="en">
 
-	<head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING</head>
+	<head th:replace="fragments/headTag :: headTag"><!-- REPLACE BEFORE COMMITTING --></head>
 
 	<body role="document">
 		<div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
@@ -16,17 +15,16 @@
 				<h2>Owners</h2>
 			</div>
 
-			<div role="alert" th:if="${statusMessage}" th:class="'alert ' + ${statusMessageClass}?: 'alert-info'" th:text="${statusMessage}" />
+			<div role="alert" th:if="${statusMessage}" th:class="'alert ' + ${statusMessageClass}?: 'alert-info'" th:text="${statusMessage}"></div>
 
 			<br/><br/>
 
 			<div dt:conf="owners">
-				<div dt:confType="export" dt:type="pdf" dt:cssClass="btn btn-sm btn-info"></div>
+				<div dt:confType="export" dt:type="xml" dt:cssClass="btn btn-sm btn-info" dt:method="post"></div>
 				<div dt:confType="export" dt:type="csv" dt:cssClass="btn btn-sm btn-info"></div>
+				<div dt:confType="export" dt:type="pdf" dt:cssClass="btn btn-sm btn-info"></div>
 				<div dt:confType="export" dt:type="xls" dt:cssClass="btn btn-sm btn-info"></div>
 				<div dt:confType="export" dt:type="xlsx" dt:cssClass="btn btn-sm btn-info"></div>
-				<div dt:confType="export" dt:type="xml" dt:cssClass="btn btn-sm btn-info" dt:method="post"></div>
-				<!-- <div dt:confType="extrajs" dt:bundles="" dt:insert="BEFOREENDDOCUMENTREADY" /> -->
 			</div>
 
 			<table id="owners" dt:table="true" dt:pagination="true" dt:export="pdf,csv,xls,xlsx,xml" dt:dom="lEfrtip" dt:ext="colreorder">
@@ -43,7 +41,7 @@
 				<tbody>
 					<tr th:each="owner : ${owners}">
 						<td th:text="${owner.id}">1</td>
-						<td dt:xml="|${owner.firstName} ${owner.lastName}|"><a href="ownerDetails.html" th:href="@{|/owners/${owner.id}|}" th:text="|${owner.firstName} ${owner.lastName}|">Mary Smith</a></td>
+						<td dt:pdf="|${owner.firstName} ${owner.lastName}|" dt:xml="|${owner.firstName} ${owner.lastName}|"><a href="ownerDetails.html" th:href="@{|/owners/${owner.id}|}" th:text="|${owner.firstName} ${owner.lastName}|">Mary Smith</a></td>
 						<td th:text="${owner.address}">45, Oxford Street</td>
 						<td th:text="${owner.city}">Cambridge</td>
 						<td th:text="${owner.telephone}">555-555-555</td>
@@ -55,9 +53,9 @@
 			<br/><br/>
 
 			<div class="row">
-				<div class="dropdown col-md-5">
-					<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">Export list as... <span class="caret"></span></button>
-					<ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
+				<div class="dropdown col-md-5" id="exportButtonDiv">
+					<button class="btn btn-default dropdown-toggle" type="button" id="exportButton" data-toggle="dropdown">Export list as... <span class="caret"></span></button>
+					<ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="exportButton">
 						<li role="presentation"><a role="menuitem" id="exportAsCsv" tabindex="-1" href="#">CSV</a></li>
 						<li role="presentation"><a role="menuitem" id="exportAsPdf" tabindex="-1" href="#">PDF</a></li>
 						<li role="presentation"><a role="menuitem" id="exportAsXls" tabindex="-1" href="#">XLS</a></li>

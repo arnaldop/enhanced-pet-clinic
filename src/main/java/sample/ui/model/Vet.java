@@ -47,7 +47,7 @@ public class Vet extends Person {
 	private static final long serialVersionUID = 1104117704660378814L;
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "vet_specialties", joinColumns = @JoinColumn(name = "vet_id") , inverseJoinColumns = @JoinColumn(name = "specialty_id") )
+	@JoinTable(name = "vet_specialties", joinColumns = @JoinColumn(name = "vet_id"), inverseJoinColumns = @JoinColumn(name = "specialty_id"))
 	private Set<Specialty> specialties;
 
 	protected void setSpecialtiesInternal(Set<Specialty> specialties) {

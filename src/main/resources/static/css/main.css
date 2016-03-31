@@ -22,30 +22,6 @@ body {
 	text-align: center;
 }
 
-#.dataTables_export {
-#	position: relative;
-#	float: right;
-#	top: -10px;
-#	right: 5px;
-#	color: red;
-#}
-
-#.form-horizontal {
-#	width: 100%;
-#}
-
-#.form-horizontal .control-label {
-#	text-align: left;
-#}
-
-#input[type="text"] {
-#	height: 25px;
-#}
-
-.#navbar .nav>li>a {
-#	color: #000000;
-#}
-
 .dropdown-menu-right {
 	right: inherit !important;
 }

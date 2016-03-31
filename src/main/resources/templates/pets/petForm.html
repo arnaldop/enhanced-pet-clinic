@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:ddl="http://www.thymeleaf.org/dandelion"
-	  xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
-	  ddl:bundle-includes="bootstrap-3.2.0"
+	  xmlns:dt="http://github.com/dandelion/datatables"
+	  ddl:bundle-includes="bootstrap3"
 	  lang="en">
 
-	<head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING</head>
+	<head th:replace="fragments/headTag :: headTag"><!-- REPLACE BEFORE COMMITTING --></head>
 
 	<body role="document" onload="$('input[name=name]').focus();$(function () { $('#birthDate').datepicker({ dateFormat: 'mm/dd/yy' }); });">
 		<div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
@@ -17,7 +17,7 @@
 				</h2>
 			</div>
 
-			<div role="alert" th:if="${statusMessage}" th:class="'alert ' + ${statusMessageClass}?: 'alert-info'" th:text="${statusMessage}" />
+			<div role="alert" th:if="${statusMessage}" th:class="'alert ' + ${statusMessageClass}?: 'alert-info'" th:text="${statusMessage}"></div>
 
 			<form class="form-horizontal" role="form" method="post" id="pet-form" action="/owners/ownerDetails.html"
 				th:action="@{${#httpServletRequest.servletPath}}" th:object="${pet}">

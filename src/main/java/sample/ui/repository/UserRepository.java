@@ -44,9 +44,9 @@ public interface UserRepository extends Repository<User, Long> {
 	 * all users whose last name <i>starts</i> with the given name.
 	 *
 	 * @param lastName
-	 *			Value to search for
+	 *            Value to search for
 	 * @return a <code>Collection</code> of matching <code>User</code>s (or an
-	 *		 empty <code>Collection</code> if none found)
+	 *         empty <code>Collection</code> if none found)
 	 */
 	Collection<User> findByNameLike(String name) throws DataAccessException;
 
@@ -54,9 +54,9 @@ public interface UserRepository extends Repository<User, Long> {
 	 * Retrieve <code>User</code> from the data store by username.
 	 *
 	 * @param lastName
-	 *			Value to search for
+	 *            Value to search for
 	 * @return a <code>Collection</code> of matching <code>User</code>s (or an
-	 *		 empty <code>Collection</code> if none found)
+	 *         empty <code>Collection</code> if none found)
 	 */
 	User findByUsername(String username) throws DataAccessException;
 
@@ -64,7 +64,7 @@ public interface UserRepository extends Repository<User, Long> {
 	 * Retrieve all <code>User</code>s from the data store.
 	 *
 	 * @return a <code>Collection</code> of matching <code>User</code>s (or an
-	 *		 empty <code>Collection</code> if none found)
+	 *         empty <code>Collection</code> if none found)
 	 */
 	Collection<User> findAll() throws DataAccessException;
 
@@ -72,29 +72,29 @@ public interface UserRepository extends Repository<User, Long> {
 	 * Retrieve an <code>User</code> from the data store by id.
 	 *
 	 * @param id
-	 *			the id to search for
+	 *            the id to search for
 	 * @return the <code>User</code> if found
 	 * @throws org.springframework.dao.DataRetrievalFailureException
-	 *			 if not found
+	 *             if not found
 	 */
 	User findById(Long id) throws DataAccessException;
 
 	/**
-	 * Save an <code>User</code> to the data store, either inserting or
-	 * updating it.
+	 * Save an <code>User</code> to the data store, either inserting or updating
+	 * it.
 	 *
 	 * @param user
-	 *			the <code>User</code> to save
+	 *            the <code>User</code> to save
 	 * @see BaseEntity#isNew
 	 */
 	User save(User user) throws DataAccessException;
 
 	/**
-	 * Save an <code>User</code> to the data store, either inserting or
-	 * updating it.
+	 * Save an <code>User</code> to the data store, either inserting or updating
+	 * it.
 	 *
 	 * @param user
-	 *			the <code>User</code> to save
+	 *            the <code>User</code> to save
 	 * @see BaseEntity#isNew
 	 */
 	User delete(User user) throws DataAccessException;

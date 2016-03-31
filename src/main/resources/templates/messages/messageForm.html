@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:ddl="http://www.thymeleaf.org/dandelion"
-	  xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
-	  ddl:bundle-includes="bootstrap-3.2.0"
+	  xmlns:dt="http://github.com/dandelion/datatables"
+	  ddl:bundle-includes="bootstrap3"
 	  lang="en">
 
-	<head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING</head>
+	<head th:replace="fragments/headTag :: headTag"><!-- REPLACE BEFORE COMMITTING --></head>
 
 	<body role="document" onload="$('input[name=summary]').focus();">
 		<div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
 
 		<div class="container">
 			<div class="starter-template">
-				<h1 layout:fragment="header">Messages : Create</h1>
+				<h1 th:layout:fragment="header">Messages : Create</h1>
 			</div>
 
-			<div role="alert" th:if="${statusMessage}" th:class="'alert ' + ${statusMessageClass}?: 'alert-info'" th:text="${statusMessage}" />
+			<div role="alert" th:if="${statusMessage}" th:class="'alert ' + ${statusMessageClass}?: 'alert-info'" th:text="${statusMessage}"></div>
 
-			<div layout:fragment="content" class="container">
+			<div th:layout:fragment="content" class="container">
 				<form id="messageForm" th:action="@{/messages/(form)}" th:object="${message}" action="#" method="post">
 					<div th:replace="fragments/hiddenErrors :: hiddenErrors">REPLACE BEFORE COMMITTING</div>
 					<div th:if="${#fields.hasErrors('*')}" class="alert alert-danger" role="alert">
@@ -25,13 +25,13 @@
 					</div>
 					<br th:if="${#fields.hasErrors('*')}"/>
 					<table class="table table-striped">
-						<tr th:class="${#fields.hasErrors('summary')} ? 'alert-danger'" th:role="${#fields.hasErrors('summary')} ? 'alert'">
-							<th><label for="summary">Summary</label></th>
-							<td><input type="messageText" th:field="*{summary}"/></td>
-						</tr>
 						<tr>
-							<th><label for="messageText">Message</label></th>
-							<td><textarea th:field="*{messageText}" th:class="${#fields.hasErrors('messageText')} ? 'field-error'"></textarea></td>
+							<th th:class="${#fields.hasErrors('summary')} ? 'alert-danger'" th:role="${#fields.hasErrors('summary')} ? 'alert'"><label for="summary">Summary</label></th>
+							<td><input type="text" th:field="*{summary}"/></td>
+						</tr>
+						<tr >
+							<th th:class="${#fields.hasErrors('messageText')} ? 'alert-danger'" th:role="${#fields.hasErrors('messageText')} ? 'alert'"><label for="messageText">Message</label></th>
+							<td><textarea th:field="*{messageText}"></textarea></td>
 						</tr>
 						<tr>
 							<td></td>

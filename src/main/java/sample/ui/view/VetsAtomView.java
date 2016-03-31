@@ -23,8 +23,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.view.feed.AbstractAtomFeedView;
@@ -33,6 +31,7 @@ import com.rometools.rome.feed.atom.Content;
 import com.rometools.rome.feed.atom.Entry;
 import com.rometools.rome.feed.atom.Feed;
 
+import lombok.extern.slf4j.Slf4j;
 import sample.ui.model.Vet;
 import sample.ui.model.Vets;
 
@@ -44,9 +43,8 @@ import sample.ui.model.Vets;
  * @author Arnaldo Piccinelli
  */
 @Configuration
+@Slf4j
 public class VetsAtomView extends AbstractAtomFeedView {
-
-	private static Log logger = LogFactory.getLog(VetsAtomView.class);
 
 	@Bean(name = "vets/vetList.atom")
 	public VetsAtomView getVetsAtomView() {
@@ -64,7 +62,7 @@ public class VetsAtomView extends AbstractAtomFeedView {
 	protected List<Entry> buildFeedEntries(Map<String, Object> model, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
-		logger.info("In buildFeedEntries: " + model);
+		log.info("In buildFeedEntries: " + model);
 
 		Vets vets = (Vets) model.get("vets");
 		List<Vet> vetList = vets.getVetList();
@@ -87,5 +85,4 @@ public class VetsAtomView extends AbstractAtomFeedView {
 		response.setContentType("blabla");
 		return entries;
 	}
-
 }

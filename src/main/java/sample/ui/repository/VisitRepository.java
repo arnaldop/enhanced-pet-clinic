@@ -45,7 +45,7 @@ public interface VisitRepository extends Repository<Visit, Long> {
 	 * it.
 	 *
 	 * @param visit
-	 *			the <code>Visit</code> to save
+	 *            the <code>Visit</code> to save
 	 * @see BaseEntity#isNew
 	 */
 	void save(Visit visit) throws DataAccessException;

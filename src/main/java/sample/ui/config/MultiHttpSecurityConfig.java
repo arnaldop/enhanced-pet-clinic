@@ -59,7 +59,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class MultiHttpSecurityConfig {
 
 	private static final String[] UNSECURED_RESOURCE_LIST = new String[] { "/resources/**", "/assets/**", "/css/**",
-			"/webjars/**", "/images/**", "/dandelion-assets/**" };
+			"/webjars/**", "/images/**", "/dandelion/**", "/js/**" };
 
 	private static final String[] UNAUTHORIZED_RESOURCE_LIST = new String[] { "/test.html", "/", "/unauthorized*",
 			"/error*", "/users*", "/accessDenied" };

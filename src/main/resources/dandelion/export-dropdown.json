@@ -7,7 +7,7 @@
 			"version": "1.0",
 			"type": "js",
 			"locations": {
-				"webapp": "/js/export-dropdown.js"
+				"classpath": "static/js/export-dropdown.js"
 			}
 		}
 	]

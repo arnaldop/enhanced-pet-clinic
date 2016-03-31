@@ -82,7 +82,7 @@ public class Visit extends BaseEntity {
 	 * Setter for property date.
 	 *
 	 * @param date
-	 *			New value of property date.
+	 *            New value of property date.
 	 */
 	public void setDate(Date date) {
 		this.date = date;
@@ -101,7 +101,7 @@ public class Visit extends BaseEntity {
 	 * Setter for property description.
 	 *
 	 * @param description
-	 *			New value of property description.
+	 *            New value of property description.
 	 */
 	public void setDescription(String description) {
 		this.description = description;
@@ -120,7 +120,7 @@ public class Visit extends BaseEntity {
 	 * Setter for property pet.
 	 *
 	 * @param pet
-	 *			New value of property pet.
+	 *            New value of property pet.
 	 */
 	public void setPet(Pet pet) {
 		this.pet = pet;

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:ddl="http://www.thymeleaf.org/dandelion"
-	  xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
-	  ddl:bundle-includes="bootstrap-3.2.0"
+	  xmlns:dt="http://github.com/dandelion/datatables"
+	  ddl:bundle-includes="bootstrap3"
 	  lang="en">
 
-	<head th:replace="fragments/headTag :: headTag">REPLACE BEFORE COMMITTING</head>
+	<head th:replace="fragments/headTag :: headTag"><!-- REPLACE BEFORE COMMITTING --></head>
 
 	<body role="document" onload="$('input[name=username]').focus();">
 		<div th:include="fragments/navBar" th:remove="tag">REPLACE BEFORE COMMITTING</div>
@@ -15,7 +15,7 @@
 				<h2><span th:if="${user['new']}" th:remove="tag">Create</span><span th:unless="${user['new']}" th:remove="tag">Update</span> User</h2>
 			</div>
 
-			<div role="alert" th:if="${statusMessage}" th:class="'alert ' + ${statusMessageClass}?: 'alert-info'" th:text="${statusMessage}" />
+			<div role="alert" th:if="${statusMessage}" th:class="'alert ' + ${statusMessageClass}?: 'alert-info'" th:text="${statusMessage}"></div>
 
 			<form th:object="${user}" th:method="${user['new']} ? post : post" th:action="${flowExecutionUrl}"
 				action="./userDetails.html" class="form-horizontal">

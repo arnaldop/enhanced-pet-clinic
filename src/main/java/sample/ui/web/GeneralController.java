@@ -19,8 +19,6 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -29,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Controller that handles the home page and exceptional cases.
  *
@@ -36,9 +36,8 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @ControllerAdvice
+@Slf4j
 public class GeneralController {
-
-	private static Log logger = LogFactory.getLog(GeneralController.class);
 
 	@RequestMapping("/")
 	public String index() {
@@ -47,7 +46,7 @@ public class GeneralController {
 
 	@RequestMapping("/router")
 	public String accessDeniedRouter(@RequestParam("q") String resource) {
-		logger.debug("In accessDeniedRouter resource = " + resource);
+		log.debug("In accessDeniedRouter resource = " + resource);
 
 		return "redirect:/" + resource;
 	}
@@ -62,7 +61,7 @@ public class GeneralController {
 
 	@ExceptionHandler(Exception.class)
 	public ModelAndView handleException(HttpServletRequest req, Exception e) {
-		logger.warn("In handleException", e);
+		log.warn("In handleException", e);
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("exception", e);
@@ -74,7 +73,6 @@ public class GeneralController {
 
 	@RequestMapping(value = "/oups", method = RequestMethod.GET)
 	public String triggerException() {
-		throw new RuntimeException(
-				"Expected: controller used to showcase what happens when an exception is thrown");
+		throw new RuntimeException("Expected: controller used to showcase what happens when an exception is thrown");
 	}
 }

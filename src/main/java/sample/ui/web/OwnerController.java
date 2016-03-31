@@ -148,5 +148,4 @@ public class OwnerController {
 		mav.addObject(this.clinicService.findOwnerById(ownerId));
 		return mav;
 	}
-
 }

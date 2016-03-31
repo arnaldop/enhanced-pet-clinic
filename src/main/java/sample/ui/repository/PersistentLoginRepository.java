@@ -24,5 +24,4 @@ import sample.ui.model.PersistentLogin;
  * http://docs.spring.io/spring-security/site/docs/4.0.3.RELEASE/reference/
  * htmlsingle/#remember-me-persistent-token
  */
-public interface PersistentLoginRepository extends Repository<PersistentLogin, String> {
-}
+public interface PersistentLoginRepository extends Repository<PersistentLogin, String> {}

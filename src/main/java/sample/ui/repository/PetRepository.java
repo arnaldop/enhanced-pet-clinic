@@ -41,17 +41,20 @@ public interface PetRepository extends Repository<Pet, Long> {
 	/**
 	 * Retrieve a <code>Pet</code> from the data store by id.
 	 *
-	 * @param id the id to search for
+	 * @param id
+	 *            the id to search for
 	 * @return the <code>Pet</code> if found
 	 * @throws org.springframework.dao.DataRetrievalFailureException
-	 *		  if not found
+	 *             if not found
 	 */
 	Pet findById(Long id) throws DataAccessException;
 
 	/**
-	 * Save a <code>Pet</code> to the data store, either inserting or updating it.
+	 * Save a <code>Pet</code> to the data store, either inserting or updating
+	 * it.
 	 *
-	 * @param pet the <code>Pet</code> to save
+	 * @param pet
+	 *            the <code>Pet</code> to save
 	 * @see BaseEntity#isNew
 	 */
 	void save(Pet pet) throws DataAccessException;

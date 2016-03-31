@@ -40,8 +40,7 @@ public class UserProfile extends BaseEntity {
 	@Column
 	private String phone;
 
-	public UserProfile() {
-	}
+	public UserProfile() {}
 
 	public UserProfile(User user) {
 		this.user = user;

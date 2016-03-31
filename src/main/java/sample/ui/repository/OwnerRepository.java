@@ -44,9 +44,9 @@ public interface OwnerRepository extends Repository<Owner, Long> {
 	 * all owners whose last name <i>starts</i> with the given name.
 	 *
 	 * @param lastName
-	 *			Value to search for
+	 *            Value to search for
 	 * @return a <code>Collection</code> of matching <code>Owner</code>s (or an
-	 *		 empty <code>Collection</code> if none found)
+	 *         empty <code>Collection</code> if none found)
 	 */
 	Collection<Owner> findByLastNameStartingWithIgnoreCase(String lastName) throws DataAccessException;
 
@@ -54,7 +54,7 @@ public interface OwnerRepository extends Repository<Owner, Long> {
 	 * Retrieve all <code>Owner</code>s from the data store.
 	 *
 	 * @return a <code>Collection</code> of matching <code>Owner</code>s (or an
-	 *		 empty <code>Collection</code> if none found)
+	 *         empty <code>Collection</code> if none found)
 	 */
 	Collection<Owner> findAll() throws DataAccessException;
 
@@ -62,10 +62,10 @@ public interface OwnerRepository extends Repository<Owner, Long> {
 	 * Retrieve an <code>Owner</code> from the data store by id.
 	 *
 	 * @param id
-	 *			the id to search for
+	 *            the id to search for
 	 * @return the <code>Owner</code> if found
 	 * @throws org.springframework.dao.DataRetrievalFailureException
-	 *			 if not found
+	 *             if not found
 	 */
 	Owner findById(Long id) throws DataAccessException;
 
@@ -74,7 +74,7 @@ public interface OwnerRepository extends Repository<Owner, Long> {
 	 * updating it.
 	 *
 	 * @param owner
-	 *			the <code>Owner</code> to save
+	 *            the <code>Owner</code> to save
 	 * @see BaseEntity#isNew
 	 */
 	void save(Owner owner) throws DataAccessException;

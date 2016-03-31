@@ -1,7 +1,5 @@
 package sample.ui.config;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,11 +11,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 
+import lombok.extern.slf4j.Slf4j;
 import sample.ui.model.User;
 import sample.ui.repository.UserRepository;
 
+@Slf4j
 public class DBDrivenUserDetailsManager implements UserDetailsManager {
-	protected final Log logger = LogFactory.getLog(getClass());
 
 	private AuthenticationManager authenticationManager;
 
@@ -67,16 +66,16 @@ public class DBDrivenUserDetailsManager implements UserDetailsManager {
 
 		String username = currentUser.getName();
 
-		logger.debug("Changing password for user '" + username + "'");
+		log.debug("Changing password for user '" + username + "'");
 
 		// If an authentication manager has been set, re-authenticate the user
 		// with the supplied password.
 		if (authenticationManager != null) {
-			logger.debug("Reauthenticating user '" + username + "' for password change request.");
+			log.debug("Reauthenticating user '" + username + "' for password change request.");
 
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, oldPassword));
 		} else {
-			logger.debug("No authentication manager set. Password won't be re-checked.");
+			log.debug("No authentication manager set. Password won't be re-checked.");
 		}
 
 		User changedUser = userRepository.findByUsername(username);

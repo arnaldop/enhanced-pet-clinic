@@ -17,44 +17,29 @@ package sample.ui.model;
 
 import java.util.Calendar;
 
+import javax.persistence.Column;
+
 import org.hibernate.validator.constraints.NotEmpty;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author Rob Winch
  */
+@Data
+@EqualsAndHashCode(callSuper=true)
 public class Message extends BaseEntity {
 
 	private static final long serialVersionUID = -4768045909580278883L;
 
+	@Column
 	@NotEmpty
 	private String messageText;
 
+	@Column
 	@NotEmpty
 	private String summary;
 
 	private Calendar created = Calendar.getInstance();
-
-	public Calendar getCreated() {
-		return this.created;
-	}
-
-	public void setCreated(Calendar created) {
-		this.created = created;
-	}
-
-	public String getMessageText() {
-		return this.messageText;
-	}
-
-	public void setMessageText(String messageText) {
-		this.messageText = messageText;
-	}
-
-	public String getSummary() {
-		return this.summary;
-	}
-
-	public void setSummary(String summary) {
-		this.summary = summary;
-	}
 }

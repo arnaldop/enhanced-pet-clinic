@@ -7,7 +7,7 @@
 			"version": "1.11.0",
 			"type": "js",
 			"locations": {
-				"cdn": "/webjars/jquery-ui/1.11.0/jquery-ui.min.js"
+				"webapp": "/webjars/jquery-ui/1.11.0/jquery-ui.min.js"
 			}
 		},
 		{

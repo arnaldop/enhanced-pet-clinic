@@ -41,5 +41,4 @@ public class XmlViewResolver implements ViewResolver {
 		marshallingView.setMarshaller(marshaller);
 		return marshallingView;
 	}
-
 }

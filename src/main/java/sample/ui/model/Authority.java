@@ -17,8 +17,7 @@ public class Authority extends BaseEntity implements GrantedAuthority {
 	@NotEmpty
 	private String authority;
 
-	public Authority() {
-	}
+	public Authority() {}
 
 	public Authority(String authority) {
 		this.authority = authority;

@@ -65,7 +65,7 @@ public class MessageController {
 	@RequestMapping(method = RequestMethod.POST)
 	public ModelAndView create(@Valid Message message, BindingResult result, RedirectAttributes redirect) {
 		if (result.hasErrors()) {
-			return new ModelAndView("messages/form", "formErrors", result.getAllErrors());
+			return new ModelAndView("messages/messageForm", "formErrors", result.getAllErrors());
 		}
 		message = this.messageRepository.save(message);
 		redirect.addFlashAttribute("statusMessage", "Successfully created a new message");

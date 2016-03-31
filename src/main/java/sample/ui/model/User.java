@@ -16,8 +16,6 @@ import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.binding.message.MessageBuilder;
@@ -27,16 +25,17 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * A system user.
  */
 @Entity
 @Table(name = "users")
+@Slf4j
 public class User extends BaseEntity implements UserDetails {
 
 	private static final long serialVersionUID = 2002390446280945447L;
-
-	private static Log logger = LogFactory.getLog(User.class);
 
 	@Column(unique = true)
 	@NotEmpty
@@ -81,7 +80,7 @@ public class User extends BaseEntity implements UserDetails {
 	private boolean verifyPasswordEncrypted = true;
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "user_authorities", joinColumns = @JoinColumn(name = "user_id") , inverseJoinColumns = @JoinColumn(name = "authority_id") )
+	@JoinTable(name = "user_authorities", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "authority_id"))
 	private Collection<Authority> authorities;
 
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
@@ -167,7 +166,7 @@ public class User extends BaseEntity implements UserDetails {
 			return false;
 		}
 		if (authorities == null) {
-			logger.warn("authorities is null for user " + this);
+			log.warn("authorities is null for user " + this);
 		}
 
 		for (Authority authority : authorities) {
@@ -184,7 +183,7 @@ public class User extends BaseEntity implements UserDetails {
 			return;
 		}
 		if (authorities == null) {
-			logger.warn("authorities is null for user " + this);
+			log.warn("authorities is null for user " + this);
 			authorities = new ArrayList<Authority>();
 		}
 
